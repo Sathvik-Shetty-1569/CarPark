@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OnBoardingActivityThree">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="142dp"
+        app:srcCompat="@drawable/onboarding_three_payment" />
+
+    <TextView
+        android:id="@+id/onboarding_heading_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView3"
+        android:layout_marginTop="40dp"
+        android:text="Easy Payment"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/onboarding_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/onboarding_heading_text"
+        android:layout_marginVertical="30dp"
+        android:text="Lorem ipsum dolor sit amet,\n consectetur adipiscing elit,Lorem ipsum dolor sit amet,\n consectetur adipiscing elit"
+        android:textAlignment="center" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="50dp"
+        android:id="@+id/btnNext"
+        android:layout_marginHorizontal="20dp"
+        android:layout_height="wrap_content"
+        android:text="Get Started" />
+
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_marginHorizontal="20dp"-->
+    <!--        android:layout_marginVertical="60dp">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentStart="true"-->
+    <!--            android:text="SKIP"-->
+    <!--            android:textAlignment="textStart"-->
+    <!--            android:textColor="#AFA8AF"-->
+    <!--            android:textSize="16dp"-->
+    <!--            android:textStyle="bold" />-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerInParent="true"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <View-->
+    <!--                android:layout_width="10dp"-->
+    <!--                android:layout_height="10dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginHorizontal="10dp"-->
+    <!--                android:background="#787779" />-->
+
+    <!--            <View-->
+    <!--                android:layout_width="10dp"-->
+    <!--                android:layout_height="10dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginHorizontal="10dp"-->
+    <!--                android:background="#613eea" />-->
+
+    <!--            <View-->
+    <!--                android:layout_width="10dp"-->
+    <!--                android:layout_height="10dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginHorizontal="10dp"-->
+    <!--                android:background="#787779" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alignParentEnd="true"-->
+    <!--            android:text="NEXT"-->
+    <!--            android:textAlignment="textStart"-->
+    <!--            android:textColor="#613eea"-->
+    <!--            android:textSize="16dp"-->
+    <!--            android:textStyle="bold" />-->
+    <!--    </RelativeLayout>-->
+</RelativeLayout>
