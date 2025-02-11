@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:background="@drawable/wp5134880">
+        android:background="@color/white">
 
 
         <ImageView
@@ -58,7 +58,6 @@
             android:layout_margin="15dp"
             android:paddingLeft="19sp"
             android:background="@drawable/text_border"
-            android:fontFamily="@font/fascinate"
             android:text="Car Park"
             android:textColor="#009688"
             android:textSize="50dp"

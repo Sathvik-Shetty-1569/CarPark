@@ -1,6 +1,8 @@
 package apcoders.in.carpark;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class OnBoardingActivityOne extends AppCompatActivity {
-    TextView btnNextTextView;
+    TextView btnNextTextView, skipOnBoarding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,24 @@ public class OnBoardingActivityOne extends AppCompatActivity {
             return insets;
         });
         btnNextTextView = findViewById(R.id.btnNextTextView);
-
+        skipOnBoarding = findViewById(R.id.skipOnBoarding);
         btnNextTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(OnBoardingActivityOne.this, OnBoardingActivityTwo.class));
+                finish();
+            }
+        });
+        skipOnBoarding.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences("OnBoarding", MODE_PRIVATE);
+                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("IsOnboardingHide", true);
+                editor.apply();
+                editor.commit();
+                startActivity(new Intent(OnBoardingActivityOne.this, LoginActivity.class));
+                finish();
             }
         });
     }

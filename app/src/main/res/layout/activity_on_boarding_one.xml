@@ -50,9 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SKIP"
+            android:id="@+id/skipOnBoarding"
             android:layout_alignParentStart="true"
             android:textAlignment="textStart"
-            android:textColor="#AFA8AF"
+            android:textColor="#6546B2"
             android:textSize="16dp"
             android:textStyle="bold" />
 

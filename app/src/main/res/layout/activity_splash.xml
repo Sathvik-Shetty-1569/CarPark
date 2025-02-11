@@ -13,16 +13,32 @@
         android:layout_width="160dp"
         android:layout_height="108dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="150dp"
         app:srcCompat="@drawable/app_logo" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView"
-        android:layout_marginVertical="10dp"
-        android:text="Your no.1 parking assistant"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginVertical="15dp"
+        android:text="Your No.1 Parking Assistant"
+        android:id="@+id/splash_text"
         android:textAlignment="center" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="50dp"
+        android:layout_below="@+id/splash_text"
+        android:layout_gravity="center"
+        android:layout_marginVertical="20dp"
+        android:visibility="visible"
+        app:SpinKit_Color="@color/colorPrimary"
+        />
 
     <ImageView
         android:id="@+id/imageView2"

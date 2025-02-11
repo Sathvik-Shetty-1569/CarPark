@@ -45,11 +45,13 @@ public class Register extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     CollectionReference UserscollectionReference, AuthoritycollectionReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
+
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
@@ -59,7 +61,7 @@ public class Register extends AppCompatActivity {
         AuthoritycollectionReference = firebaseFirestore.collection("Authorities");
         firebaseAuth = FirebaseAuth.getInstance();
         edFullName = findViewById(R.id.editTextRegName);
-        edAuthorityLevel = findViewById(R.id.editTextRegAuthorityLevel);
+//        edAuthorityLevel = findViewById(R.id.editTextRegAuthorityLevel);
         edUsername = findViewById(R.id.editTextRegUsername);
         edEmail = findViewById(R.id.editTextRegEmail);
         edComfirm = findViewById(R.id.editTextRegComfirmPassword);
@@ -75,7 +77,7 @@ public class Register extends AppCompatActivity {
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
 
-        tv.setOnClickListener(view -> startActivity(new Intent(Register.this, Login.class)));
+        tv.setOnClickListener(view -> startActivity(new Intent(Register.this, LoginActivity.class)));
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,8 +101,8 @@ public class Register extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Log.d("RegisterActivity", "Firebase authentication successful");
 
-                                        if (edAuthorityLevel.getVisibility() == View.VISIBLE) {
-                                            AuthorityModel authorityModel = new AuthorityModel(firebaseAuth.getCurrentUser().getUid(), name, username, email, edAuthorityLevel.getText().toString());
+                                        if (!UserType.equals("Normal User")) {
+                                            AuthorityModel authorityModel = new AuthorityModel(firebaseAuth.getCurrentUser().getUid(), name, username, email, "");
                                             AuthoritycollectionReference.add(authorityModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -238,14 +240,14 @@ public class Register extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioBtnNormalBtn) {
                     // Handle "Normal User" selection
-                    edAuthorityLevel.setVisibility(View.GONE);
+//                    edAuthorityLevel.setVisibility(View.GONE);
                     UserType = "Normal User";
 //                    Toasty.success(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
                 } else if (checkedId == R.id.radioBtnAuthorityBtn) {
                     // Handle "Authorities" selection
                     UserType = "Authorities";
-                    edAuthorityLevel.setVisibility(View.VISIBLE);
+//                    edAuthorityLevel.setVisibility(View.VISIBLE);
                 }
             }
         });

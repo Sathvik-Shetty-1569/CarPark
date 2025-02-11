@@ -1,12 +1,12 @@
 package apcoders.in.carpark;
+import apcoders.in.carpark.Utils.FetchUserData;
 import apcoders.in.carpark.models.AuthorityModel;
+import apcoders.in.carpark.models.NormalUserModel;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,9 +26,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import apcoders.in.carpark.Utils.FetchUserData;
-import apcoders.in.carpark.models.NormalUserModel;
-
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
@@ -43,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
 
         if (user == null) {
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
 
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "Normal User");
+        Log.d("TAG", "onCreate: UserType"+userType);
         if (userType.equals("Normal User")) {
             FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
                 @Override
@@ -77,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
-                        startActivity(new Intent(MainActivity.this, Login.class));
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
                     }
                 }
             });
-        } else if (userType.equals("Authorities")) {
+        } else if (userType.equals("")) {
             FetchUserData.FetchAuthorityData(new FetchUserData.GetAuthorityData() {
                 @Override
                 public void onCallback(AuthorityModel authorityModel) {
@@ -98,14 +96,14 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(MainActivity.this,"Signed Out",Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
-                        startActivity(new Intent(MainActivity.this, Login.class));
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         finish();
                     }
                 }
             });
         } else {
             firebaseAuth.signOut();
-            startActivity(new Intent(MainActivity.this, Login.class));
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         }
         buttondrawer.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 else if (itemId == R.id.navigation_about) {
-                    Toast.makeText(MainActivity.this, "About Clicked", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, About.class));
+                    Toast.makeText(MainActivity.this, "AboutActivity Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
                 } else if (itemId == R.id.navigation_share) {
                     Toast.makeText(MainActivity.this, "Share Clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Intent.ACTION_SEND);
@@ -147,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isLoggedIn", false);
                     editor.apply();
-
+                    firebaseAuth.signOut();
                     Toast.makeText(MainActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this,Login.class));
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish(); // Close HomeActivity
 
                 }

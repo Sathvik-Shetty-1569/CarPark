@@ -1,6 +1,7 @@
 package apcoders.in.carpark;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -26,7 +27,14 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, OnBoardingActivityOne.class));
+                SharedPreferences sharedPreferences = getSharedPreferences("OnBoarding", MODE_PRIVATE);
+
+                boolean IsOnboardingHide = sharedPreferences.getBoolean("IsOnboardingHide", false);
+                if (!IsOnboardingHide) {
+                    startActivity(new Intent(SplashActivity.this, OnBoardingActivityOne.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                }
                 finish();
             }
         }, 5000);

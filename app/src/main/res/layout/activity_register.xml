@@ -16,30 +16,39 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titlePortal2"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_margin="15dp"
-        android:background="@drawable/text_border"
-        android:fontFamily="@font/fascinate"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="#FFD700"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051" />
+<!--    <TextView-->
+<!--        android:id="@+id/titlePortal2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_margin="15dp"-->
+<!--        android:background="@drawable/text_border"-->
+<!--        android:fontFamily="@font/fascinate"-->
+<!--        android:text="@string/app_name"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#FFD700"-->
+<!--        android:textSize="40dp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.051" />-->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="98dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/app_logo" />
 
     <TextView
         android:id="@+id/textViewRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registration"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginVertical="10dp"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,54 +107,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.343" />
 
-    <EditText
-        android:id="@+id/editTextRegUsername"
-        android:layout_width="286dp"
-        android:layout_height="49dp"
-        android:layout_marginVertical="15dp"
-        android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/ic_baseline_person_24"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="UserName"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343" />
 
-    <EditText
-        android:id="@+id/editTextRegAuthorityLevel"
-        android:layout_width="286dp"
-        android:layout_height="49dp"
-        android:layout_marginVertical="15dp"
-        android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/ic_baseline_person_24"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="Admin Level"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343" />
+<!--    <EditText-->
+<!--        android:id="@+id/editTextRegAuthorityLevel"-->
+<!--        android:layout_width="286dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginVertical="15dp"-->
+<!--        android:background="@drawable/input_bg"-->
+<!--        android:drawableLeft="@drawable/ic_baseline_person_24"-->
+<!--        android:drawablePadding="10dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Admin Level"-->
+<!--        android:inputType="text"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingRight="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.496"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.343" />-->
 
     <EditText
         android:id="@+id/editTextRegEmail"
@@ -170,6 +156,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.441" />
+
+    <EditText
+        android:id="@+id/editTextRegUsername"
+        android:layout_width="286dp"
+        android:layout_height="49dp"
+        android:layout_marginVertical="15dp"
+        android:background="@drawable/input_bg"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.343" />
 
 
     <EditText
@@ -228,6 +238,8 @@
         android:layout_marginVertical="15dp"
         android:background="@drawable/btn_bg"
         android:text="Register"
+        android:textColor="@color/white"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -240,7 +252,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="15dp"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:text="Already have an Account ?"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -257,7 +269,7 @@
         android:layout_gravity="center"
         android:layout_marginVertical="20dp"
         android:visibility="gone"
-        app:SpinKit_Color="#FFD700"
+        app:SpinKit_Color="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"

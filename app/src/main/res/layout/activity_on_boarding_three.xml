@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".OnBoardingActivityThree">
 
     <ImageView
@@ -39,13 +39,17 @@
         android:textAlignment="center" />
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginVertical="50dp"
         android:id="@+id/btnNext"
+        android:layout_width="281dp"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
-        android:layout_height="wrap_content"
-        android:text="Get Started" />
+        android:layout_marginVertical="50dp"
+        android:text="Get Started"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
 
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->

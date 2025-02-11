@@ -4,28 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Login">
+    tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="80dp"
-        android:fontFamily="@font/fascinate"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="#FFD700"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.104" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:fontFamily="@font/fascinate"-->
+<!--        android:text="@string/app_name"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="#FFD700"-->
+<!--        android:textSize="40dp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.104" />-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="98dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        app:srcCompat="@drawable/app_logo" />
 
     <TextView
         android:id="@+id/textViewLogin"
@@ -33,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Login"
-        android:textColor="@color/black"
+        android:textColor="@color/colorPrimary"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,30 +75,30 @@
 
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/editTextAuthorityLevel"
-        android:layout_width="286dp"
-        android:layout_height="49dp"
-        android:layout_marginVertical="20dp"
-        android:background="@drawable/input_bg"
-        android:drawableLeft="@drawable/ic_baseline_person_24"
-        android:drawablePadding="10dp"
-        android:ems="10"
-        android:hint="Authority Level"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLoginUsername"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.35" />
+<!--    <EditText-->
+<!--        android:id="@+id/editTextAuthorityLevel"-->
+<!--        android:layout_width="286dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginVertical="20dp"-->
+<!--        android:background="@drawable/input_bg"-->
+<!--        android:drawableLeft="@drawable/ic_baseline_person_24"-->
+<!--        android:drawablePadding="10dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Authority Level"-->
+<!--        android:inputType="text"-->
+<!--        android:paddingLeft="20dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingRight="10dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textColorHint="@color/white"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/editTextLoginUsername"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.48"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout"-->
+<!--        app:layout_constraintVertical_bias="0.35" />-->
 
         <EditText
         android:id="@+id/editTextLoginUsername"
@@ -147,6 +155,9 @@
         android:layout_marginVertical="20dp"
         android:background="@drawable/btn_bg"
         android:text="Login"
+
+        android:textColor="@color/white"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -176,7 +187,7 @@
         android:layout_gravity="center"
         android:layout_marginVertical="20dp"
         android:visibility="gone"
-        app:SpinKit_Color="#FFD700"
+        app:SpinKit_Color="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
