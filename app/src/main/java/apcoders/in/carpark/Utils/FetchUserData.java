@@ -15,8 +15,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
-import civicconnect.apcoders.in.models.AuthorityModel;
-import civicconnect.apcoders.in.models.NormalUserModel;
+import apcoders.in.carpark.models.AuthorityModel;
+import apcoders.in.carpark.models.NormalUserModel;
 
 public class FetchUserData {
 
