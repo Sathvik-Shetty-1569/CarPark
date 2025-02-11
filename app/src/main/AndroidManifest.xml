@@ -13,6 +13,18 @@
         android:theme="@style/Theme.CarPark"
         tools:targetApi="31">
         <activity
+            android:name=".About"
+            android:exported="false" />
+        <activity
+            android:name=".Profile_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".Register"
+            android:exported="false" />
+        <activity
             android:name=".OnBoardingActivityThree"
             android:exported="false" />
         <activity
@@ -32,9 +44,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
