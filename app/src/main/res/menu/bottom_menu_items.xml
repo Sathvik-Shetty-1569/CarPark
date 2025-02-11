@@ -16,13 +16,13 @@
         android:title="" />
 
     <item
+        android:id="@+id/Settings"
+        android:icon="@drawable/home"
+        android:title="Bookings" />
+
+    <item
         android:id="@+id/Profile"
         android:icon="@drawable/home"
         android:title="Profile" />
-
-    <item
-        android:id="@+id/Settings"
-        android:icon="@drawable/home"
-        android:title="Settings" />
 
 </menu>
