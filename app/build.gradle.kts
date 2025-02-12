@@ -41,10 +41,9 @@ dependencies {
     implementation ("androidx.compose.material:material:1.0.0")
     implementation ("androidx.compose.ui:ui-tooling-preview:1.0.0")
     implementation ("androidx.activity:activity-compose:1.10.0")
-    implementation ("com.google.android.gms:play-services-auth:20.7.0")  // Update to the latest version
-    implementation ("com.google.android.gms:play-services-location:21.0.1")
-
     implementation(libs.firebase.auth)
+    implementation ("com.google.android.libraries.places:places:3.2.0")
+
     implementation(libs.firebase.firestore)
     implementation(libs.animation.core.android)
     implementation (libs.android.spinkit)
@@ -55,4 +54,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+    implementation ("com.google.android.libraries.places:places:2.5.0")
+    implementation ("com.intuit.sdp:sdp-android:1.1.1")
 }
