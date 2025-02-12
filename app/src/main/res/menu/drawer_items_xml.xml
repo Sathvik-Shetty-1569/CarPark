@@ -4,14 +4,6 @@
 
 
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/vecteezy_pencil_icon_style_6136199"
-        android:title="Manage Profile" />
-
-
-
-
-    <item
         android:id="@+id/navigation_about"
         android:icon="@drawable/baseline_info_outline_24"
         android:title="About" />
