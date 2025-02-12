@@ -23,8 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import apcoders.in.carpark.Utils.FetchUserData;
-import apcoders.in.carpark.models.AuthorityModel;
-import apcoders.in.carpark.models.NormalUserModel;
+import apcoders.in.carpark.models.UserModel;
 
 public class HomeFragment extends Fragment {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -52,23 +51,23 @@ public class HomeFragment extends Fragment {
 
 
         SharedPreferences sharedPreferences =requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
-        String userType = sharedPreferences.getString("UserType", "Normal User");
+        String userType = sharedPreferences.getString("UserType", "User");
         Log.d("TAG", "onCreate: UserType"+userType);
-        if (userType.equals("Normal User")) {
+
             FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
                 @Override
-                public void onCallback(NormalUserModel normalUserModel) {
-                    if (normalUserModel != null) {
-                        Log.d("TAG", "onCallback: " + normalUserModel.getUserFulName() + normalUserModel.getEmail());
+                public void onCallback(UserModel userModel) {
+                    if (userModel != null) {
+                        Log.d("TAG", "onCallback: " + userModel.getUserFulName() + userModel.getEmail());
                         TextView usernameTextView = headerView.findViewById(R.id.menu_username);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserFullName", normalUserModel.getUserFulName());
+                        editor.putString("UserFullName", userModel.getUserFulName());
                         editor.apply();
                         editor.commit();
-                        usernameTextView.setText(normalUserModel.getUserFulName());
-                        welcom.setText("Welcome "+normalUserModel.getUserFulName()+" !");
+                        usernameTextView.setText(userModel.getUserFulName());
+                        welcom.setText("Welcome "+ userModel.getUserFulName()+" !");
                         TextView emailTextView = headerView.findViewById(R.id.menu_email);
-                        emailTextView.setText(normalUserModel.getEmail());
+                        emailTextView.setText(userModel.getEmail());
 
                     } else {
                         Toast.makeText(requireContext(),"Signed Out",Toast.LENGTH_SHORT).show();
@@ -78,33 +77,6 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
-        } else if (userType.equals("")) {
-            FetchUserData.FetchAuthorityData(new FetchUserData.GetAuthorityData() {
-                @Override
-                public void onCallback(AuthorityModel authorityModel) {
-                    if (authorityModel != null) {
-                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-                        usernameTextView.setText(authorityModel.getUserFulName());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserFullName", authorityModel.getUserFulName());
-                        editor.apply();
-                        editor.commit();
-                        welcom.setText("Welcome "+authorityModel.getUserFulName()+" !");
-                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
-                        emailTextView.setText(authorityModel.getEmail());
-                    } else {
-                        Toast.makeText(requireContext(),"Signed Out",Toast.LENGTH_SHORT).show();
-                        firebaseAuth.signOut();
-                        startActivity(new Intent(requireActivity(), LoginActivity.class));
-                        requireActivity().finish();
-                    }
-                }
-            });
-        } else {
-            firebaseAuth.signOut();
-            startActivity(new Intent(requireActivity(), LoginActivity.class));
-            requireActivity().finish();
-        }
         buttondrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

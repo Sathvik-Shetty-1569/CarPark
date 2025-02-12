@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import apcoders.in.carpark.Adapter.SearchAdapter;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -49,7 +51,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private RecyclerView recyclerView;
     private PlacesClient placesClient;
     private AutocompleteSessionToken sessionToken;
-    private apcoders.in.carpark.SearchAdapter searchAdapter;
+    private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
 
 
@@ -66,7 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         placesClient = Places.createClient(requireContext());
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        searchAdapter = new apcoders.in.carpark.SearchAdapter(suggestionList, this::searchPlace);
+        searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
         recyclerView.setAdapter(searchAdapter);
         // Initialize fused location provider
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());

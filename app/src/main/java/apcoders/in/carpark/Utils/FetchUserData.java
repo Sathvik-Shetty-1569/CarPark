@@ -15,19 +15,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
 
-import apcoders.in.carpark.models.AuthorityModel;
-import apcoders.in.carpark.models.NormalUserModel;
+import apcoders.in.carpark.models.UserModel;
 
 
 public class FetchUserData {
 
     public interface GetNormalUserData {
-        public void onCallback(NormalUserModel normalUserModel);
+        public void onCallback(UserModel userModel);
     }
 
-    public interface GetAuthorityData {
-        public void onCallback(AuthorityModel authorityModel);
-    }
+
 
     public FetchUserData() {
 
@@ -47,11 +44,11 @@ public class FetchUserData {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    NormalUserModel normalUserModel = null;
+                    UserModel userModel = null;
                     for (int i = 0; i < task.getResult().size(); i++) {
-                        normalUserModel = task.getResult().toObjects(NormalUserModel.class).get(i);
+                        userModel = task.getResult().toObjects(UserModel.class).get(i);
                     }
-                    GetNormalUserData.onCallback(normalUserModel);
+                    GetNormalUserData.onCallback(userModel);
                 }
 
             }
@@ -59,40 +56,10 @@ public class FetchUserData {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d("TAG", "onFailure: "+e.getMessage());
-                NormalUserModel normalUserModel = new NormalUserModel(null, null, null, null);
+                UserModel userModel = new UserModel(null,null,null,null,null);
                 GetNormalUserData.onCallback(null);
             }
         });
     }
 
-
-    public static void FetchAuthorityData(GetAuthorityData GetAuthorityData) {
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        String uid = firebaseAuth.getCurrentUser().getUid();
-        Log.d("TAG", "FetchNormalUserData: " + uid);
-        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build());
-        CollectionReference collectionReference = firebaseFirestore.collection("Authorities");
-
-        collectionReference.whereEqualTo("userid", uid).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    AuthorityModel authorityModel = null;
-                    for (int i = 0; i < task.getResult().size(); i++) {
-                        authorityModel = task.getResult().toObjects(AuthorityModel.class).get(i);
-                    }
-                    GetAuthorityData.onCallback(authorityModel);
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("TAG", "onFailure: "+e.getMessage());
-                GetAuthorityData.onCallback(null);
-            }
-        });
-    }
 }

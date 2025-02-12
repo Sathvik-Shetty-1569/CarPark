@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,6 +27,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import es.dmoral.toasty.Toasty;
 //
@@ -40,12 +45,14 @@ import es.dmoral.toasty.Toasty;
 //import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText edEmail, edPassowrd, EdAuthorityLevel;
+    EditText edEmail, edPassowrd;
     TextView tv;
     Button btn;
     String UserType;
     FirebaseAuth firebaseAuth;
     RadioGroup radioGroup;
+    FirebaseFirestore firebaseFirestore;
+    CollectionReference UserscollectionReference;
 
 
     @Override
@@ -54,8 +61,13 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-//        EdAuthorityLevel = findViewById(R.id.editTextAuthorityLevel);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build());
+        UserscollectionReference = firebaseFirestore.collection("Users");
 
         edEmail = findViewById(R.id.editTextLoginUsername);
         edPassowrd = findViewById(R.id.editTextLoginPassword);
@@ -67,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
         SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-        UserType = sharedPreferences.getString("UserType", "Normal User"); // Default: Normal User
+        UserType = sharedPreferences.getString("UserType", "User"); // Default: Normal User
         setRadioButtons();
         isLogin();
         sharedPreferences = getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
@@ -95,36 +107,49 @@ public class LoginActivity extends AppCompatActivity {
                     btn.setEnabled(true);
                     Toasty.error(LoginActivity.this, "Fill All The Filed", Toasty.LENGTH_LONG).show();
                 } else {
-                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    UserscollectionReference.whereEqualTo("email", email.toLowerCase()).whereEqualTo("userRole", UserType).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                progressBar.setVisibility(View.VISIBLE);
-                                btn.setEnabled(true);
-                                Toasty.success(LoginActivity.this, "LoginActivity Successful", Toasty.LENGTH_LONG).show();
+                                if (task.getResult().getDocuments().size() > 0) {
+                                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
 
-                                SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putBoolean("isLoggedIn", true);
-                                editor.putString("UserType", UserType);
-                                editor.apply();
-                                editor.commit();
-                                if (UserType.equals("Normal User")) {
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    i.putExtra("UserType", UserType);
-                                    editor.putString("Normal User", UserType);
-                                    startActivity(i);
-                                    finish();
-                                } else {
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    i.putExtra("UserType", UserType);
-                                    editor.putString("Authorities", UserType);
-                                    startActivity(i);
-                                    finish();
+                                                progressBar.setVisibility(View.GONE);
+                                                btn.setEnabled(true);
+                                                Toasty.success(LoginActivity.this, "LoginActivity Successful", Toasty.LENGTH_LONG).show();
+
+                                                SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                editor.putBoolean("isLoggedIn", true);
+                                                editor.putString("UserType", UserType);
+                                                editor.apply();
+                                                editor.commit();
+                                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                                i.putExtra("UserType", UserType);
+                                                editor.putString("UserType", UserType);
+                                                startActivity(i);
+                                                finish();
+
+                                                navigateToHome(); // Navigate based on updated UserType
+
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressBar.setVisibility(View.GONE);
+                                            btn.setEnabled(true);
+                                            Toasty.error(LoginActivity.this, "Invalid Credentials", Toasty.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }else {
+                                    progressBar.setVisibility(View.GONE);
+                                    btn.setEnabled(true);
+                                    Toasty.error(LoginActivity.this, "Check Your Operating Role", Toasty.LENGTH_LONG).show();
                                 }
-
-                                navigateToHome(); // Navigate based on updated UserType
-
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -132,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.GONE);
                             btn.setEnabled(true);
-                            Toasty.error(LoginActivity.this, "Invalid Credentials", Toasty.LENGTH_LONG).show();
+                            Toasty.error(LoginActivity.this, "Check Your Operating Role", Toasty.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -142,10 +167,9 @@ public class LoginActivity extends AppCompatActivity {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
-
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -158,26 +182,18 @@ public class LoginActivity extends AppCompatActivity {
     private void navigateToHome() {
         SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (UserType.equals("Normal User")) {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            editor.putString("Normal User", UserType);
-            i.putExtra("UserType", UserType);
-            startActivity(i);
-            finish();
-        } else {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-            editor.putString("Authorities", UserType);
-            i.putExtra("UserType", UserType);
-            startActivity(i);
-            finish();
-        }
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        editor.putString("UserType", UserType);
+        i.putExtra("UserType", UserType);
+        startActivity(i);
+        finish();
 
     }
 
 
     private void setRadioButtons() {
 
-        if (UserType.equals("Normal User")) {
+        if (UserType.equals("User")) {
             radioGroup.check(R.id.radioBtnNormalBtn);
 //            EdAuthorityLevel.setVisibility(View.GONE);
         } else {
@@ -191,14 +207,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (checkedId == R.id.radioBtnNormalBtn) {
                     // Handle "Normal User" selection
 //                    EdAuthorityLevel.setVisibility(View.GONE);
-                    UserType = "Normal User";
-//                    Toast.makeText(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
+                    UserType = "User";
+                    Toast.makeText(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
                 } else if (checkedId == R.id.radioBtnAuthorityBtn) {
                     // Handle "Authorities" selection
 //                    EdAuthorityLevel.setVisibility(View.VISIBLE);
-                    UserType = "Authorities";
-//                    Toast.makeText(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
+                    UserType = "ParkingOwner";
+                    Toast.makeText(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -211,19 +227,12 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         try {
             if (firebaseAuth.getCurrentUser().getUid() != null) {
-                if (UserType.equals("Normal User")) {
-                    editor.putString("Normal User", UserType);
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    i.putExtra("UserType", UserType);
-                    startActivity(i);
-                    finish();
-                } else {
-                    editor.putString("Authorities", UserType);
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    i.putExtra("UserType", UserType);
-                    startActivity(i);
-                    finish();
-                }
+
+                editor.putString("UserType", UserType);
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                i.putExtra("UserType", UserType);
+                startActivity(i);
+                finish();
 
             }
         } catch (Exception exception) {
