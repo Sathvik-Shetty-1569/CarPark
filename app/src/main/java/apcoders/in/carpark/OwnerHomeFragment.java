@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -37,11 +38,30 @@ public class OwnerHomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
+        CardView cardNotification = view.findViewById(R.id.cardNotification);
+        CardView cardRides = view.findViewById(R.id.CardViewRides);
+        CardView cardHistory = view.findViewById(R.id.cardhistory);
+        CardView cardPolice = view.findViewById(R.id.cardpolice);
+
 
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         }
+
+        cardRides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(requireActivity(), IncomingRides.class));
+            }
+        });
+
+        cardRides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(requireActivity(), HistoryActivity.class));
+            }
+        });
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
