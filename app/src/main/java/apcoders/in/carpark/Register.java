@@ -112,7 +112,7 @@ public class Register extends AppCompatActivity {
                                                         Toasty.success(Register.this, "Registration Done", Toasty.LENGTH_SHORT).show();
                                                         Log.d("RegisterActivity", "Registration successful. Navigating to MainActivity.");
 
-                                                        startActivity(new Intent(Register.this, MainActivity.class));
+                                                        startActivity(new Intent(Register.this, HostMainActivity.class));
                                                         finish();
                                                     }
                                                 }
@@ -131,11 +131,11 @@ public class Register extends AppCompatActivity {
                                                     editor.putString("UserType", UserType);
                                                     editor.apply();
 
-                                                    // Navigate to MainActivity
-                                                    Intent i = new Intent(Register.this, MainActivity.class);
-                                                    i.putExtra("UserType", UserType);
-                                                    startActivity(i);
-                                                    finish();
+//                                                    // Navigate to MainActivity
+//                                                    Intent i = new Intent(Register.this, HostMainActivity.class);
+//                                                    i.putExtra("UserType", UserType);
+//                                                    startActivity(i);
+//                                                    finish();
 
                                                 }
                                             });
@@ -223,8 +223,8 @@ public class Register extends AppCompatActivity {
             if (firebaseAuth.getCurrentUser().getUid() != null) {
                 Log.d("RegisterActivity", "User already logged in, redirecting to MainActivity.");
 
-                startActivity(new Intent(Register.this, MainActivity.class));
-                finish();
+//                startActivity(new Intent(Register.this, MainActivity.class));
+//                finish();
             } else {
                 Log.d("RegisterActivity", "No user logged in.");
 

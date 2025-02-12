@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(i);
                                     finish();
                                 } else {
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
                                     i.putExtra("UserType", UserType);
                                     editor.putString("Authorities", UserType);
                                     startActivity(i);
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         } else {
-            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
             editor.putString("Authorities", UserType);
             i.putExtra("UserType", UserType);
             startActivity(i);
@@ -219,7 +219,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 } else {
                     editor.putString("Authorities", UserType);
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
                     i.putExtra("UserType", UserType);
                     startActivity(i);
                     finish();

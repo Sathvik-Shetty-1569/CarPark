@@ -1,7 +1,5 @@
 package apcoders.in.carpark;
-import apcoders.in.carpark.Utils.FetchUserData;
-import apcoders.in.carpark.models.AuthorityModel;
-import apcoders.in.carpark.models.NormalUserModel;
+
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,14 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
     private FloatingActionButton floatingActionButton;
-    TextView welcom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        welcom = findViewById(R.id.Welcomtitle);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         floatingActionButton = findViewById(R.id.Map);
         frameLayout = findViewById(R.id.frame_layout);
