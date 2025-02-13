@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".WalletActivity">
@@ -32,36 +34,102 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/credit_cards" />
-
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:text="Balance : 50"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:scrollbars="none">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:text="Add Cash To Your Wallet"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/makePayments_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        android:background="#613EEA"
-        android:text="Make Payment"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/credit_cards" />
+
+            <TextView
+                android:id="@+id/walletBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:text="Balance : 50"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/addToWalletAmount"
+                android:layout_width="286dp"
+                android:layout_height="49dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="10dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/input_bg"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="Amount"
+                android:inputType="text"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/editTextLoginPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:text="Add Cash To Your Wallet"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:elevation="10dp"
+                android:id="@+id/makePayments_Btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:background="#613EEA"
+                android:clickable="false"
+                android:text="Make Payment"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Wallet History"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/walletRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

@@ -3,7 +3,9 @@ package apcoders.in.carpark.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,12 +19,19 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import apcoders.in.carpark.AboutActivity;
+import apcoders.in.carpark.Adapter.ViewpagerImageSliderAdapter;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.Utils.FetchUserData;
@@ -53,7 +62,7 @@ public class HomeFragment extends Fragment {
         ImageButton buttondrawer = view.findViewById(R.id.buttonDrawer);
         View headerView = navigationView.getHeaderView(0);
 
-
+        banner_recyclerview_setup(view);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "User");
         Log.d("TAG", "onCreate: UserType" + userType);
@@ -134,5 +143,55 @@ public class HomeFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void banner_recyclerview_setup(View view) {
+        RecyclerView Banner_recycleView = view.findViewById(R.id.Banner_recycleView);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        Banner_recycleView.setLayoutManager(linearLayoutManager);
+
+        // Array of drawable resource IDs
+        List<Uri> imageIds = new ArrayList<>();
+        imageIds.add(Uri.parse("android.resource://apcoders.in.carpark/" + R.drawable.banner_1));
+        imageIds.add(Uri.parse("android.resource://apcoders.in.carpark/" + R.drawable.banner_2));
+        imageIds.add(Uri.parse("android.resource://apcoders.in.carpark/" + R.drawable.banner_3));
+
+        ViewpagerImageSliderAdapter adapter = new ViewpagerImageSliderAdapter(requireContext(), imageIds);
+        Banner_recycleView.setAdapter(adapter);
+
+        final int scrollSpeed = 200;   // Scroll Speed in Milliseconds (Increased for slower rate)
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int x = 10;        // Reduced Pixels To Move/Scroll (for smoother transition)
+            boolean flag = true;
+            int scrollPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+            int arraySize = imageIds.size();  // Gets RecyclerView's Adapter's Array Size
+
+            @Override
+            public void run() {
+                if (scrollPosition < arraySize) {
+                    if (scrollPosition == arraySize - 1) {
+                        flag = false;
+                    } else if (scrollPosition <= 1) {
+                        flag = true;
+                    }
+                    if (!flag) {
+                        try {
+                            // Delay in Seconds So User Can Completely Read Till Last String
+                            TimeUnit.SECONDS.sleep(1);
+                            Banner_recycleView.scrollToPosition(0);  // Jumps Back Scroll To Start Point
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // Know The Last Visible Item
+                    scrollPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                    Banner_recycleView.smoothScrollBy(x, 0);
+                    handler.postDelayed(this, scrollSpeed);  // Adjust delay between scroll movements
+                }
+            }
+        };
+        handler.postDelayed(runnable, scrollSpeed); // Start the scrolling with the new speed
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -86,7 +87,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupUIActions() {
         totalearning_layout.setOnClickListener(v -> SeeWallet());
-//        profileUpdateLayout.setOnClickListener(v -> updateProfile());
+        profileUpdateLayout.setOnClickListener(v -> updateProfile());
         withdrawBtn.setOnClickListener(v -> SeeWallet());
         getHelpBtn.setOnClickListener(v -> openHelpLink());
         communityLayout.setOnClickListener(v -> openCommunityLink());
@@ -100,7 +101,7 @@ public class ProfileFragment extends Fragment {
         rateAppLayout.setOnClickListener(v -> RateApp());
     }
 
-        private void SeeWallet() {
+    private void SeeWallet() {
         startActivity(new Intent(requireActivity(), WalletActivity.class));
     }
 
@@ -232,16 +233,13 @@ public class ProfileFragment extends Fragment {
 //        startActivity(new Intent(requireActivity(), ManageEquipmentsActivity.class));
 //    }
 
-//    private void updateProfile() {
+    private void updateProfile() {
 //        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE);
 //        userTypeValue = sharedPreferences.getString("user_type", "");
-//        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
-//        if (userTypeValue.equals("farmer")) {
-//            transaction.replace(R.id.framelayout, new Farmer_Profile_Update_Fragment());
-//        } else {
-//            transaction.replace(R.id.framelayout, new VendorProfileUpdateFragment());
-//        }
-//
+        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, new ProfileEditFragment());
+        transaction.commit();
+    }
 //
 //        transaction.addToBackStack(null);
 //        transaction.commit();
