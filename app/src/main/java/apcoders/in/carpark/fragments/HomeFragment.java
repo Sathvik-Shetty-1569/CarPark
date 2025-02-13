@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
     TextView welcom;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
@@ -53,33 +54,39 @@ public class HomeFragment extends Fragment {
         View headerView = navigationView.getHeaderView(0);
 
 
-        SharedPreferences sharedPreferences =requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "User");
-        Log.d("TAG", "onCreate: UserType"+userType);
+        Log.d("TAG", "onCreate: UserType" + userType);
 
-            FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
-                @Override
-                public void onCallback(UserModel userModel) {
-                    if (userModel != null) {
-                        Log.d("TAG", "onCallback: " + userModel.getUserFulName() + userModel.getEmail());
-                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserFullName", userModel.getUserFulName());
-                        editor.apply();
-                        editor.commit();
-                        usernameTextView.setText(userModel.getUserFulName());
-                        welcom.setText("Welcome "+ userModel.getUserFulName()+" !");
-                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
-                        emailTextView.setText(userModel.getEmail());
-
+        FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
+            @Override
+            public void onCallback(UserModel userModel) {
+                if (userModel != null) {
+                    Log.d("TAG", "onCallback: " + userModel.getUserFulName() + userModel.getEmail());
+                    TextView usernameTextView = headerView.findViewById(R.id.menu_username);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("UserFullName", userModel.getUserFulName());
+                    editor.apply();
+                    editor.commit();
+                    String Name = "";
+                    if (userModel.getUserFulName().length() < 17) {
+                        Name = userModel.getUserFulName();
                     } else {
-                        Toast.makeText(requireContext(),"Signed Out",Toast.LENGTH_SHORT).show();
-                        firebaseAuth.signOut();
-                        startActivity(new Intent(requireActivity(), LoginActivity.class));
-                        requireActivity().finish();
+                        Name = userModel.getUserFulName().substring(0, 17);
                     }
+
+                    welcom.setText("Welcome " + Name + " ...");
+                    TextView emailTextView = headerView.findViewById(R.id.menu_email);
+                    emailTextView.setText(userModel.getEmail());
+
+                } else {
+                    Toast.makeText(requireContext(), "Signed Out", Toast.LENGTH_SHORT).show();
+                    firebaseAuth.signOut();
+                    startActivity(new Intent(requireActivity(), LoginActivity.class));
+                    requireActivity().finish();
                 }
-            });
+            }
+        });
         buttondrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,9 +112,9 @@ public class HomeFragment extends Fragment {
                     intent.setType("text/plain");
                     String Body = "Download this App";
                     String Sub = "https://play.google.com";
-                    intent.putExtra(Intent.EXTRA_TEXT,Body);
-                    intent.putExtra(Intent.EXTRA_TEXT,Sub);
-                    startActivity(Intent.createChooser(intent,"Share using"));
+                    intent.putExtra(Intent.EXTRA_TEXT, Body);
+                    intent.putExtra(Intent.EXTRA_TEXT, Sub);
+                    startActivity(Intent.createChooser(intent, "Share using"));
 
 
                 } else if (itemId == R.id.navigation_logout) {
