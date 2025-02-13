@@ -17,7 +17,7 @@ public class VehicleModel {
     // Constructor
     public VehicleModel(String vehicleId, String userId, String vehicleNumber,
                         String vehicleType, String vehicleBrand, String vehicleModel,
-                        String color, boolean isDefault) {
+                        String color) {
         this.vehicleId = vehicleId;
         this.userId = userId;
         this.vehicleNumber = vehicleNumber;
@@ -76,11 +76,11 @@ public class VehicleModel {
         this.vehicleModel = vehicleModel;
     }
 
-    public String getColor() {
+    public String getVehicleColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setVehicleColor(String color) {
         this.color = color;
     }
 }

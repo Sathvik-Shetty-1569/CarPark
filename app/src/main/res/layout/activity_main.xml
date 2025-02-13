@@ -58,7 +58,7 @@
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/white"
            android:layout_marginBottom="-50dp"
             android:elevation="10dp"
             android:src="@drawable/navigation_arrow"

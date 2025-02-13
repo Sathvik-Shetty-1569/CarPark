@@ -6,32 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/drawerimage"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_margin="10dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginVertical="10dp"
-        android:background="@android:color/transparent"
-        android:elevation="8dp"
-        android:padding="5dp"
-        android:src="@drawable/drawer_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.037"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="44dp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Payment Succesful!!!"
-        android:textSize="20dp"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +21,8 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="224dp"
+        android:layout_width="264dp"
+        android:textSize="19dp"
         android:layout_height="63dp"
         android:text="Your payment transaction has been successful. You’’ll get an email confirmation containing your invoice."
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +47,8 @@
         android:id="@+id/button"
         android:layout_width="259dp"
         android:layout_height="56dp"
+        android:textSize="20dp"
+        android:textColor="@color/white"
         android:text="Go back to home screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

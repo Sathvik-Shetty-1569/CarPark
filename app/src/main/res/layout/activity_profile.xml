@@ -355,7 +355,7 @@
                         android:background="@color/colorPrimary" />
 
                     <LinearLayout
-                        android:id="@+id/add_vehicles_layout"
+                        android:id="@+id/my_vehicles_info_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
@@ -373,7 +373,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginHorizontal="10dp"
-                            android:text="Add New Vehicle Info"
+                            android:text="My Vehicles Info"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
                     </LinearLayout>

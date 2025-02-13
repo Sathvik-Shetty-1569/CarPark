@@ -17,9 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import apcoders.in.carpark.AddVehicleActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.SeeAllVehiclesActivity;
 import apcoders.in.carpark.SettingsActivity;
 import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.WalletActivity;
@@ -31,7 +31,7 @@ public class ProfileFragment extends Fragment {
     private Button getHelpBtn, withdrawBtn;
     private TextView profileUserName, profileEmail, profilePhone, userType, walletBalance;
     private CardView shopCardView;
-    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, myOrdersLayout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, add_vehicles_layout;
+    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, myOrdersLayout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, see_vehicles_layout;
     private ImageView userAvatar;
     private LinearLayout realContentView;
 
@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
         profileLogout = view.findViewById(R.id.profile_logout);
         userAvatar = view.findViewById(R.id.userAccountImage);
 //        userType = view.findViewById(R.id.userType);
-        add_vehicles_layout = view.findViewById(R.id.add_vehicles_layout);
+        see_vehicles_layout = view.findViewById(R.id.my_vehicles_info_layout);
         profileUpdateLayout = view.findViewById(R.id.profile_update_layout);
         transactionsLayout = view.findViewById(R.id.transactions_layout);
     }
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
 //        myOrdersLayout.setOnClickListener(v -> openOrdersFragment());
         profileLogout.setOnClickListener(v -> logout());
 //        terms_and_conditionsLayout.setOnClickListener(v -> startActivity(new Intent(requireActivity(), TermsConditionsActivity.class)));
-        add_vehicles_layout.setOnClickListener(v -> openAddNewVehicleActivity());
+        see_vehicles_layout.setOnClickListener(v -> openSeeMyVehicles());
         rateAppLayout.setOnClickListener(v -> RateApp());
     }
 
@@ -232,8 +232,8 @@ public class ProfileFragment extends Fragment {
 //        transaction.commit();
 //    }
 
-    private void openAddNewVehicleActivity() {
-        startActivity(new Intent(requireActivity(), AddVehicleActivity.class));
+    private void openSeeMyVehicles() {
+        startActivity(new Intent(requireActivity(), SeeAllVehiclesActivity.class));
     }
 
     private void updateProfile() {

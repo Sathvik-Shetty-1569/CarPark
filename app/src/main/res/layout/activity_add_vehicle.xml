@@ -7,11 +7,12 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".AddVehicleActivity">
+
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/white"
         android:elevation="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -22,11 +23,11 @@
             android:id="@+id/Welcomtitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginStart="10dp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="center"
             android:singleLine="true"
             android:text="Profile &amp; Settings"
+            android:textColor="@color/colorPrimary"
             android:textSize="23dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -48,6 +49,7 @@
         android:textStyle="bold" />
 
     <EditText
+        android:id="@+id/VehicleNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
@@ -58,16 +60,18 @@
         android:singleLine="true" />
 
     <EditText
+        android:id="@+id/VehicleType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="20dp"
         android:background="@drawable/edit_text_input_bg"
-        android:hint="Car, Bike, SUV, etc."
+        android:hint="Type - Car, Bike, SUV, etc."
         android:padding="10dp"
         android:singleLine="true" />
 
     <EditText
+        android:id="@+id/VehicleBrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
@@ -78,6 +82,7 @@
         android:singleLine="true" />
 
     <EditText
+        android:id="@+id/VehicleModel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
@@ -88,6 +93,7 @@
         android:singleLine="true" />
 
     <EditText
+        android:id="@+id/VehicleColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
@@ -96,5 +102,14 @@
         android:hint="Vehicle color"
         android:padding="10dp"
         android:singleLine="true" />
+
+    <Button
+        android:id="@+id/AddVehicleBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:text="Add Vehicle"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
 
 </LinearLayout>
