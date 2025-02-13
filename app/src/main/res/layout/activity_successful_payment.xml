@@ -23,7 +23,7 @@
         android:id="@+id/textView4"
         android:layout_width="264dp"
         android:textSize="19dp"
-        android:layout_height="63dp"
+        android:layout_height="wrap_content"
         android:text="Your payment transaction has been successful. You’’ll get an email confirmation containing your invoice."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,9 +44,9 @@
         app:srcCompat="@drawable/done_icon" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/GoTOHomeScreen"
         android:layout_width="259dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:textSize="20dp"
         android:textColor="@color/white"
         android:text="Go back to home screen"

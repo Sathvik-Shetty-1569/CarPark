@@ -120,14 +120,16 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         String userId = firebaseAuth.getCurrentUser().getUid();
         Toasty.success(WalletActivity.this, "Payment Successful", Toast.LENGTH_SHORT).show();
         WalletManagement.creditToWallet(firebaseAuth.getCurrentUser().getUid(), PaymentId, Amount, "Added To Wallet" + new Date().toLocaleString().substring(0, 15));
-
+        startActivity(new Intent(WalletActivity.this, SuccessfulPaymentActivity.class));
+        finish();
     }
 
     @Override
     public void onPaymentError(int code, String response) {
         Toasty.error(WalletActivity.this, "Payment Canceled ", Toast.LENGTH_SHORT).show();
         WalletManagement.creditToWallet(firebaseAuth.getCurrentUser().getUid(), "Error Payment Checking", Amount, "Added To Wallet " + new Date().toLocaleString().substring(0, 13));
-
+        startActivity(new Intent(WalletActivity.this, SuccessfulPaymentActivity.class));
+        finish();
     }
 
     private void islogin() {
@@ -143,7 +145,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
             public void onTransactionsRetrieved(ArrayList<WalletTransaction> walletTransactions) {
                 if (walletTransactions != null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                        walletTransactions =(ArrayList<WalletTransaction>) walletTransactions.reversed();
+                        walletTransactions = (ArrayList<WalletTransaction>) walletTransactions.reversed();
                     }
                     Log.d("TAG", "onWithdrawalRequestsFetched: " + walletTransactions.size());
 //                    request_layout.setVisibility(View.VISIBLE);

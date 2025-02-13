@@ -53,17 +53,12 @@
             <!--                android:textSize="20dp"-->
             <!--                android:textStyle="bold" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/wishlisted_products_text"
-                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/wishlisted_products_recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/wishlisted_products_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
         </RelativeLayout>
 
     </ScrollView>
