@@ -7,6 +7,29 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".AddVehicleActivity">
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:elevation="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/Welcomtitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/colorPrimary"
+            android:singleLine="true"
+            android:text="Profile &amp; Settings"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="@dimen/_150sdp"

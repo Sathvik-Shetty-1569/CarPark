@@ -17,10 +17,10 @@
         android:theme="@style/Theme.CarPark"
         tools:targetApi="31">
         <activity
-            android:name=".AddVehicleActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ParkingLocationFetch"
+            android:name=".AddVehicleActivity"
             android:exported="false" />
         <activity
             android:name=".TermsAndConditionsActivity"
@@ -69,6 +69,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Wishlist_Parking_Areas_Activity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />

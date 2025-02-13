@@ -20,8 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import apcoders.in.carpark.AddVehicleActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.SettingsActivity;
 import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.WalletActivity;
+import apcoders.in.carpark.Wishlist_Parking_Areas_Activity;
 import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment {
@@ -29,7 +31,7 @@ public class ProfileFragment extends Fragment {
     private Button getHelpBtn, withdrawBtn;
     private TextView profileUserName, profileEmail, profilePhone, userType, walletBalance;
     private CardView shopCardView;
-    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, myOrdersLayout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, manageEquipmentsLayout;
+    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, myOrdersLayout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, add_vehicles_layout;
     private ImageView userAvatar;
     private LinearLayout realContentView;
 
@@ -81,7 +83,7 @@ public class ProfileFragment extends Fragment {
         profileLogout = view.findViewById(R.id.profile_logout);
         userAvatar = view.findViewById(R.id.userAccountImage);
 //        userType = view.findViewById(R.id.userType);
-//        manageEquipmentsLayout = view.findViewById(R.id.manage_equipments_layout);
+        add_vehicles_layout = view.findViewById(R.id.add_vehicles_layout);
         profileUpdateLayout = view.findViewById(R.id.profile_update_layout);
         transactionsLayout = view.findViewById(R.id.transactions_layout);
     }
@@ -94,11 +96,11 @@ public class ProfileFragment extends Fragment {
         communityLayout.setOnClickListener(v -> openCommunityLink());
 //        transactionsLayout.setOnClickListener(v -> openTransactionsFragment());
         profileSettings.setOnClickListener(v -> openSettingsActivity());
-//        wishlistedProductsLayout.setOnClickListener(v -> openWishlistActivity());
+        wishlistedProductsLayout.setOnClickListener(v -> openWishlistActivity());
 //        myOrdersLayout.setOnClickListener(v -> openOrdersFragment());
         profileLogout.setOnClickListener(v -> logout());
 //        terms_and_conditionsLayout.setOnClickListener(v -> startActivity(new Intent(requireActivity(), TermsConditionsActivity.class)));
-//        manageEquipmentsLayout.setOnClickListener(v -> openManageEquipmentsActivity());
+        add_vehicles_layout.setOnClickListener(v -> openAddNewVehicleActivity());
         rateAppLayout.setOnClickListener(v -> RateApp());
     }
 
@@ -203,13 +205,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void openSettingsActivity() {
-        startActivity(new Intent(requireActivity(), AddVehicleActivity.class));
+        startActivity(new Intent(requireActivity(), SettingsActivity.class));
     }
 
-//    private void openWishlistActivity() {
-//        startActivity(new Intent(requireActivity(), Wishlist_Products_Activity.class));
-//    }
-//
+    private void openWishlistActivity() {
+        startActivity(new Intent(requireActivity(), Wishlist_Parking_Areas_Activity.class));
+    }
+
 //    private void openOrdersFragment() {
 //        Fragment fragment = new MyOrdersFragment();
 //        if (getActivity() instanceof FragmentChangeListener) {
@@ -230,19 +232,16 @@ public class ProfileFragment extends Fragment {
 //        transaction.commit();
 //    }
 
-//    private void openManageEquipmentsActivity() {
-//        startActivity(new Intent(requireActivity(), ManageEquipmentsActivity.class));
-//    }
+    private void openAddNewVehicleActivity() {
+        startActivity(new Intent(requireActivity(), AddVehicleActivity.class));
+    }
 
     private void updateProfile() {
 //        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE);
 //        userTypeValue = sharedPreferences.getString("user_type", "");
         FragmentTransaction transaction = requireFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, new ProfileEditFragment());
+        transaction.addToBackStack(null);
         transaction.commit();
     }
-//
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-//    }
 }
