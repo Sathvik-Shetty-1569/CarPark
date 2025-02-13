@@ -57,7 +57,9 @@
                 android:text="Unique ID: "
                 android:textColor="@android:color/darker_gray"
                 android:layout_gravity="end"
-                android:textSize="@dimen/_14sdp"></TextView>
+                android:textSize="@dimen/_14sdp">
+
+            </TextView>
 
             <View
                 android:layout_width="match_parent"
