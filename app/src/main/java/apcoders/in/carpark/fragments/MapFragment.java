@@ -1,4 +1,4 @@
-package apcoders.in.carpark;
+package apcoders.in.carpark.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import apcoders.in.carpark.Adapter.SearchAdapter;
+import apcoders.in.carpark.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 

@@ -1,4 +1,4 @@
-package apcoders.in.carpark;
+package apcoders.in.carpark.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import apcoders.in.carpark.R;
 
 public class SearchFragment extends Fragment {
 

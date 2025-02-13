@@ -1,4 +1,4 @@
-package apcoders.in.carpark;
+package apcoders.in.carpark.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import apcoders.in.carpark.AboutActivity;
+import apcoders.in.carpark.LoginActivity;
+import apcoders.in.carpark.R;
 import apcoders.in.carpark.Utils.FetchUserData;
 import apcoders.in.carpark.models.UserModel;
 
@@ -124,6 +127,5 @@ public class HomeFragment extends Fragment {
 
 
         return view;
-
     }
 }
