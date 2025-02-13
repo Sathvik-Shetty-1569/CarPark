@@ -1,7 +1,7 @@
 package apcoders.in.carpark.fragments;
 
+
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -30,7 +30,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,145 +47,35 @@ import java.util.Locale;
 import apcoders.in.carpark.Adapter.SearchAdapter;
 import apcoders.in.carpark.R;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class OwnerParkMap extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location currentLocation;
+    private LatLng selectedLatLng;
     private EditText searchLocation;
     private RecyclerView recyclerView;
     private PlacesClient placesClient;
+    private Button confirmButton;
     private AutocompleteSessionToken sessionToken;
     private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
 
-    private String[] locationNames = {
-            "Panvel Railway Station Parking",
-            "Khandeshwar Railway Station Parking",
-            "Belapur CBD Parking",
-            "Vashi Sector 17 Parking",
-            "Sanpada Station Parking",
-            "Seawoods Grand Central Mall Parking",
-            "Navi Mumbai International Airport Parking",
-            "Palm Beach Road Public Parking",
-            "Kalamboli Truck Terminal Parking",
-            "Kharghar Sector 21 Parking",
-            "Little World Mall Parking",
-            "Hiranandani Fortis Parking",
-            "Raghunath Vihar Parking",
-            "Nerul Railway Station Parking",
-            "Juhi Nagar Sector 24 Parking",
-            "Vashi Inorbit Mall Parking",
-            "Lower Parel Phoenix Mall Parking",
-            "Bandra Kurla Complex Parking",
-            "Phoenix Marketcity Kurla Parking",
-            "CST Railway Station Parking",
-            "Mumbai Central Parking Lot",
-            "Colaba Causeway Parking",
-            "Gateway of India Parking",
-            "Marine Drive Public Parking",
-            "Dadar Station Parking",
-            "Bandra Linking Road Parking",
-            "Andheri Station East Parking",
-            "Powai Hiranandani Gardens Parking",
-            "Borivali National Park Parking",
-            "Thane Viviana Mall Parking",
-            "Pen Railway Station Parking",
-            "Pen Bus Stand Parking",
-            "Rasayani Public Parking",
-            "Panvel Orion Mall Parking",
-            "Shivaji Chowk Parking Panvel",
-            "Vashi Palm Beach Parking",
-            "Parel ITC Grand Central Parking",
-            "Lokmanya Tilak Terminus Parking",
-            "Kanjurmarg Railway Parking",
-            "Thane Majiwada Parking",
-            "Malad Infinity Mall Parking",
-            "Goregaon Oberoi Mall Parking",
-            "Juhu Beach Parking",
-            "Dadar Shivaji Park Parking",
-            "Chhatrapati Shivaji Maharaj Airport Parking",
-            "Sion Hospital Parking",
-            "Mira Road Public Parking",
-            "Mulund LBS Marg Parking",
-            "Kalyan Railway Station Parking",
-            "Karjat Railway Station Parking",
-            "Pillai HOC Campus Parking",
-            "Rasayani Railway Station Parking",
-            "MIDC Taloja Parking Area",
-            "HOC Colony Community Center Parking",
-            "Panvel Municipal Parking Lot"
-    };
-
-    private LatLng[] locations = {
-            new LatLng(18.9886, 73.1101), new LatLng(19.0213, 73.0401),
-            new LatLng(19.0725, 72.9977),
-            new LatLng(19.0795, 73.0076),
-            new LatLng(19.0236, 73.0482),
-            new LatLng(19.0646, 73.0923),
-            new LatLng(18.9900, 72.8656),
-            new LatLng(19.0542, 73.0460),
-            new LatLng(19.0123, 73.0978),
-            new LatLng(19.0317, 73.0654),
-            new LatLng(19.0412, 73.0681),
-            new LatLng(19.0519, 73.0598),
-            new LatLng(19.0482, 73.0549),
-            new LatLng(19.0326, 73.0175),
-            new LatLng(19.0697, 73.0049),
-            new LatLng(19.0793, 72.9973),
-            new LatLng(19.0180, 72.8305),
-            new LatLng(19.0587, 72.8495),
-            new LatLng(19.0815, 72.8842),
-            new LatLng(18.9388, 72.8354),
-            new LatLng(18.9676, 72.8196),
-            new LatLng(18.9217, 72.8331),
-            new LatLng(18.9219, 72.8346),
-            new LatLng(18.9451, 72.8238),
-            new LatLng(19.0191, 72.8423),
-            new LatLng(19.0607, 72.8365),
-            new LatLng(19.1197, 72.8464),
-            new LatLng(19.1201, 72.9023),
-            new LatLng(19.2288, 72.8540),
-            new LatLng(19.1957, 72.9725),
-            new LatLng(18.7390, 73.0957),
-            new LatLng(18.7375, 73.0958),
-            new LatLng(18.8845, 73.1689),
-            new LatLng(18.9903, 73.1276),
-            new LatLng(18.9912, 73.1105),
-            new LatLng(19.0718, 73.0047),
-            new LatLng(19.0033, 72.8347),
-            new LatLng(19.0636, 72.9003),
-            new LatLng(19.1203, 72.8275),
-            new LatLng(19.0276, 72.8409),
-            new LatLng(19.0896, 72.8657),
-            new LatLng(19.0997, 72.9131),
-            new LatLng(19.0097, 72.8489),
-            new LatLng(19.2801, 72.8725),
-            new LatLng(19.1717, 72.9395),
-            new LatLng(19.2437, 73.1274),
-            new LatLng(18.9106, 73.3228),
-            new LatLng(19.1765, 72.9553),
-            new LatLng(19.1970, 72.9701),
-            new LatLng(18.8785, 73.1189),  // Pillai HOC Campus Parking
-            new LatLng(18.8952, 73.1187),  // Rasayani Railway Station Parking
-            new LatLng(18.8965, 73.0973),  // MIDC Taloja Parking Area
-            new LatLng(18.8702, 73.1278),  // HOC Colony Community Center Parking
-            new LatLng(18.9945, 73.1175)   // Panvel Municipal Parking Lot
-    };
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_map_fragment, container, false);
+        View view = inflater.inflate(R.layout.activity_ownermap_fragment, container, false);
 
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), "AIzaSyAUDX2GMv7MX6Mi1D8tBbsDvlu1OyuaDOY");
         }
         placesClient = Places.createClient(requireContext());
         recyclerView = view.findViewById(R.id.recycler_view);
+        confirmButton = view.findViewById(R.id.btncomfirmlocation);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
         recyclerView.setAdapter(searchAdapter);
@@ -197,19 +86,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            String location = searchLocation.getText().toString().trim();
-            if (!location.isEmpty()) {
-                searchPlace(location);
-            }
+                String location = searchLocation.getText().toString().trim();
+                if (!location.isEmpty()) {
+                    searchPlace(location);
+                }
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
                 searchLocation.clearFocus();
-
                 return true; // Return true to consume event (prevent new line)
             }
-            return false;
+                return false;
         });
 
         searchLocation.addTextChangedListener(new TextWatcher() {
@@ -225,7 +113,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void afterTextChanged(Editable editable) {}
         });
 
+confirmButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        if (selectedLatLng == null) {
+            Toast.makeText(requireContext(), "Please mark the location before confirming!", Toast.LENGTH_SHORT).show();
+        } else {
+            // Get address from LatLng
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(selectedLatLng.latitude, selectedLatLng.longitude, 1);
+                if (addresses != null && !addresses.isEmpty()) {
+                    String selectedAddress = addresses.get(0).getAddressLine(0);
 
+                    // Send back to OwnerProfileActivity
+                    Bundle result = new Bundle();
+                    result.putString("selected_location", selectedAddress);
+                    getParentFragmentManager().setFragmentResult("requestKey", result);
+
+                    // Close fragment
+                    getParentFragmentManager().popBackStack();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Error fetching address", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+});
         // Load the map
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -234,20 +149,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         return view;
     }
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
         // Check for location permissions
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             getLastLocation();
+            mMap.setOnMapClickListener(latLng -> {
+                mMap.clear(); // Clear previous markers
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Selected Location"));
+                selectedLatLng = latLng;
+                Toast.makeText(requireContext(), "Location Selected: " + latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+            });
+
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
-
-        addParkingMarkers();
 
     }
 
@@ -270,23 +188,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void addParkingMarkers() {
-        for (int i = 0; i < locations.length; i++) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(locations[i])
-                    .title(locationNames[i])
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); // Blue color for parking
-        }
-    }
-
-
     private void moveCameraToCurrentLocation() {
         if (currentLocation != null) {
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
-        } else {
-            // If location is null, center the map around the first parking location
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations[0], 12f));
         }
     }
 
@@ -320,16 +225,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 recyclerView.setVisibility(View.GONE);
-                for (int i = 0; i < locations.length; i++) {
-                    double distance = calculateDistance(latLng, locations[i]);
-                    if (distance <= 5.0) {
-                        mMap.addMarker(new MarkerOptions().position(locations[i]).title(locationNames[i]));
-                    }
-                }
 
-            }
-
-             else {
+            } else {
                 Toast.makeText(getContext(), "Location not found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
@@ -337,21 +234,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-
-    private double calculateDistance(LatLng latLng1, LatLng latLng2) {
-        double earthRadius = 6371; // Earth's radius in km
-        double dLat = Math.toRadians(latLng2.latitude - latLng1.latitude);
-        double dLng = Math.toRadians(latLng2.longitude - latLng1.longitude);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(latLng1.latitude)) * Math.cos(Math.toRadians(latLng2.latitude)) *
-                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return earthRadius * c;
-    }
-
-
-
 
 
     @Override

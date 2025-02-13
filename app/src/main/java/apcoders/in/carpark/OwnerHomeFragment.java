@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,8 @@ public class OwnerHomeFragment extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
     TextView welcom;
+    CardView cardOwnerUsernameTicket;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_owner_home_fragment, container, false);
@@ -41,12 +44,29 @@ public class OwnerHomeFragment extends Fragment {
         CardView cardRides = view.findViewById(R.id.CardViewRides);
         CardView cardHistory = view.findViewById(R.id.cardhistory);
         CardView cardPolice = view.findViewById(R.id.cardpolice);
-
+        SharedPreferences sharedPreferences;
 
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         }
+
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
+        cardOwnerUsernameTicket = view.findViewById(R.id.card_owner_username_ticket_create);
+
+        // Check if the profile is already completed
+        if (isProfileSaved) {
+            cardOwnerUsernameTicket.setVisibility(View.GONE);  // Hide the CardView
+        }
+
+        // Open Profile Activity on click
+        cardOwnerUsernameTicket.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), OwnerProfileActivity.class);
+            startActivity(intent);
+        });
+
+
 
         cardRides.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +90,7 @@ public class OwnerHomeFragment extends Fragment {
         View headerView = navigationView.getHeaderView(0);
 
 
-        SharedPreferences sharedPreferences =requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
+         sharedPreferences =requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "Normal User");
         Log.d("TAG", "onCreate: UserType"+userType);
 //        if (userType.equals("Normal User")) {
@@ -155,6 +175,7 @@ public class OwnerHomeFragment extends Fragment {
 
 
                 } else if (itemId == R.id.navigation_logout) {
+                    SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isLoggedIn", false);
                     editor.apply();

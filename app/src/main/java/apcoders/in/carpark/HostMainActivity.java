@@ -5,7 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import apcoders.in.carpark.fragments.OwnerParkMap;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +19,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import apcoders.in.carpark.fragments.HomeFragment;
 
 public class HostMainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
-    private FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,10 +30,9 @@ public class HostMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_host_main);
 
             bottomNavigationView = findViewById(R.id.bottomNavigationView);
-            floatingActionButton = findViewById(R.id.Map);
             frameLayout = findViewById(R.id.frame_layout);
 
-            loadFragment(new HomeFragment(), false);
+            loadFragment(new OwnerHomeFragment(), false);
 
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -56,17 +53,12 @@ public class HostMainActivity extends AppCompatActivity {
                 }
             });
 
-            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadFragment(new apcoders.in.carpark.MapFragment(),false);
-                }
-            });
+
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame_layout, new HomeFragment()) // Replace with the container ID and initial fragment
+                        .replace(R.id.frame_layout, new OwnerHomeFragment()) // Replace with the container ID and initial fragment
                         .commit();
             }
 

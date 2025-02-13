@@ -5,7 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import apcoders.in.carpark.fragments.HomeFragment;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        welcom = findViewById(R.id.Welcomtitle);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         floatingActionButton = findViewById(R.id.Map);
         frameLayout = findViewById(R.id.frame_layout);
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new apcoders.in.carpark.MapFragment(),false);
+                loadFragment(new apcoders.in.carpark.fragments.MapFragment(),false);
             }
         });
 

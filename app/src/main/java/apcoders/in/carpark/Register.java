@@ -130,7 +130,6 @@ public class Register extends AppCompatActivity {
                                                         i.putExtra("UserType", UserType);
                                                         startActivity(i);
                                                         finish();
-                                                        finish();
                                                     }
 
                                                 }
