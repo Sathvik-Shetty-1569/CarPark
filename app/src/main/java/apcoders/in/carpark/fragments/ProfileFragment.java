@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import apcoders.in.carpark.AddVehicleActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.Utils.WalletManagement;
@@ -92,7 +93,7 @@ public class ProfileFragment extends Fragment {
         getHelpBtn.setOnClickListener(v -> openHelpLink());
         communityLayout.setOnClickListener(v -> openCommunityLink());
 //        transactionsLayout.setOnClickListener(v -> openTransactionsFragment());
-//        profileSettings.setOnClickListener(v -> openSettingsActivity());
+        profileSettings.setOnClickListener(v -> openSettingsActivity());
 //        wishlistedProductsLayout.setOnClickListener(v -> openWishlistActivity());
 //        myOrdersLayout.setOnClickListener(v -> openOrdersFragment());
         profileLogout.setOnClickListener(v -> logout());
@@ -201,10 +202,10 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-//    private void openSettingsActivity() {
-//        startActivity(new Intent(requireActivity(), SettingsActivity.class));
-//    }
-//
+    private void openSettingsActivity() {
+        startActivity(new Intent(requireActivity(), AddVehicleActivity.class));
+    }
+
 //    private void openWishlistActivity() {
 //        startActivity(new Intent(requireActivity(), Wishlist_Products_Activity.class));
 //    }

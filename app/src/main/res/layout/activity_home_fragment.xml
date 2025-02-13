@@ -71,6 +71,7 @@
             tools:ignore="MissingConstraints" />
 
         <LinearLayout
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -80,8 +81,8 @@
 
 
             <ImageView
-                android:layout_width="102dp"
-                android:layout_height="102dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25sp"
                 android:layout_marginRight="@dimen/_25sdp"
@@ -95,28 +96,28 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textviewWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Welcome"
+                    android:textSize="22dp" />
+
+                <TextView
                     android:id="@+id/textview_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Username"
-                    android:textSize="@dimen/_20sdp" />
+                    android:text="Atul D. Dubaal"
+                    android:textSize="19dp" />
 
-                <TextView
-                    android:id="@+id/textview_parking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Parking Area name"
-                    android:textSize="@dimen/_16sdp" />
-
-                <TextView
-                    android:id="@+id/textview_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Address"
-                    android:textSize="@dimen/_16sdp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textview_address"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:text="Address"-->
+<!--                    android:textSize="@dimen/_16sdp" />-->
             </LinearLayout>
 
         </LinearLayout>

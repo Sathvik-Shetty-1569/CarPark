@@ -84,7 +84,8 @@ public class HomeFragment extends Fragment {
                         Name = userModel.getUserFulName().substring(0, 17);
                     }
 
-                    welcom.setText("Welcome " + Name + " ...");
+//                    welcom.setText("Welcome " + Name + " ...");
+                    welcom.setText("CarPark");
                     TextView emailTextView = headerView.findViewById(R.id.menu_email);
                     emailTextView.setText(userModel.getEmail());
 
@@ -159,7 +160,7 @@ public class HomeFragment extends Fragment {
         ViewpagerImageSliderAdapter adapter = new ViewpagerImageSliderAdapter(requireContext(), imageIds);
         Banner_recycleView.setAdapter(adapter);
 
-        final int scrollSpeed = 200;   // Scroll Speed in Milliseconds (Increased for slower rate)
+        final int scrollSpeed = 100;   // Scroll Speed in Milliseconds (Increased for slower rate)
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             int x = 10;        // Reduced Pixels To Move/Scroll (for smoother transition)
