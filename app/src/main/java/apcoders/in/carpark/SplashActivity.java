@@ -27,15 +27,27 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences sharedPreferences = getSharedPreferences("OnBoarding", MODE_PRIVATE);
+                SharedPreferences onboardingsharedPreferences = getSharedPreferences("OnBoarding", MODE_PRIVATE);
+                SharedPreferences sharedPreference = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                String Usertype = sharedPreference.getString("UserType", "User");
+                boolean IsLogging = sharedPreference.getBoolean("isLoggedIn", false);
+                boolean IsOnboardingHide = onboardingsharedPreferences.getBoolean("IsOnboardingHide", false);
 
-                boolean IsOnboardingHide = sharedPreferences.getBoolean("IsOnboardingHide", false);
-                if (!IsOnboardingHide) {
-                    startActivity(new Intent(SplashActivity.this, OnBoardingActivityOne.class));
+                if (IsLogging && Usertype.equals("User")) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                } else if (IsLogging && Usertype.equals("ParkingOwner")) {
+                    startActivity(new Intent(SplashActivity.this, HostMainActivity.class));
+                    finish();
                 } else {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    if (!IsOnboardingHide) {
+                        startActivity(new Intent(SplashActivity.this, OnBoardingActivityOne.class));
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    }
+                    finish();
                 }
-                finish();
+
             }
         }, 2000);
     }

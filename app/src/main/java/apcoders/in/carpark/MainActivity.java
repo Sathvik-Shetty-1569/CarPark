@@ -21,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import apcoders.in.carpark.fragments.BookingFragment;
 import apcoders.in.carpark.fragments.HomeFragment;
-import apcoders.in.carpark.fragments.MapFragment;
+
 import apcoders.in.carpark.fragments.ProfileFragment;
 import apcoders.in.carpark.fragments.SearchFragment;
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new MapFragment(),false);
+                loadFragment(new apcoders.in.carpark.MapFragment(),false);
             }
         });
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import es.dmoral.toasty.Toasty;
 //
@@ -44,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edEmail, edPassowrd;
     TextView tv;
     Button btn;
-    String UserType;
+    String UserType="User";
     FirebaseAuth firebaseAuth;
     RadioGroup radioGroup;
     FirebaseFirestore firebaseFirestore;
@@ -107,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                Log.d("TAG", "onComplete: " + task.getResult().getDocuments().size());
                                 if (task.getResult().getDocuments().size() > 0) {
                                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
@@ -119,17 +125,27 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
                                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putBoolean("isLoggedIn", true);
-                                                editor.putString("UserType", UserType);
-                                                editor.apply();
-                                                editor.commit();
-                                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                                i.putExtra("UserType", UserType);
-                                                editor.putString("UserType", UserType);
-                                                startActivity(i);
-                                                finish();
 
-                                                navigateToHome(); // Navigate based on updated UserType
+                                                if (UserType.equals("User")) {
+                                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                                    editor.putBoolean("isLoggedIn", true);
+                                                    editor.putString("UserType", UserType);
+                                                    editor.apply();
+                                                    editor.commit();
+                                                    i.putExtra("UserType", UserType);
+                                                    startActivity(i);
+                                                    finish();
+                                                } else if(UserType.equals("ParkingOwner")) {
+                                                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
+                                                    editor.putBoolean("isLoggedIn", true);
+                                                    editor.putString("UserType", UserType);
+                                                    editor.apply();
+                                                    editor.commit();
+                                                    i.putExtra("UserType", UserType);
+                                                    startActivity(i);
+                                                    finish();
+                                                }
+//                                                navigateToHome(); // Navigate based on updated UserType
 
                                             }
                                         }
@@ -141,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Toasty.error(LoginActivity.this, "Invalid Credentials", Toasty.LENGTH_LONG).show();
                                         }
                                     });
-                                }else {
+                                } else {
                                     progressBar.setVisibility(View.GONE);
                                     btn.setEnabled(true);
                                     Toasty.error(LoginActivity.this, "Check Your Operating Role", Toasty.LENGTH_LONG).show();
@@ -223,12 +239,17 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         try {
             if (firebaseAuth.getCurrentUser().getUid() != null) {
-
-                editor.putString("UserType", UserType);
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                i.putExtra("UserType", UserType);
-                startActivity(i);
-                finish();
+                if (UserType.equals("User")) {
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                }
 
             }
         } catch (Exception exception) {

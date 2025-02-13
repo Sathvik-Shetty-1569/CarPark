@@ -1,7 +1,4 @@
 package apcoders.in.carpark;
-import apcoders.in.carpark.models.UserModel;
-import es.dmoral.toasty.Toasty;
-import com.github.ybq.android.spinkit.sprite.Sprite;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +20,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +31,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
+import apcoders.in.carpark.models.UserModel;
+import es.dmoral.toasty.Toasty;
 
 public class Register extends AppCompatActivity {
     EditText edPhoneNumber, edFullName, edPassowrd, edEmail, edComfirm;
@@ -99,38 +100,49 @@ public class Register extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         Log.d("RegisterActivity", "Firebase authentication successful");
 
-                                            UserModel userModel = new UserModel(firebaseAuth.getCurrentUser().getUid(),name,phoneNumber,UserType,email);
-                                            UserscollectionReference.add(userModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                    if (task.isSuccessful()) {
-                                                        progressBar.setVisibility(View.VISIBLE);
-                                                        btn.setEnabled(true);
-                                                        Toasty.success(Register.this, "Registration Done", Toasty.LENGTH_SHORT).show();
-                                                        Intent i = new Intent(Register.this, MainActivity.class);
-                                                        SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                        editor.putBoolean("isLoggedIn", true);
-                                                        editor.putString("UserType", UserType);
-                                                        i.putExtra("UserType", UserType);
-                                                        editor.apply();
-                                                        editor.commit();
+                                        UserModel userModel = new UserModel(firebaseAuth.getCurrentUser().getUid(), name, phoneNumber, UserType, email);
+                                        UserscollectionReference.add(userModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                if (task.isSuccessful()) {
+                                                    progressBar.setVisibility(View.VISIBLE);
+                                                    btn.setEnabled(true);
+                                                    Toasty.success(Register.this, "Registration Done", Toasty.LENGTH_SHORT).show();
+                                                    SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                    editor.putBoolean("isLoggedIn", true);
+                                                    editor.putString("UserType", UserType);
+                                                    editor.apply();
+                                                    editor.commit();
 
+                                                    Intent i;
+                                                    if (UserType.equals("User")) {
+                                                        i = new Intent(Register.this, MainActivity.class);
+                                                        i.putExtra("UserType", UserType);
                                                         startActivity(i);
                                                         finish();
+                                                        finish();
+                                                    } else if(UserType.equals("ParkingOwner")) {
+                                                        i = new Intent(Register.this, HostMainActivity.class);
+                                                        i.putExtra("UserType", UserType);
+                                                        startActivity(i);
+                                                        finish();
+                                                        finish();
                                                     }
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressBar.setVisibility(View.GONE);
-                                                    btn.setEnabled(true);
-                                                    Log.d("TAG", "onFailure: " + e.getMessage());
-                                                    Toasty.error(Register.this, "Something Goes Wrong", Toasty.LENGTH_SHORT).show();
 
                                                 }
-                                            });
-                                        }
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                progressBar.setVisibility(View.GONE);
+                                                btn.setEnabled(true);
+                                                Log.d("TAG", "onFailure: " + e.getMessage());
+                                                Toasty.error(Register.this, "Something Goes Wrong", Toasty.LENGTH_SHORT).show();
+
+                                            }
+                                        });
+                                    }
 //
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -159,8 +171,6 @@ public class Register extends AppCompatActivity {
         });
 
 
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -174,15 +184,21 @@ public class Register extends AppCompatActivity {
 
 
     public void isLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         try {
-
             if (firebaseAuth.getCurrentUser().getUid() != null) {
-                Log.d("RegisterActivity", "User already logged in, redirecting to MainActivity.");
-
-                startActivity(new Intent(Register.this, MainActivity.class));
-                finish();
-            } else {
-                Log.d("RegisterActivity", "No user logged in.");
+                if (UserType.equals("User")) {
+                    Intent i = new Intent(Register.this, MainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Intent i = new Intent(Register.this, HostMainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                }
 
             }
         } catch (Exception exception) {
