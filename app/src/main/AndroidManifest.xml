@@ -22,6 +22,15 @@
         <activity
             android:name=".WalletActivity"
             android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".IncomingRides"
+            android:exported="false" />
+        <activity
+            android:name=".HostMainActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_18sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView_complete"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/history"
+                    android:text="Username"
+                    android:textSize="@dimen/_15sdp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/textview_username"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_2sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_19sdp"
+                    android:text="Username" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ParkingArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unique ID: "
+                android:textColor="@android:color/darker_gray"
+                android:layout_gravity="end"
+                android:textSize="@dimen/_14sdp"></TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_15sdp"
+                    android:text="Time Remaining:" />
+
+                <View
+                    android:id="@+id/total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="02:00pm"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/textview_time_remaining"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_15sdp"
+                    android:text="01hr : 30min" />
+
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

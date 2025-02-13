@@ -1,4 +1,4 @@
-package apcoders.in.carpark.fragments;
+package apcoders.in.carpark;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
