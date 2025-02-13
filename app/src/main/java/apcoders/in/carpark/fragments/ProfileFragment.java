@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.WalletActivity;
 import es.dmoral.toasty.Toasty;
 
@@ -49,6 +50,7 @@ public class ProfileFragment extends Fragment {
 
 //        // Setup UI actions
         setupUIActions();
+        WalletManagement.getBalance(firebaseAuth.getCurrentUser().getUid(), balance -> walletBalance.setText("₹ " + balance));
 
         // Fetch user data
 //        fetchUserData();

@@ -32,9 +32,6 @@
             android:name=".HostMainActivity"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".AboutActivity"
@@ -71,6 +68,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_4ahuQBvQnFUGdm" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

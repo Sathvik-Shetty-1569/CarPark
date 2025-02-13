@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.models.UserModel;
 import es.dmoral.toasty.Toasty;
 
@@ -117,12 +118,14 @@ public class Register extends AppCompatActivity {
 
                                                     Intent i;
                                                     if (UserType.equals("User")) {
+                                                        WalletManagement.initializeWallet(firebaseAuth.getCurrentUser().getUid());
                                                         i = new Intent(Register.this, MainActivity.class);
                                                         i.putExtra("UserType", UserType);
                                                         startActivity(i);
                                                         finish();
                                                         finish();
                                                     } else if(UserType.equals("ParkingOwner")) {
+                                                        WalletManagement.initializeWallet(firebaseAuth.getCurrentUser().getUid());
                                                         i = new Intent(Register.this, HostMainActivity.class);
                                                         i.putExtra("UserType", UserType);
                                                         startActivity(i);

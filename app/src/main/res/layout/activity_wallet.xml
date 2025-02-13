@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/main"
     android:orientation="vertical"
     tools:context=".WalletActivity">
 
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/white"
         android:elevation="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -24,105 +23,45 @@
             android:id="@+id/Welcomtitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginStart="10dp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="center"
             android:singleLine="true"
-            android:text="Add To Wallet"
+            android:text="Add  To Wallet"
+            android:textColor="@color/colorPrimary"
             android:textSize="23dp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/credit_cards" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="10dp">
+        android:layout_marginVertical="10dp"
+        android:text="Balance : 50"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:text="Add Cash To Your Wallet"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginHorizontal="10dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/baseline_currency_rupee_24" />
-
-                <TextView
-                    android:id="@+id/my_wallet_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Balance "
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Amount">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/withdrawal_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="UPI Number/Id">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/withdrawal_upi_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/withdrawBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
-                    android:textSize="12sp"
-                    android:checkable="false"
-                    android:text="Withdraw" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/request_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-<!--                <TextView-->
-<!--                    android:layout_marginHorizontal="10dp"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginVertical="10dp"-->
-<!--                    android:drawableRight="@drawable/baseline_arrow_right_alt_24"-->
-<!--                    android:text="@string/withdrawal_request_history"-->
-<!--                    android:textColor="@color/dark_green"-->
-<!--                    android:textSize="19sp" />-->
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/withdrawal_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    <Button
+        android:id="@+id/makePayments_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:background="#613EEA"
+        android:text="Make Payment"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 </LinearLayout>

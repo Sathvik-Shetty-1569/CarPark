@@ -43,7 +43,7 @@ dependencies {
     implementation ("androidx.activity:activity-compose:1.10.0")
     implementation(libs.firebase.auth)
     implementation ("com.google.android.libraries.places:places:3.2.0")
-
+    implementation("com.razorpay:checkout:1.6.41")
     implementation(libs.firebase.firestore)
     implementation(libs.animation.core.android)
     implementation (libs.android.spinkit)

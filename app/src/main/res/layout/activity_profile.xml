@@ -110,6 +110,13 @@
                                 android:backgroundTint="@android:color/transparent"
                                 android:text="abc@xyz.com"
                                 android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/profile_user_wallet_amount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@android:color/transparent"
+                                android:text="Wallaet : 500"
+                                android:textSize="14sp" />
 
 
                         </LinearLayout>
