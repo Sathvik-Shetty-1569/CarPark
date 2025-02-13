@@ -1,11 +1,13 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.CarPark" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:textColor" >@color/black</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/rcb</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
+
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">11sp</item>
     </style>
@@ -13,5 +15,6 @@
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">13sp</item>
     </style>
+
     <style name="Theme.CarPark" parent="Base.Theme.CarPark" />
 </resources>

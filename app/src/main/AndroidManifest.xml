@@ -17,6 +17,12 @@
         android:theme="@style/Theme.CarPark"
         tools:targetApi="31">
         <activity
+            android:name=".AddVehicleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ParkingLocationFetch"
+            android:exported="false" />
+        <activity
             android:name=".TermsAndConditionsActivity"
             android:exported="false" />
         <activity
@@ -31,8 +37,6 @@
         <activity
             android:name=".HostMainActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
@@ -72,7 +76,6 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_4ahuQBvQnFUGdm" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

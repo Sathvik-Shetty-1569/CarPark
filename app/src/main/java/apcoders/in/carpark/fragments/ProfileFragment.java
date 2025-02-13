@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import apcoders.in.carpark.AddVehicleActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.Utils.WalletManagement;
@@ -86,12 +88,12 @@ public class ProfileFragment extends Fragment {
 
     private void setupUIActions() {
         totalearning_layout.setOnClickListener(v -> SeeWallet());
-//        profileUpdateLayout.setOnClickListener(v -> updateProfile());
+        profileUpdateLayout.setOnClickListener(v -> updateProfile());
         withdrawBtn.setOnClickListener(v -> SeeWallet());
         getHelpBtn.setOnClickListener(v -> openHelpLink());
         communityLayout.setOnClickListener(v -> openCommunityLink());
 //        transactionsLayout.setOnClickListener(v -> openTransactionsFragment());
-//        profileSettings.setOnClickListener(v -> openSettingsActivity());
+        profileSettings.setOnClickListener(v -> openSettingsActivity());
 //        wishlistedProductsLayout.setOnClickListener(v -> openWishlistActivity());
 //        myOrdersLayout.setOnClickListener(v -> openOrdersFragment());
         profileLogout.setOnClickListener(v -> logout());
@@ -100,7 +102,7 @@ public class ProfileFragment extends Fragment {
         rateAppLayout.setOnClickListener(v -> RateApp());
     }
 
-        private void SeeWallet() {
+    private void SeeWallet() {
         startActivity(new Intent(requireActivity(), WalletActivity.class));
     }
 
@@ -200,10 +202,10 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-//    private void openSettingsActivity() {
-//        startActivity(new Intent(requireActivity(), SettingsActivity.class));
-//    }
-//
+    private void openSettingsActivity() {
+        startActivity(new Intent(requireActivity(), AddVehicleActivity.class));
+    }
+
 //    private void openWishlistActivity() {
 //        startActivity(new Intent(requireActivity(), Wishlist_Products_Activity.class));
 //    }
@@ -232,16 +234,13 @@ public class ProfileFragment extends Fragment {
 //        startActivity(new Intent(requireActivity(), ManageEquipmentsActivity.class));
 //    }
 
-//    private void updateProfile() {
+    private void updateProfile() {
 //        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE);
 //        userTypeValue = sharedPreferences.getString("user_type", "");
-//        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
-//        if (userTypeValue.equals("farmer")) {
-//            transaction.replace(R.id.framelayout, new Farmer_Profile_Update_Fragment());
-//        } else {
-//            transaction.replace(R.id.framelayout, new VendorProfileUpdateFragment());
-//        }
-//
+        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, new ProfileEditFragment());
+        transaction.commit();
+    }
 //
 //        transaction.addToBackStack(null);
 //        transaction.commit();
