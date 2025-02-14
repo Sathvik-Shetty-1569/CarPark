@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,12 @@ public class HomeFragment extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
     TextView welcom;
+    Button endSessionButton;
+    LinearLayout activeSessionContainer;
+    TextView sessionTimer;
+    Handler handler = new Handler();
+    int seconds = 0;
+    boolean isRunning = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,11 +57,21 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
+        TextView username = view.findViewById(R.id.textview_username);
 
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         }
+
+        activeSessionContainer = view.findViewById(R.id.active_session_container);
+        endSessionButton = view.findViewById(R.id.end_session_button);
+        sessionTimer = view.findViewById(R.id.session_timer);
+
+        startSession(); // Call this when a parking session starts
+
+        endSessionButton.setOnClickListener(v -> endSession());
+
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
@@ -84,8 +102,9 @@ public class HomeFragment extends Fragment {
                         Name = userModel.getUserFulName().substring(0, 17);
                     }
 
-//                    welcom.setText("Welcome " + Name + " ...");
+                    username.setText(Name);
                     welcom.setText("CarPark");
+                    usernameTextView.setText(userModel.getUserFulName());
                     TextView emailTextView = headerView.findViewById(R.id.menu_email);
                     emailTextView.setText(userModel.getEmail());
 
@@ -194,5 +213,35 @@ public class HomeFragment extends Fragment {
             }
         };
         handler.postDelayed(runnable, scrollSpeed); // Start the scrolling with the new speed
+    }
+
+    private void startSession() {
+        activeSessionContainer.setVisibility(View.VISIBLE);
+        isRunning = true;
+        runTimer();
+    }
+
+    private void endSession() {
+        activeSessionContainer.setVisibility(View.GONE);
+        isRunning = false;
+        seconds = 0;
+    }
+
+    private void runTimer() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+
+                sessionTimer.setText(String.format("%02d:%02d:%02d", hours, minutes, secs));
+
+                if (isRunning) {
+                    seconds++;
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        });
     }
 }
