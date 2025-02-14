@@ -138,7 +138,7 @@ add.setOnClickListener(new View.OnClickListener() {
         }
 
     private boolean validateInputs() {
-        if (isEmpty(parkingName) || isEmpty(parkingSlots) || isEmpty(parkingAmount) || isEmpty(ownerLocation)) {
+        if (isEmpty(parkingName) || isEmpty(parkingSlots) || isEmpty(parkingAmount) || isEmpty(location)) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -148,6 +148,4 @@ add.setOnClickListener(new View.OnClickListener() {
     private boolean isEmpty(EditText editText) {
         return editText.getText().toString().trim().isEmpty();
     }
-
-
 }

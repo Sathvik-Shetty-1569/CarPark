@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/rcb</item>
+        <item name="background">@color/white</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 

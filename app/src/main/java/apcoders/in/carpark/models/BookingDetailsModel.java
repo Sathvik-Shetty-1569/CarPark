@@ -12,6 +12,7 @@ public class BookingDetailsModel {
     private double amountPaid;
     private String paymentStatus;
     private String qrCode;
+    String ParkingAreaName;
     private String status;
 
     // Empty constructor for Firebase
@@ -21,7 +22,7 @@ public class BookingDetailsModel {
     // Constructor with parameters
     public BookingDetailsModel(String bookingId, String userId, String vehicleNumber, String parkingLotId,
                                String slotNumber, String bookingTime, String startTime, String endTime,
-                               double amountPaid, String paymentStatus, String qrCode, String status) {
+                               double amountPaid, String paymentStatus, String qrCode, String ParkingAreaName, String status) {
         this.bookingId = bookingId;
         this.userId = userId;
         this.vehicleNumber = vehicleNumber;
@@ -33,6 +34,7 @@ public class BookingDetailsModel {
         this.amountPaid = amountPaid;
         this.paymentStatus = paymentStatus;
         this.qrCode = qrCode;
+        this.ParkingAreaName = ParkingAreaName;
         this.status = status;
     }
 
@@ -127,6 +129,14 @@ public class BookingDetailsModel {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getParkingAreaName() {
+        return ParkingAreaName;
+    }
+
+    public void setParkingAreaName(String parkingAreaName) {
+        ParkingAreaName = parkingAreaName;
     }
 
     public void setStatus(String status) {

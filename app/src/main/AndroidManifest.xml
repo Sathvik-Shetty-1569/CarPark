@@ -49,9 +49,7 @@
         <activity
             android:name=".HostMainActivity"
             android:exported="false" />
-        <activity
-            android:name=".OwnerProfileActivity"
-            android:exported="false" />
+
         <activity
             android:name=".AboutActivity"
             android:exported="false" />

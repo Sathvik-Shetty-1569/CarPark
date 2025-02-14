@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    tools:context=".BookingCompleteActivity"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".BookingCompleteActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -33,30 +33,29 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:orientation="vertical">
 
 
-
-<!--        <TextView-->
-<!--            android:id="@+id/textViewNewUser"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginVertical="20dp"-->
-<!--            android:text="Don't know the route? Get Directions"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="bold"-->
-<!--            tools:ignore="MissingConstraints"-->
-<!--            tools:layout_editor_absoluteX="90dp"-->
-<!--            tools:layout_editor_absoluteY="531dp" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/textViewNewUser"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginVertical="20dp"-->
+        <!--            android:text="Don't know the route? Get Directions"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:textSize="15sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            tools:ignore="MissingConstraints"-->
+        <!--            tools:layout_editor_absoluteX="90dp"-->
+        <!--            tools:layout_editor_absoluteY="531dp" />-->
 
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/bookingQRCodeImage"
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:layout_constraintBottom_toTopOf="@+id/textViewNewUser"
@@ -67,15 +66,15 @@
             app:srcCompat="@drawable/baseline_qr_code_24" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/bookingidtextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
             android:text="Unique ID: CPA-0129"
-            android:textSize="20dp"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginVertical="10dp"
             app:layout_constraintBottom_toTopOf="@+id/textViewNewUser"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -86,8 +85,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="@dimen/_10sdp"
             android:layout_marginBottom="20dp"
             app:cardCornerRadius="@dimen/_18sdp"
             app:cardElevation="20dp"
@@ -98,10 +97,10 @@
             app:layout_constraintVertical_bias="0.633">
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,17 +112,19 @@
                     android:textStyle="bold">
 
                 </TextView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/ParkingName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
-                        android:text="Parking Area Name : "
+                        android:text="Parking Area : "
                         android:textSize="@dimen/_15sdp" />
 
                     <View
@@ -149,6 +150,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/checkInTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -214,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
-                        android:text="Specifications : "
+                        android:text="Amount Paid : "
                         android:textSize="@dimen/_15sdp" />
 
                     <View
@@ -223,7 +225,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/textview_specification"
+                        android:id="@+id/textview_amount_paid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -250,15 +252,13 @@
             tools:ignore="MissingConstraints">
 
 
-
-
         </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/back_to_home_screen"
             android:layout_width="266dp"
-            android:layout_marginVertical="15dp"
             android:layout_height="48dp"
+            android:layout_marginVertical="15dp"
             android:text="Go back to home screen"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="72dp"

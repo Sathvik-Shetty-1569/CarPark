@@ -1,7 +1,15 @@
 [versions]
 agp = "8.8.0"
+firebaseStorage = "21.0.1"
+googleMaterialVersion = "1.11.0"
+gson = "2.10.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+picasso = "2.8"
+placesVersion = "4.1.0"
+playServicesLocation = "21.3.0"
+playServicesMaps = "19.0.0"
+sdpAndroid = "1.1.1"
 toasty = "1.5.2"
 androidSpinkit = "1.4.0"
 espressoCore = "3.6.1"
@@ -19,11 +27,21 @@ animationCoreAndroid = "1.7.6"
 firebaseFirestore = "25.1.1"
 coreKtx = "1.15.0"
 filamentAndroid = "1.17.1"
+zxingAndroidEmbeddedVersion = "4.3.0"
 
 
 [libraries]
+firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorage" }
+google-places = { module = "com.google.android.libraries.places:places", version.ref = "placesVersion" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+journeyapps-zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbeddedVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 android-spinkit = { module = "com.github.ybq:Android-SpinKit", version.ref = "androidSpinkit" }
+material-v1110 = { module = "com.google.android.material:material", version.ref = "googleMaterialVersion" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
 toasty = { group = "com.github.GrenderG", name = "Toasty", version.ref = "toasty" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

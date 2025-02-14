@@ -62,7 +62,6 @@ import java.util.List;
 import java.util.Locale;
 
 import apcoders.in.carpark.Adapter.SearchAdapter;
-import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.BookingSlotActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.models.ParkingInfo;
@@ -82,7 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<String> suggestionList = new ArrayList<>();
     private Button bookslots;
 
-
+    String parkingName, AvailableSlots, Amount;
     private LinearLayout bottomDrawer;
     private TextView parkingArea, address, spaceSlot, chargesPerHour;
 
@@ -133,7 +132,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         bookslots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
+                Intent i = new Intent(requireActivity(), BookingSlotActivity.class);
+                i.putExtra("parkingName", parkingName);
+                i.putExtra("AvailableSlots", AvailableSlots);
+                i.putExtra("Amount", Amount);
+                startActivity(i);
             }
         });
 
@@ -180,6 +183,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             if (marker.getTag() instanceof ParkingInfo) {
                 ParkingInfo info = (ParkingInfo) marker.getTag();
+                parkingName = info.getName();
+                AvailableSlots = String.valueOf(info.getSlots());
+                Amount = info.getAmount();
                 updateBottomSheet(info.getName(), info.getSlots(), info.getAmount());
             } else {
                 bottomDrawer.setVisibility(View.GONE);
@@ -205,7 +211,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
         recyclerView.setAdapter(searchAdapter);
 
-        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingSlotActivity.class)));
+//        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingSlotActivity.class)));
     }
 
     private void setupSearchFunctionality() {
@@ -297,6 +303,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     marker.setTag(new ParkingInfo(name, slots, amount));
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

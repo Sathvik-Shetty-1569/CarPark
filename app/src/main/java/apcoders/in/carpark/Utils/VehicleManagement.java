@@ -72,6 +72,7 @@ public class VehicleManagement {
                             VehicleModel vehicle = document.toObject(VehicleModel.class);
                             vehicleList.add(vehicle);
                         }
+                        Log.d(TAG, "onSuccess: "+vehicleList.size());
                         callback.onCallback(vehicleList);
                     }
                 })

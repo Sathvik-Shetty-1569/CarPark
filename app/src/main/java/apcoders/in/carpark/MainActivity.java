@@ -1,6 +1,7 @@
 package apcoders.in.carpark;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         floatingActionButton = findViewById(R.id.Map);
         frameLayout = findViewById(R.id.frame_layout);
+        checkForLoadingFragment();
 
-        loadFragment(new HomeFragment(), false);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -83,6 +84,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void checkForLoadingFragment() {
+        String data = getIntent().getStringExtra("LoadFragment");
+        Log.d("TAG", "checkForLoadingFragment: "+data);
+        if ("Location".equals(data)) {
+            loadFragment(new MapFragment(), true);
+        }else{
+            loadFragment(new HomeFragment(), false);
+        }
+    }
+
     public BottomNavigationView getBottomNavigationView() {
         return bottomNavigationView;
     }
@@ -100,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 0){
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStack();
         } else {
             super.onBackPressed();
@@ -108,4 +119,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForLoadingFragment();
+    }
 }
