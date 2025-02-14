@@ -1,17 +1,10 @@
 package apcoders.in.carpark.fragments;
 
-import static androidx.compose.ui.semantics.SemanticsPropertiesKt.dismiss;
-
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,19 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -52,7 +46,8 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
@@ -77,7 +72,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private AutocompleteSessionToken sessionToken;
     private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
-private Button bookslots;
+    private Button bookslots;
     private String[] locationNames = {
             "Panvel Railway Station Parking",
             "Khandeshwar Railway Station Parking",
@@ -193,7 +188,7 @@ private Button bookslots;
             new LatLng(18.9945, 73.1175)   // Panvel Municipal Parking Lot
     };
 
-private LinearLayout bottomDrawer;
+    private LinearLayout bottomDrawer;
     private TextView parkingArea, address, spaceSlot, chargesPerHour;
 
     @Nullable
@@ -214,19 +209,19 @@ private LinearLayout bottomDrawer;
         bottomDrawer = view.findViewById(R.id.showdrawerbottom);
         bottomDrawer.setVisibility(View.GONE); // Initially hide it
         searchLocation = view.findViewById(R.id.search_location);
-         parkingArea = view.findViewById(R.id.textview_parking);
-         address = view.findViewById(R.id.Address);
-         bookslots = view.findViewById(R.id.Bookslots);
-         spaceSlot = view.findViewById(R.id.textview_space_Slot);
-         chargesPerHour = view.findViewById(R.id.chargesperhour);
+        parkingArea = view.findViewById(R.id.textview_parking);
+        address = view.findViewById(R.id.Address);
+        bookslots = view.findViewById(R.id.Bookslots);
+        spaceSlot = view.findViewById(R.id.textview_space_Slot);
+        chargesPerHour = view.findViewById(R.id.chargesperhour);
         ImageView ratings = view.findViewById(R.id.ratings);
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            String location = searchLocation.getText().toString().trim();
-            if (!location.isEmpty()) {
-                searchPlace(location);
-            }
+                String location = searchLocation.getText().toString().trim();
+                if (!location.isEmpty()) {
+                    searchPlace(location);
+                }
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -247,7 +242,8 @@ private LinearLayout bottomDrawer;
 
         searchLocation.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -255,7 +251,8 @@ private LinearLayout bottomDrawer;
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
 
@@ -319,7 +316,7 @@ private LinearLayout bottomDrawer;
             parkingArea.setText(locationName);
             address.setText("Address: Not Available");
         }
-            int inte = -1;
+        int inte = -1;
         for (int i = 0; i < locations.length; i++) {
             if (locations[i].equals(locationName)) {
                 inte = i;
@@ -337,14 +334,11 @@ private LinearLayout bottomDrawer;
         spaceSlot.setText("Available Slots: 10");  // Example value
         chargesPerHour.setText("$5 per hour");  // Example value
 
-        Log.d("BottomSheet", "Updated with: " + locationName );
+        Log.d("BottomSheet", "Updated with: " + locationName);
         bottomDrawer.setVisibility(View.VISIBLE);
         Map.setVisibility(View.VISIBLE);
 
     }
-
-
-
 
 
     private void getLastLocation() {
@@ -423,9 +417,7 @@ private LinearLayout bottomDrawer;
                     }
                 }
 
-            }
-
-             else {
+            } else {
                 Toast.makeText(getContext(), "Location not found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
@@ -445,9 +437,6 @@ private LinearLayout bottomDrawer;
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return earthRadius * c;
     }
-
-
-
 
 
     @Override
