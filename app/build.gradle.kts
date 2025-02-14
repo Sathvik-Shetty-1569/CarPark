@@ -59,4 +59,5 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:17.0.0")
     implementation ("com.google.android.libraries.places:places:2.5.0")
     implementation ("com.intuit.sdp:sdp-android:1.1.1")
+    implementation ("com.google.android.material:material:1.11.0")
 }
