@@ -61,7 +61,7 @@ import java.util.List;
 import java.util.Locale;
 
 import apcoders.in.carpark.Adapter.SearchAdapter;
-import apcoders.in.carpark.BookingActivity;
+import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -137,7 +137,8 @@ private Button bookslots;
     };
 
     private LatLng[] locations = {
-            new LatLng(18.9886, 73.1101), new LatLng(19.0213, 73.0401),
+            new LatLng(18.9886, 73.1101),
+            new LatLng(19.0213, 73.0401),
             new LatLng(19.0725, 72.9977),
             new LatLng(19.0795, 73.0076),
             new LatLng(19.0236, 73.0482),
@@ -240,7 +241,7 @@ private LinearLayout bottomDrawer;
         bookslots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), BookingActivity.class));
+                startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
             }
         });
 
