@@ -31,6 +31,7 @@ public class OwnerProfileActivity    extends AppCompatActivity {
     EditText location;
     double lat;
     double log;
+    String selectedLocation;
     private EditText parkingName, parkingSlots, parkingAmount, ownerLocation;
     Button add;
     @Override
@@ -64,7 +65,7 @@ location.setOnClickListener(new View.OnClickListener() {
 
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             if (bundle != null) {
-                String selectedLocation = bundle.getString("selected_location", "");
+                selectedLocation = bundle.getString("selected_location", "");
                 lat = bundle.getDouble("selected_latitude",0.0);
                 log = bundle.getDouble("selected_longitude",0.0);
                 if (lat == 0.0 || log == 0.0) {
@@ -123,6 +124,7 @@ add.setOnClickListener(new View.OnClickListener() {
             parkingData.put("amount", amount);
             parkingData.put("latitude",lat);
             parkingData.put("longitude",log);
+            parkingData.put("loc",selectedLocation);
 
             assert parkingId != null;
             reference.child(parkingId).setValue(parkingData)

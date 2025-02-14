@@ -26,8 +26,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import apcoders.in.carpark.Utils.FetchUserData;
+import apcoders.in.carpark.models.UserModel;
+
 
 
 public class OwnerHomeFragment extends Fragment {
@@ -36,7 +43,10 @@ public class OwnerHomeFragment extends Fragment {
     FirebaseAuth auth;
     TextView welcom;
     CardView cardOwnerUsernameTicketcreate;
-
+    private SharedPreferences sharedPreferences;
+    private DatabaseReference databaseReference;
+    TextView parking ;
+    TextView address ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_owner_home_fragment, container, false);
@@ -47,7 +57,10 @@ public class OwnerHomeFragment extends Fragment {
         CardView cardRides = view.findViewById(R.id.CardViewRides);
         CardView cardHistory = view.findViewById(R.id.cardhistory);
         CardView cardPolice = view.findViewById(R.id.cardpolice);
-        SharedPreferences sharedPreferences;
+        parking = view.findViewById(R.id.textview_parking);
+        address = view.findViewById(R.id.textview_address);
+        databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+        fetchParkingDetails();
 
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
@@ -100,58 +113,40 @@ public class OwnerHomeFragment extends Fragment {
         sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "Normal User");
         Log.d("TAG", "onCreate: UserType" + userType);
-//        if (userType.equals("Normal User")) {
-//            FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
-//                @Override
-//                public void onCallback(NormalUserModel normalUserModel) {
-//                    if (normalUserModel != null) {
-//                        Log.d("TAG", "onCallback: " + normalUserModel.getUserFulName() + normalUserModel.getEmail());
-//                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putString("UserFullName", normalUserModel.getUserFulName());
-//                        editor.apply();
-//                        editor.commit();
-//                        usernameTextView.setText(normalUserModel.getUserFulName());
-//                        welcom.setText("Welcome "+normalUserModel.getUserFulName()+" !");
-//                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
-//                        emailTextView.setText(normalUserModel.getEmail());
-//
-//                    } else {
-//                        Toast.makeText(requireContext(),"Signed Out",Toast.LENGTH_SHORT).show();
-//                        firebaseAuth.signOut();
-//                        startActivity(new Intent(requireActivity(), LoginActivity.class));
-//                        requireActivity().finish();
-//                    }
-//                }
-//            });
-//        } else if (userType.equals("")) {
-//            FetchUserData.FetchAuthorityData(new FetchUserData.GetAuthorityData() {
-//                @Override
-//                public void onCallback(AuthorityModel authorityModel) {
-//                    if (authorityModel != null) {
-//                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-//                        usernameTextView.setText(authorityModel.getUserFulName());
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putString("UserFullName", authorityModel.getUserFulName());
-//                        editor.apply();
-//                        editor.commit();
-//                        welcom.setText("Welcome "+authorityModel.getUserFulName()+" !");
-//                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
-//                        emailTextView.setText(authorityModel.getEmail());
-//                    } else {
-//                        Toast.makeText(requireContext(),"Signed Out",Toast.LENGTH_SHORT).show();
-//                        firebaseAuth.signOut();
-//                        startActivity(new Intent(requireActivity(), LoginActivity.class));
-//                        requireActivity().finish();
-//                    }
-//                }
-//            });
-//        } else {
-//            firebaseAuth.signOut();
-//            startActivity(new Intent(requireActivity(), LoginActivity.class));
-//            requireActivity().finish();
-//        }
-        buttondrawer.setOnClickListener(new View.OnClickListener() {
+        TextView username = view.findViewById(R.id.textview_username);
+
+        FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
+            @Override
+            public void onCallback(UserModel userModel) {
+                if (userModel != null) {
+                    Log.d("TAG", "onCallback: " + userModel.getUserFulName() + userModel.getEmail());
+                    TextView usernameTextView = headerView.findViewById(R.id.menu_username);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("UserFullName", userModel.getUserFulName());
+                    editor.apply();
+                    editor.commit();
+                    String Name = "";
+                    if (userModel.getUserFulName().length() < 17) {
+                        Name = userModel.getUserFulName();
+                    } else {
+                        Name = userModel.getUserFulName().substring(0, 17);
+                    }
+
+                    username.setText(Name);
+                    welcom.setText("CarPark");
+                    usernameTextView.setText(userModel.getUserFulName());
+                    TextView emailTextView = headerView.findViewById(R.id.menu_email);
+                    emailTextView.setText(userModel.getEmail());
+
+                } else {
+                    Toast.makeText(requireContext(), "Signed Out", Toast.LENGTH_SHORT).show();
+                    firebaseAuth.signOut();
+                    startActivity(new Intent(requireActivity(), LoginActivity.class));
+                    requireActivity().finish();
+                }
+            }
+        });
+   buttondrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -240,7 +235,30 @@ public class OwnerHomeFragment extends Fragment {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(profileSavedReceiver);
     }
 
+    private void fetchParkingDetails() {
+        databaseReference.orderByKey().limitToLast(1) // Fetch the latest parking area
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String name = snapshot.child("name").getValue(String.class);
+                            double latitude = snapshot.child("latitude").getValue(Double.class);
+                            double longitude = snapshot.child("longitude").getValue(Double.class);
 
+                            if (name != null) {
+                                parking.setText("Parking Name: " + name);
+                                address.setText("Location: " + latitude + ", " + longitude);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("Firebase", "Error fetching data", databaseError.toException());
+                        Toast.makeText(requireActivity(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
 
 }
