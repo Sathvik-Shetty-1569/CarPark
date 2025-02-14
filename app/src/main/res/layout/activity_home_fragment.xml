@@ -14,8 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -66,70 +66,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:elevation="10dp"
             android:layout_marginVertical="1dp"
+            android:elevation="10dp"
             tools:ignore="MissingConstraints" />
 
-        <LinearLayout
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="25sp"
-                android:layout_marginRight="@dimen/_25sdp"
-                android:maxHeight="200sp"
-                android:src="@drawable/user_profile_circle_solid_svgrepo_com" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textviewWelcome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Welcome"
-                    android:textSize="22dp" />
-
-                <TextView
-                    android:id="@+id/textview_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Atul D. Dubaal"
-                    android:textSize="19dp" />
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textview_address"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:text="Address"-->
-<!--                    android:textSize="@dimen/_16sdp" />-->
-            </LinearLayout>
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/active_session_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:background="@drawable/rounded_background"
             android:elevation="8dp"
-            android:layout_marginTop="@dimen/_25sdp"
             android:orientation="vertical"
             android:padding="16dp"
             android:visibility="visible">
@@ -137,41 +87,94 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal"
-                >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
 
-                <TextView
-                    android:id="@+id/session_status"
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="25sp"
+                    android:layout_marginRight="18dp"
+                    android:maxHeight="200sp"
+                    android:src="@drawable/car_icon" />
+
+                <LinearLayout
+                    android:layout_weight="3"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:text="Active Parking Session"
-                    android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textviewWelcome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Welcome"
+                        android:textSize="22dp" />
+
+                    <TextView
+                        android:id="@+id/textview_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Atul D. Dubaal"
+                        android:textSize="19dp" />
+
+                    <!--                <TextView-->
+                    <!--                    android:id="@+id/textview_address"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_gravity="center_vertical"-->
+                    <!--                    android:text="Address"-->
+                    <!--                    android:textSize="@dimen/_16sdp" />-->
+                </LinearLayout>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/end_session_button"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:paddingHorizontal="12dp"
-                android:text="Full Details"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/session_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:text="Active Parking Session"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/end_session_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_button"
+                    android:text="Full Details"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -185,37 +188,36 @@
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/history"
                     android:text="Username"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="17dp" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/textview_username_active"
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/_2sdp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_19sdp"
-                    android:text="Username" />
+                    android:padding="@dimen/_2sdp"
+                    android:text="Username"
+                    android:textSize="18dp" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/ParkingArea"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
                 android:text="Unique ID: "
                 android:textColor="@android:color/darker_gray"
-                android:layout_gravity="end"
                 android:textSize="@dimen/_14sdp"></TextView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@android:color/darker_gray"
-                />
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,35 +225,35 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
                     style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_15sdp"
-                    android:text="Time Remaining:" />
+                    android:padding="@dimen/_5sdp"
+                    android:text="Time Remaining:"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/_15sdp" />
 
                 <View
                     android:id="@+id/total_time"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:text="02:00pm"
-                    android:textSize="@dimen/_15sdp"
-                    android:layout_weight="1"/>
+                    android:textSize="@dimen/_15sdp" />
 
                 <TextView
-                    android:id="@+id/textview_time_remaining"
-                    android:layout_width="wrap_content"
-                    android:padding="@dimen/_5sdp"
-                    android:textStyle="bold"
+                    android:id="@+id/session_timer"
                     style="@style/TextAppearance.Material3.BodyLarge"
-                    android:textColor="@android:color/darker_gray"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:text="01hr : 30min"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/_15sdp"
-                    android:text="01hr : 30min" />
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -261,13 +263,13 @@
 
     </LinearLayout>
 
-<!-- <com.google.android.material.navigation.NavigationView-->
-<!--     android:id="@+id/navigation_view"-->
-<!--     android:layout_width="wrap_content"-->
-<!--     android:layout_height="match_parent"-->
-<!--     android:layout_gravity="start"-->
-<!--     app:headerLayout="@layout/drawer_header"-->
-<!--     app:menu="@menu/drawer_items_xml" />-->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_items_xml" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
