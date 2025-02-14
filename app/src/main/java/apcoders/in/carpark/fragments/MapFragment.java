@@ -1,20 +1,10 @@
 package apcoders.in.carpark.fragments;
 
-import static androidx.compose.ui.semantics.SemanticsPropertiesKt.dismiss;
-
-import static com.google.android.material.internal.ViewUtils.hideKeyboard;
-
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
-
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,19 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,6 +38,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -55,7 +47,8 @@ import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -70,6 +63,7 @@ import java.util.Locale;
 
 import apcoders.in.carpark.Adapter.SearchAdapter;
 import apcoders.in.carpark.BookingCompleteActivity;
+import apcoders.in.carpark.BookingSlotActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.models.ParkingInfo;
 
@@ -86,10 +80,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private AutocompleteSessionToken sessionToken;
     private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
-private Button bookslots;
+    private Button bookslots;
 
 
-private LinearLayout bottomDrawer;
+    private LinearLayout bottomDrawer;
     private TextView parkingArea, address, spaceSlot, chargesPerHour;
 
     @Nullable
@@ -110,21 +104,21 @@ private LinearLayout bottomDrawer;
         bottomDrawer = view.findViewById(R.id.showdrawerbottom);
         bottomDrawer.setVisibility(View.GONE); // Initially hide it
         searchLocation = view.findViewById(R.id.search_location);
-         parkingArea = view.findViewById(R.id.textview_parking);
-         address = view.findViewById(R.id.Address);
-         bookslots = view.findViewById(R.id.Bookslots);
-         spaceSlot = view.findViewById(R.id.textview_space_Slot);
-         chargesPerHour = view.findViewById(R.id.chargesperhour);
+        parkingArea = view.findViewById(R.id.textview_parking);
+        address = view.findViewById(R.id.Address);
+        bookslots = view.findViewById(R.id.Bookslots);
+        spaceSlot = view.findViewById(R.id.textview_space_Slot);
+        chargesPerHour = view.findViewById(R.id.chargesperhour);
         ImageView ratings = view.findViewById(R.id.ratings);
         initializeUI(view);
         setupSearchFunctionality();
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            String location = searchLocation.getText().toString().trim();
-            if (!location.isEmpty()) {
-                searchPlace(location);
-            }
+                String location = searchLocation.getText().toString().trim();
+                if (!location.isEmpty()) {
+                    searchPlace(location);
+                }
                 InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
@@ -145,7 +139,8 @@ private LinearLayout bottomDrawer;
 
         searchLocation.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -153,7 +148,8 @@ private LinearLayout bottomDrawer;
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
         });
 
 
@@ -185,8 +181,7 @@ private LinearLayout bottomDrawer;
             if (marker.getTag() instanceof ParkingInfo) {
                 ParkingInfo info = (ParkingInfo) marker.getTag();
                 updateBottomSheet(info.getName(), info.getSlots(), info.getAmount());
-            }
-            else{
+            } else {
                 bottomDrawer.setVisibility(View.GONE);
             }
             return false;
@@ -210,7 +205,7 @@ private LinearLayout bottomDrawer;
         searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
         recyclerView.setAdapter(searchAdapter);
 
-        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingCompleteActivity.class)));
+        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingSlotActivity.class)));
     }
 
     private void setupSearchFunctionality() {
@@ -227,13 +222,15 @@ private LinearLayout bottomDrawer;
             return false;
         });
     }
+
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-    private void updateBottomSheet(String locationName,int slots, String amount) {
+
+    private void updateBottomSheet(String locationName, int slots, String amount) {
         if (getView() == null) return;
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
         FloatingActionButton Map = getActivity().findViewById(R.id.Map);
@@ -250,13 +247,11 @@ private LinearLayout bottomDrawer;
         spaceSlot.setText("Available Slots: " + slots);
         chargesPerHour.setText(amount);
 
-        Log.d("BottomSheet", "Updated with: " + locationName );
+        Log.d("BottomSheet", "Updated with: " + locationName);
         bottomDrawer.setVisibility(View.VISIBLE);
         Map.setVisibility(View.VISIBLE);
 
     }
-
-
 
 
     private void getLastLocation() {
@@ -309,31 +304,33 @@ private LinearLayout bottomDrawer;
             }
         });
     }
-            // If location is null, center the map around the first parking location
-            private void moveCameraToCurrentLocation() {
-                if (currentLocation != null) {
-                    LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
-                } else {
-                    // If no location is available, move to the first parking location from Firebase
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                double latitude = snapshot.child("latitude").getValue(Double.class);
-                                double longitude = snapshot.child("longitude").getValue(Double.class);
-                                LatLng firstLocation = new LatLng(latitude, longitude);
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12f));
-                                break;
-                            }
-                        }
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.e("Firebase", "Failed to read data", databaseError.toException());
-                                }
-                            });
-                        }
+
+    // If location is null, center the map around the first parking location
+    private void moveCameraToCurrentLocation() {
+        if (currentLocation != null) {
+            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
+        } else {
+            // If no location is available, move to the first parking location from Firebase
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        double latitude = snapshot.child("latitude").getValue(Double.class);
+                        double longitude = snapshot.child("longitude").getValue(Double.class);
+                        LatLng firstLocation = new LatLng(latitude, longitude);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12f));
+                        break;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Firebase", "Failed to read data", databaseError.toException());
+                }
+            });
+        }
     }
 
     private void getPlacePredictions(String query) {
@@ -411,9 +408,6 @@ private LinearLayout bottomDrawer;
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return earthRadius * c;
     }
-
-
-
 
 
     @Override
