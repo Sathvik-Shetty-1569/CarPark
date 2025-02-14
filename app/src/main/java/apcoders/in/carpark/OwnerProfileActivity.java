@@ -28,8 +28,8 @@ import apcoders.in.carpark.fragments.OwnerParkMap;
 
 public class OwnerProfileActivity    extends AppCompatActivity {
     EditText location;
-    String lat;
-    String log;
+    double lat;
+    double log;
     private EditText parkingName, parkingSlots, parkingAmount, ownerLocation;
     Button add;
     @Override
@@ -64,8 +64,12 @@ location.setOnClickListener(new View.OnClickListener() {
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             if (bundle != null) {
                 String selectedLocation = bundle.getString("selected_location", "");
-                lat = bundle.getString("selected_latitude");
-                log = bundle.getString("selected_longitude");
+                lat = bundle.getDouble("selected_latitude",0.0);
+                log = bundle.getDouble("selected_longitude",0.0);
+                if (lat == 0.0 || log == 0.0) {
+                    Toast.makeText(this, "Invalid location received", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 location.setText(selectedLocation);
 
             }
@@ -100,6 +104,7 @@ add.setOnClickListener(new View.OnClickListener() {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("profile_completed", true);
             editor.apply();
+
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("parking_areas"); // Root node
 

@@ -2,6 +2,8 @@ package apcoders.in.carpark.fragments;
 
 import static androidx.compose.ui.semantics.SemanticsPropertiesKt.dismiss;
 
+import static com.google.android.material.internal.ViewUtils.hideKeyboard;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -85,119 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
 private Button bookslots;
-    private String[] locationNames = {
-            "Panvel Railway Station Parking",
-            "Khandeshwar Railway Station Parking",
-            "Belapur CBD Parking",
-            "Vashi Sector 17 Parking",
-            "Sanpada Station Parking",
-            "Seawoods Grand Central Mall Parking",
-            "Navi Mumbai International Airport Parking",
-            "Palm Beach Road Public Parking",
-            "Kalamboli Truck Terminal Parking",
-            "Kharghar Sector 21 Parking",
-            "Little World Mall Parking",
-            "Hiranandani Fortis Parking",
-            "Raghunath Vihar Parking",
-            "Nerul Railway Station Parking",
-            "Juhi Nagar Sector 24 Parking",
-            "Vashi Inorbit Mall Parking",
-            "Lower Parel Phoenix Mall Parking",
-            "Bandra Kurla Complex Parking",
-            "Phoenix Marketcity Kurla Parking",
-            "CST Railway Station Parking",
-            "Mumbai Central Parking Lot",
-            "Colaba Causeway Parking",
-            "Gateway of India Parking",
-            "Marine Drive Public Parking",
-            "Dadar Station Parking",
-            "Bandra Linking Road Parking",
-            "Andheri Station East Parking",
-            "Powai Hiranandani Gardens Parking",
-            "Borivali National Park Parking",
-            "Thane Viviana Mall Parking",
-            "Pen Railway Station Parking",
-            "Pen Bus Stand Parking",
-            "Rasayani Public Parking",
-            "Panvel Orion Mall Parking",
-            "Shivaji Chowk Parking Panvel",
-            "Vashi Palm Beach Parking",
-            "Parel ITC Grand Central Parking",
-            "Lokmanya Tilak Terminus Parking",
-            "Kanjurmarg Railway Parking",
-            "Thane Majiwada Parking",
-            "Malad Infinity Mall Parking",
-            "Goregaon Oberoi Mall Parking",
-            "Juhu Beach Parking",
-            "Dadar Shivaji Park Parking",
-            "Chhatrapati Shivaji Maharaj Airport Parking",
-            "Sion Hospital Parking",
-            "Mira Road Public Parking",
-            "Mulund LBS Marg Parking",
-            "Kalyan Railway Station Parking",
-            "Karjat Railway Station Parking",
-            "Pillai HOC Campus Parking",
-            "Rasayani Railway Station Parking",
-            "MIDC Taloja Parking Area",
-            "HOC Colony Community Center Parking",
-            "Panvel Municipal Parking Lot"
-    };
 
-    private LatLng[] locations = {
-            new LatLng(18.9886, 73.1101), new LatLng(19.0213, 73.0401),
-            new LatLng(19.0725, 72.9977),
-            new LatLng(19.0795, 73.0076),
-            new LatLng(19.0236, 73.0482),
-            new LatLng(19.0646, 73.0923),
-            new LatLng(18.9900, 72.8656),
-            new LatLng(19.0542, 73.0460),
-            new LatLng(19.0123, 73.0978),
-            new LatLng(19.0317, 73.0654),
-            new LatLng(19.0412, 73.0681),
-            new LatLng(19.0519, 73.0598),
-            new LatLng(19.0482, 73.0549),
-            new LatLng(19.0326, 73.0175),
-            new LatLng(19.0697, 73.0049),
-            new LatLng(19.0793, 72.9973),
-            new LatLng(19.0180, 72.8305),
-            new LatLng(19.0587, 72.8495),
-            new LatLng(19.0815, 72.8842),
-            new LatLng(18.9388, 72.8354),
-            new LatLng(18.9676, 72.8196),
-            new LatLng(18.9217, 72.8331),
-            new LatLng(18.9219, 72.8346),
-            new LatLng(18.9451, 72.8238),
-            new LatLng(19.0191, 72.8423),
-            new LatLng(19.0607, 72.8365),
-            new LatLng(19.1197, 72.8464),
-            new LatLng(19.1201, 72.9023),
-            new LatLng(19.2288, 72.8540),
-            new LatLng(19.1957, 72.9725),
-            new LatLng(18.7390, 73.0957),
-            new LatLng(18.7375, 73.0958),
-            new LatLng(18.8845, 73.1689),
-            new LatLng(18.9903, 73.1276),
-            new LatLng(18.9912, 73.1105),
-            new LatLng(19.0718, 73.0047),
-            new LatLng(19.0033, 72.8347),
-            new LatLng(19.0636, 72.9003),
-            new LatLng(19.1203, 72.8275),
-            new LatLng(19.0276, 72.8409),
-            new LatLng(19.0896, 72.8657),
-            new LatLng(19.0997, 72.9131),
-            new LatLng(19.0097, 72.8489),
-            new LatLng(19.2801, 72.8725),
-            new LatLng(19.1717, 72.9395),
-            new LatLng(19.2437, 73.1274),
-            new LatLng(18.9106, 73.3228),
-            new LatLng(19.1765, 72.9553),
-            new LatLng(19.1970, 72.9701),
-            new LatLng(18.8785, 73.1189),  // Pillai HOC Campus Parking
-            new LatLng(18.8952, 73.1187),  // Rasayani Railway Station Parking
-            new LatLng(18.8965, 73.0973),  // MIDC Taloja Parking Area
-            new LatLng(18.8702, 73.1278),  // HOC Colony Community Center Parking
-            new LatLng(18.9945, 73.1175)   // Panvel Municipal Parking Lot
-    };
 
 private LinearLayout bottomDrawer;
     private TextView parkingArea, address, spaceSlot, chargesPerHour;
@@ -226,6 +116,8 @@ private LinearLayout bottomDrawer;
          spaceSlot = view.findViewById(R.id.textview_space_Slot);
          chargesPerHour = view.findViewById(R.id.chargesperhour);
         ImageView ratings = view.findViewById(R.id.ratings);
+        initializeUI(view);
+        setupSearchFunctionality();
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -290,9 +182,12 @@ private LinearLayout bottomDrawer;
 
         mMap.setOnMarkerClickListener(marker -> {
 
-            if (marker.getTag() != null) {
+            if (marker.getTag() instanceof ParkingInfo) {
                 ParkingInfo info = (ParkingInfo) marker.getTag();
                 updateBottomSheet(info.getName(), info.getSlots(), info.getAmount());
+            }
+            else{
+                bottomDrawer.setVisibility(View.GONE);
             }
             return false;
         });
@@ -300,7 +195,44 @@ private LinearLayout bottomDrawer;
 
     }
 
+    private void initializeUI(View view) {
+        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
+        bottomDrawer.setVisibility(View.GONE);
+        searchLocation = view.findViewById(R.id.search_location);
+        parkingArea = view.findViewById(R.id.textview_parking);
+        address = view.findViewById(R.id.Address);
+        bookslots = view.findViewById(R.id.Bookslots);
+        spaceSlot = view.findViewById(R.id.textview_space_Slot);
+        chargesPerHour = view.findViewById(R.id.chargesperhour);
 
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
+        recyclerView.setAdapter(searchAdapter);
+
+        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingCompleteActivity.class)));
+    }
+
+    private void setupSearchFunctionality() {
+        searchLocation.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String location = searchLocation.getText().toString().trim();
+                if (!location.isEmpty()) {
+                    searchPlace(location);
+                }
+                hideKeyboard(v);
+                searchLocation.clearFocus();
+                return true;
+            }
+            return false;
+        });
+    }
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
     private void updateBottomSheet(String locationName,int slots, String amount) {
         if (getView() == null) return;
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
@@ -323,7 +255,6 @@ private LinearLayout bottomDrawer;
         Map.setVisibility(View.VISIBLE);
 
     }
-
 
 
 
@@ -378,16 +309,31 @@ private LinearLayout bottomDrawer;
             }
         });
     }
-
-
-    private void moveCameraToCurrentLocation() {
-        if (currentLocation != null) {
-            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
-        } else {
             // If location is null, center the map around the first parking location
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locations[0], 12f));
-        }
+            private void moveCameraToCurrentLocation() {
+                if (currentLocation != null) {
+                    LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18f));
+                } else {
+                    // If no location is available, move to the first parking location from Firebase
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                double latitude = snapshot.child("latitude").getValue(Double.class);
+                                double longitude = snapshot.child("longitude").getValue(Double.class);
+                                LatLng firstLocation = new LatLng(latitude, longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12f));
+                                break;
+                            }
+                        }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e("Firebase", "Failed to read data", databaseError.toException());
+                                }
+                            });
+                        }
     }
 
     private void getPlacePredictions(String query) {
@@ -420,22 +366,38 @@ private LinearLayout bottomDrawer;
                 mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 recyclerView.setVisibility(View.GONE);
-                for (int i = 0; i < locations.length; i++) {
-                    double distance = calculateDistance(latLng, locations[i]);
-                    if (distance <= 5.0) {
-                        mMap.addMarker(new MarkerOptions().position(locations[i]).title(locationNames[i]));
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            double lat = snapshot.child("latitude").getValue(Double.class);
+                            double lng = snapshot.child("longitude").getValue(Double.class);
+                            String name = snapshot.child("name").getValue(String.class);
+
+                            LatLng parkingLocation = new LatLng(lat, lng);
+                            double distance = calculateDistance(latLng, parkingLocation);
+                            if (distance <= 5.0) {
+                                mMap.addMarker(new MarkerOptions().position(parkingLocation).title(name));
+                            }
+                        }
                     }
-                }
 
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e("Firebase", "Error fetching locations", databaseError.toException());
+                    }
+                });
 
-             else {
+            } else {
                 Toast.makeText(getContext(), "Location not found", Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
 

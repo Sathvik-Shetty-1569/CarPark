@@ -56,11 +56,12 @@ public class OwnerHomeFragment extends Fragment {
         cardOwnerUsernameTicketcreate = view.findViewById(R.id.card_owner_username_ticket_create);
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
+        Log.d("OwnerHomeFragment", "Profile completed: " + isProfileSaved);
 
         // Check if the profile is already completed
         if (isProfileSaved) {
             cardOwnerUsernameTicketcreate.setVisibility(View.GONE);  // Hide the CardView
-        }else {
+        } else {
             cardOwnerUsernameTicketcreate.setVisibility(View.VISIBLE); // Show if profile is not completed
         }
 
@@ -69,7 +70,6 @@ public class OwnerHomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), OwnerProfileActivity.class);
             startActivity(intent);
         });
-
 
 
         cardRides.setOnClickListener(new View.OnClickListener() {
@@ -94,9 +94,9 @@ public class OwnerHomeFragment extends Fragment {
         View headerView = navigationView.getHeaderView(0);
 
 
-         sharedPreferences =requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
+        sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
         String userType = sharedPreferences.getString("UserType", "Normal User");
-        Log.d("TAG", "onCreate: UserType"+userType);
+        Log.d("TAG", "onCreate: UserType" + userType);
 //        if (userType.equals("Normal User")) {
 //            FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
 //                @Override
@@ -173,9 +173,9 @@ public class OwnerHomeFragment extends Fragment {
                     intent.setType("text/plain");
                     String Body = "Download this App";
                     String Sub = "https://play.google.com";
-                    intent.putExtra(Intent.EXTRA_TEXT,Body);
-                    intent.putExtra(Intent.EXTRA_TEXT,Sub);
-                    startActivity(Intent.createChooser(intent,"Share using"));
+                    intent.putExtra(Intent.EXTRA_TEXT, Body);
+                    intent.putExtra(Intent.EXTRA_TEXT, Sub);
+                    startActivity(Intent.createChooser(intent, "Share using"));
 
 
                 } else if (itemId == R.id.navigation_logout) {
@@ -198,17 +198,28 @@ public class OwnerHomeFragment extends Fragment {
         return view;
 
     }
+
     private BroadcastReceiver profileSavedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("com.example.PROFILE_SAVED".equals(intent.getAction())) {
-                CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
-                if (cardView != null) {
-                    cardView.setVisibility(View.GONE);
+                SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("profile_completed", true);
+                editor.apply();
+
+                if (getView() != null) {
+                    CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
+                    if (cardView != null) {
+                        cardView.setVisibility(View.GONE);
+                    }
                 }
             }
         }
+
     };
+
+
 
     @Override
     public void onResume() {
@@ -222,5 +233,8 @@ public class OwnerHomeFragment extends Fragment {
         super.onPause();
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(profileSavedReceiver);
     }
+
+
+
 
 }

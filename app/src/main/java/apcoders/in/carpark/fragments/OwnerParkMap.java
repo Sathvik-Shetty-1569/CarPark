@@ -145,6 +145,8 @@ confirmButton.setOnClickListener(new View.OnClickListener() {
         }
     }
 });
+
+
         // Load the map
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
