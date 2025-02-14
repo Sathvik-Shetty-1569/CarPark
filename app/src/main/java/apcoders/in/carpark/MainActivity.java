@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        welcom = findViewById(R.id.Welcomtitle);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         floatingActionButton = findViewById(R.id.Map);
         frameLayout = findViewById(R.id.frame_layout);
