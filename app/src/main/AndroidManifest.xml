@@ -47,6 +47,7 @@
         <activity
             android:name=".OwnerProfileActivity"
             android:exported="false" />
+
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
@@ -58,7 +59,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".Register"
             android:exported="false" />
