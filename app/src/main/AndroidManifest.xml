@@ -44,8 +44,9 @@
             android:name=".HostMainActivity"
             android:exported="false" />
 
-<activity android:name=".OwnerProfileActivity"
-    android:exported="false"/>
+        <activity
+            android:name=".OwnerProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
@@ -69,6 +70,9 @@
             android:exported="false" />
         <activity
             android:name=".OnBoardingActivityOne"
+            android:exported="false" />
+        <activity
+            android:name=".BookingCompleteActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
