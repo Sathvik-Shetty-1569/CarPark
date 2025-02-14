@@ -129,6 +129,10 @@ confirmButton.setOnClickListener(new View.OnClickListener() {
                     // Send back to OwnerProfileActivity
                     Bundle result = new Bundle();
                     result.putString("selected_location", selectedAddress);
+                    result.putDouble("selected_latitude", selectedLatLng.latitude);
+                    result.putDouble("selected_longitude", selectedLatLng.longitude);
+
+
                     getParentFragmentManager().setFragmentResult("requestKey", result);
 
                     // Close fragment

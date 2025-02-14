@@ -74,7 +74,7 @@
             android:visibility="visible"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/Ownerusernameticket"
+            app:layout_constraintBottom_toTopOf="@+id/frame_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">  <!-- Initially visible -->
@@ -85,7 +85,6 @@
                 android:layout_gravity="end"
                 android:src="@drawable/plus_circle_fill" />
             <TextView
-                android:id="@+id/ownerusernameticket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -324,13 +323,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.navigation.NavigationView
-           android:id="@+id/navigation_view"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:layout_gravity="start"
-           app:headerLayout="@layout/drawer_header"
-           app:menu="@menu/drawer_items_xml"/>
+   <com.google.android.material.navigation.NavigationView
+          android:id="@+id/navigation_view"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_gravity="start"
+          app:headerLayout="@layout/drawer_header"
+          app:menu="@menu/drawer_items_xml"
+       />
 
 
 

@@ -19,6 +19,9 @@
         <activity
             android:name=".BookingActivity"
             android:exported="false" />
+
+        <activity android:name=".OwnerProfileActivity"
+            android:exported="false"/>
         <activity
             android:name=".SuccessfulPaymentActivity"
             android:exported="false" />
@@ -41,7 +44,7 @@
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".IncomingRides"
+              android:name=".IncomingRides"
             android:exported="false" />
         <activity
             android:name=".HostMainActivity"

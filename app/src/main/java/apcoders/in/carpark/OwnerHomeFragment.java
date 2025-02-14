@@ -1,7 +1,9 @@
 package apcoders.in.carpark;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +35,7 @@ public class OwnerHomeFragment extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
     TextView welcom;
-    CardView cardOwnerUsernameTicket;
+    CardView cardOwnerUsernameTicketcreate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,18 +53,19 @@ public class OwnerHomeFragment extends Fragment {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         }
-
+        cardOwnerUsernameTicketcreate = view.findViewById(R.id.card_owner_username_ticket_create);
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
-        cardOwnerUsernameTicket = view.findViewById(R.id.card_owner_username_ticket_create);
 
         // Check if the profile is already completed
         if (isProfileSaved) {
-            cardOwnerUsernameTicket.setVisibility(View.GONE);  // Hide the CardView
+            cardOwnerUsernameTicketcreate.setVisibility(View.GONE);  // Hide the CardView
+        }else {
+            cardOwnerUsernameTicketcreate.setVisibility(View.VISIBLE); // Show if profile is not completed
         }
 
         // Open Profile Activity on click
-        cardOwnerUsernameTicket.setOnClickListener(v -> {
+        cardOwnerUsernameTicketcreate.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), OwnerProfileActivity.class);
             startActivity(intent);
         });
@@ -194,4 +198,29 @@ public class OwnerHomeFragment extends Fragment {
         return view;
 
     }
+    private BroadcastReceiver profileSavedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.PROFILE_SAVED".equals(intent.getAction())) {
+                CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
+                if (cardView != null) {
+                    cardView.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter("com.example.PROFILE_SAVED");
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(profileSavedReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(profileSavedReceiver);
+    }
+
 }

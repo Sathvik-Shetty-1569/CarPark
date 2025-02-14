@@ -14,12 +14,22 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.fragments.OwnerParkMap;
 
 public class OwnerProfileActivity    extends AppCompatActivity {
     EditText location;
+    String lat;
+    String log;
     private EditText parkingName, parkingSlots, parkingAmount, ownerLocation;
     Button add;
     @Override
@@ -34,7 +44,6 @@ public class OwnerProfileActivity    extends AppCompatActivity {
         parkingName = findViewById(R.id.ParkingName);
         parkingSlots = findViewById(R.id.ParkingSlots);
         parkingAmount = findViewById(R.id.Parkingamount);
-        ownerLocation = findViewById(R.id.ownerlocation);
 
 location.setOnClickListener(new View.OnClickListener() {
     @Override
@@ -55,7 +64,10 @@ location.setOnClickListener(new View.OnClickListener() {
         getSupportFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             if (bundle != null) {
                 String selectedLocation = bundle.getString("selected_location", "");
+                lat = bundle.getString("selected_latitude");
+                log = bundle.getString("selected_longitude");
                 location.setText(selectedLocation);
+
             }
         });
 
@@ -82,16 +94,43 @@ add.setOnClickListener(new View.OnClickListener() {
         });
     }
 
-    public void saveProfile() {
-        // Assume all required profile details are entered
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("profile_completed", true);
-        editor.apply();
+        public void saveProfile() {
+            // Assume all required profile details are entered
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("profile_completed", true);
+            editor.apply();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference("parking_areas"); // Root node
 
-        // Go back to previous activity
-        finish();
-    }
+            String name = parkingName.getText().toString().trim();
+            String slots = parkingSlots.getText().toString().trim();
+            String amount = parkingAmount.getText().toString().trim();
+            String loc = location.getText().toString().trim();
+
+            String parkingId = reference.push().getKey(); // Generate a unique key
+            Map<String, Object> parkingData = new HashMap<>();
+            parkingData.put("name", name);
+            parkingData.put("slots", Integer.parseInt(slots));
+            parkingData.put("amount", amount);
+            parkingData.put("latitude",lat);
+            parkingData.put("longitude",log);
+
+            assert parkingId != null;
+            reference.child(parkingId).setValue(parkingData)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(OwnerProfileActivity.this, "Parking details saved!", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent("com.example.PROFILE_SAVED");
+                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(OwnerProfileActivity.this, "Failed to save parking details", Toast.LENGTH_SHORT).show();
+                    });
+            // Go back to previous activity
+            finish();
+        }
 
     private boolean validateInputs() {
         if (isEmpty(parkingName) || isEmpty(parkingSlots) || isEmpty(parkingAmount) || isEmpty(ownerLocation)) {

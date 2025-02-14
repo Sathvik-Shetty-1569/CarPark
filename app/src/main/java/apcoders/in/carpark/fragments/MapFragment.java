@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
@@ -54,6 +55,13 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +71,7 @@ import java.util.Locale;
 import apcoders.in.carpark.Adapter.SearchAdapter;
 import apcoders.in.carpark.BookingActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.models.ParkingInfo;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -283,7 +292,10 @@ private LinearLayout bottomDrawer;
 
         mMap.setOnMarkerClickListener(marker -> {
 
-            updateBottomSheet(marker.getTitle());
+            if (marker.getTag() != null) {
+                ParkingInfo info = (ParkingInfo) marker.getTag();
+                updateBottomSheet(info.getName(), info.getSlots(), info.getAmount());
+            }
             return false;
         });
 
@@ -291,7 +303,7 @@ private LinearLayout bottomDrawer;
     }
 
 
-    private void updateBottomSheet(String locationName) {
+    private void updateBottomSheet(String locationName,int slots, String amount) {
         if (getView() == null) return;
         BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
         FloatingActionButton Map = getActivity().findViewById(R.id.Map);
@@ -303,46 +315,17 @@ private LinearLayout bottomDrawer;
             Map.animate().alpha(0f).setDuration(300).withEndAction(() -> Map.setVisibility(View.GONE)).start();
         }
 
-        int index = -1;
-        for (int i = 0; i < locationNames.length; i++) {
-            if (locationNames[i].equals(locationName)) {
-                index = i;
-                break;
-            }
-        }
 
-        if (index != -1) {
-            parkingArea.setText(locationNames[index]);
-            address.setText("Address: " + locationNames[index]); // Use parking name as address
-        } else {
-            parkingArea.setText(locationName);
-            address.setText("Address: Not Available");
-        }
-            int inte = -1;
-        for (int i = 0; i < locations.length; i++) {
-            if (locations[i].equals(locationName)) {
-                inte = i;
-                break;
-            }
-        }
-
-        if (index != -1) {
-            parkingArea.setText(locationNames[index]);
-            address.setText("Address: " + locationNames[index]); // Use parking name as address
-        } else {
-            parkingArea.setText(locationName);
-            address.setText("Address: Not Available");
-        }
-        spaceSlot.setText("Available Slots: 10");  // Example value
-        chargesPerHour.setText("$5 per hour");  // Example value
+        parkingArea.setText(locationName);
+        address.setText("Address: " + locationName);
+        spaceSlot.setText("Available Slots: " + slots);
+        chargesPerHour.setText(amount);
 
         Log.d("BottomSheet", "Updated with: " + locationName );
         bottomDrawer.setVisibility(View.VISIBLE);
         Map.setVisibility(View.VISIBLE);
 
     }
-
-
 
 
 
@@ -366,12 +349,35 @@ private LinearLayout bottomDrawer;
     }
 
     private void addParkingMarkers() {
-        for (int i = 0; i < locations.length; i++) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(locations[i])
-                    .title(locationNames[i])
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); // Blue color for parking
-        }
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    double latitude = snapshot.child("latitude").getValue(Double.class);
+                    double longitude = snapshot.child("longitude").getValue(Double.class);
+                    int slots = snapshot.child("slots").getValue(Integer.class);
+                    String amount = snapshot.child("amount").getValue(String.class);
+
+                    LatLng location = new LatLng(latitude, longitude);
+
+                    Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(location)
+                            .title(name)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); // Blue color for parking
+
+                    // Store extra data in marker using a hashmap
+                    marker.setTag(new ParkingInfo(name, slots, amount));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase", "Failed to read data", databaseError.toException());
+            }
+        });
     }
 
 
