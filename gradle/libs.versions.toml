@@ -18,6 +18,7 @@ firebaseAuth = "23.1.0"
 animationCoreAndroid = "1.7.6"
 firebaseFirestore = "25.1.1"
 coreKtx = "1.15.0"
+filamentAndroid = "1.17.1"
 
 
 [libraries]
@@ -38,6 +39,7 @@ animation-core-android = { group = "androidx.compose.animation", name = "animati
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+filament-android = { group = "com.google.ar.sceneform", name = "filament-android", version.ref = "filamentAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

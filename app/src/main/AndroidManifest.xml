@@ -20,6 +20,18 @@
             android:name=".BookingActivity"
             android:exported="false" />
         <activity
+            android:name=".SuccessfulPaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SeeAllVehiclesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddVehicleActivity"
+            android:exported="false" />
+        <activity
             android:name=".TermsAndConditionsActivity"
             android:exported="false" />
         <activity
@@ -34,9 +46,8 @@
         <activity
             android:name=".HostMainActivity"
             android:exported="false" />
-        <activity
-            android:name=".OwnerProfileActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
@@ -76,6 +87,7 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_4ahuQBvQnFUGdm" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

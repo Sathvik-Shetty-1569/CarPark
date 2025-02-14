@@ -6,7 +6,7 @@ import java.util.List;
 
 public class WalletModel {
     private double currentBalance;
-    private List<WalletTransaction> transactions;
+    private ArrayList<WalletTransaction> transactions;
 
     // Empty constructor needed for Firestore serialization
     public WalletModel() {
@@ -28,11 +28,11 @@ public class WalletModel {
         this.currentBalance = currentBalance;
     }
 
-    public List<WalletTransaction> getTransactions() {
+    public ArrayList<WalletTransaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<WalletTransaction> transactions) {
+    public void setTransactions(ArrayList<WalletTransaction> transactions) {
         this.transactions = transactions;
     }
 

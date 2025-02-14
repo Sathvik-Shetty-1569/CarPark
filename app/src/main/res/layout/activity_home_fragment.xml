@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawerlayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment"
@@ -11,16 +11,17 @@
     <include layout="@layout/activity_home_content"></include>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <LinearLayout
-            android:background="@color/white"
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@color/white"
             android:elevation="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -51,15 +52,77 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/colorPrimary"
                 android:gravity="center_vertical"
-
                 android:singleLine="true"
+
                 android:text="Welcome"
+                android:textColor="@color/colorPrimary"
                 android:textSize="23dp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Banner_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:elevation="10dp"
+            android:layout_marginVertical="1dp"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25sp"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:maxHeight="200sp"
+                android:src="@drawable/user_profile_circle_solid_svgrepo_com" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textviewWelcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Welcome"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/textview_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Atul D. Dubaal"
+                    android:textSize="19dp" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textview_address"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:text="Address"-->
+<!--                    android:textSize="@dimen/_16sdp" />-->
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"

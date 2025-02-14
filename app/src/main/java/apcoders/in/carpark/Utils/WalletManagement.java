@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -116,7 +117,7 @@ public class WalletManagement {
     }
 
     public interface OnTransactionsRetrievedListener {
-        void onTransactionsRetrieved(List<WalletTransaction> walletTransactions);
+        void onTransactionsRetrieved(ArrayList<WalletTransaction> walletTransactions);
     }
 
 }
