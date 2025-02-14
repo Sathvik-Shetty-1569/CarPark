@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
+        TextView username = view.findViewById(R.id.textview_username);
 
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
@@ -84,8 +85,9 @@ public class HomeFragment extends Fragment {
                         Name = userModel.getUserFulName().substring(0, 17);
                     }
 
-//                    welcom.setText("Welcome " + Name + " ...");
+                  username.setText(Name);
                     welcom.setText("CarPark");
+                    usernameTextView.setText(userModel.getUserFulName());
                     TextView emailTextView = headerView.findViewById(R.id.menu_email);
                     emailTextView.setText(userModel.getEmail());
 

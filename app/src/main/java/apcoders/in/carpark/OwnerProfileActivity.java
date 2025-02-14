@@ -3,6 +3,7 @@ package apcoders.in.carpark;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -104,6 +105,8 @@ add.setOnClickListener(new View.OnClickListener() {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("profile_completed", true);
             editor.apply();
+            boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
+            Log.d("OwnerProfileActivity", "Profile Completed Saved: " + isProfileSaved);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("parking_areas"); // Root node
@@ -124,6 +127,7 @@ add.setOnClickListener(new View.OnClickListener() {
             assert parkingId != null;
             reference.child(parkingId).setValue(parkingData)
                     .addOnSuccessListener(aVoid -> {
+                        Log.d("OwnerProfileActivity", "Broadcasting PROFILE_SAVED event");
                         Toast.makeText(OwnerProfileActivity.this, "Parking details saved!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent("com.example.PROFILE_SAVED");
@@ -131,6 +135,7 @@ add.setOnClickListener(new View.OnClickListener() {
 
                     })
                     .addOnFailureListener(e -> {
+                        Log.e("OwnerProfileActivity", "Failed to save parking details", e);
                         Toast.makeText(OwnerProfileActivity.this, "Failed to save parking details", Toast.LENGTH_SHORT).show();
                     });
             // Go back to previous activity

@@ -56,12 +56,15 @@ public class OwnerHomeFragment extends Fragment {
         cardOwnerUsernameTicketcreate = view.findViewById(R.id.card_owner_username_ticket_create);
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
-        Log.d("OwnerHomeFragment", "Profile completed: " + isProfileSaved);
+        Log.d("OwnerHomeFragment", "onCreateView: Profile completed status = " + isProfileSaved);
+
 
         // Check if the profile is already completed
         if (isProfileSaved) {
+            Log.d("OwnerHomeFragment", "Hiding CardView in onCreateView");
             cardOwnerUsernameTicketcreate.setVisibility(View.GONE);  // Hide the CardView
         } else {
+            Log.d("OwnerHomeFragment", "Showing CardView in onCreateView");
             cardOwnerUsernameTicketcreate.setVisibility(View.VISIBLE); // Show if profile is not completed
         }
 
@@ -203,8 +206,11 @@ public class OwnerHomeFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("com.example.PROFILE_SAVED".equals(intent.getAction())) {
+                Log.d("OwnerHomeFragment", "Broadcast received: PROFILE_SAVED");
                 SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
+
                 editor.putBoolean("profile_completed", true);
                 editor.apply();
 
