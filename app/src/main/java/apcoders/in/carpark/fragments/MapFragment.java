@@ -60,8 +60,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +67,7 @@ import java.util.List;
 import java.util.Locale;
 
 import apcoders.in.carpark.Adapter.SearchAdapter;
-import apcoders.in.carpark.BookingActivity;
+import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.models.ParkingInfo;
 
@@ -249,7 +247,7 @@ private LinearLayout bottomDrawer;
         bookslots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), BookingActivity.class));
+                startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
             }
         });
 
@@ -310,7 +308,6 @@ private LinearLayout bottomDrawer;
         if (bottomNavigationView != null) {
             bottomNavigationView.setVisibility(View.GONE); // Hide BottomNavigationView
         }
-
         if (Map != null) {
             Map.animate().alpha(0f).setDuration(300).withEndAction(() -> Map.setVisibility(View.GONE)).start();
         }
@@ -326,6 +323,8 @@ private LinearLayout bottomDrawer;
         Map.setVisibility(View.VISIBLE);
 
     }
+
+
 
 
 

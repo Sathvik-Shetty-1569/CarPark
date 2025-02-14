@@ -21,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import apcoders.in.carpark.fragments.BookingFragment;
 import apcoders.in.carpark.fragments.HomeFragment;
-
+import apcoders.in.carpark.fragments.MapFragment;
 import apcoders.in.carpark.fragments.ProfileFragment;
 import apcoders.in.carpark.fragments.SearchFragment;
 
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
     private FloatingActionButton floatingActionButton;
     TextView welcom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.home) {
                     loadFragment(new HomeFragment(), false);
                 } else if (itemId == R.id.Search) {
-                        loadFragment(new SearchFragment(), false);
-                    }
-                else if (itemId == R.id.Settings) {
+                    loadFragment(new SearchFragment(), false);
+                } else if (itemId == R.id.Settings) {
                     loadFragment(new BookingFragment(), false);
                 } else {
                     loadFragment(new ProfileFragment(), false);
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new apcoders.in.carpark.fragments.MapFragment(),false);
+                loadFragment(new MapFragment(), false);
             }
         });
 
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.frame_layout, new HomeFragment()) // Replace with the container ID and initial fragment
                     .commit();
         }
-
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -93,9 +92,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.frame_layout, fragment);
-
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0){
+            fragmentManager.popBackStack();
+        } else {
+            super.onBackPressed();
+
+        }
+    }
 
 }

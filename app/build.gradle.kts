@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.filament.android)
     testImplementation(libs.junit)
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.android.gms:play-services-maps:19.0.0")

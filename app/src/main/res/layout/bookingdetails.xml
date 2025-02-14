@@ -10,9 +10,9 @@
         android:layout_width="266dp"
         android:layout_height="48dp"
         android:text="Go back to home screen"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="569dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="569dp" />
 
     <TextView
         android:id="@+id/textViewNewUser"
@@ -23,9 +23,9 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="90dp"
-        tools:layout_editor_absoluteY="531dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="531dp" />
 
     <ImageView
         android:id="@+id/drawerimage"
@@ -37,9 +37,9 @@
         android:elevation="8dp"
         android:padding="5dp"
         android:src="@drawable/drawer_menu"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="41dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="41dp" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -189,6 +189,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="20dp"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -196,14 +197,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.655"
-        tools:ignore="MissingConstraints"
-        android:elevation="20dp">
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/adrees_carno"
             android:layout_width="wrap_content"
-            android:padding="@dimen/_5sdp"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
             android:text="Lekki Gardens carPark ASpace 4c"
             android:textColor="#000000"
             android:textSize="@dimen/_15sdp"
@@ -211,8 +211,6 @@
 
 
     </androidx.cardview.widget.CardView>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

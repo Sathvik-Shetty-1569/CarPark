@@ -3,6 +3,7 @@ package apcoders.in.carpark.fragments;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +18,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.SeeAllVehiclesActivity;
 import apcoders.in.carpark.SettingsActivity;
+import apcoders.in.carpark.Utils.FetchUserData;
 import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.WalletActivity;
 import apcoders.in.carpark.Wishlist_Parking_Areas_Activity;
+import apcoders.in.carpark.models.UserModel;
 import es.dmoral.toasty.Toasty;
 
 public class ProfileFragment extends Fragment {
@@ -31,8 +35,9 @@ public class ProfileFragment extends Fragment {
     private Button getHelpBtn, withdrawBtn;
     private TextView profileUserName, profileEmail, profilePhone, userType, walletBalance;
     private CardView shopCardView;
-    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, myOrdersLayout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, see_vehicles_layout;
+    private LinearLayout profileLogout, totalearning_layout, profileSettings, terms_and_conditionsLayout, profileUpdateLayout, my_booking_layout, wishlistedProductsLayout, communityLayout, rateAppLayout, transactionsLayout, see_vehicles_layout;
     private ImageView userAvatar;
+    TextView profile_user_wallet_amount;
     private LinearLayout realContentView;
 
     String userTypeValue;
@@ -54,10 +59,15 @@ public class ProfileFragment extends Fragment {
 
 //        // Setup UI actions
         setupUIActions();
-        WalletManagement.getBalance(firebaseAuth.getCurrentUser().getUid(), balance -> walletBalance.setText("₹ " + balance));
-
+        WalletManagement.getBalance(firebaseAuth.getCurrentUser().getUid(), new WalletManagement.OnBalanceRetrievedListener() {
+            @Override
+            public void onBalanceRetrieved(Double balance) {
+                walletBalance.setText("₹ " + balance);
+                profile_user_wallet_amount.setText(walletBalance.getText().toString());
+            }
+        });
         // Fetch user data
-//        fetchUserData();
+        FetchUserData();
 
         return view;
     }
@@ -74,9 +84,10 @@ public class ProfileFragment extends Fragment {
         communityLayout = view.findViewById(R.id.community);
         withdrawBtn = view.findViewById(R.id.withdrawBtn);
         wishlistedProductsLayout = view.findViewById(R.id.wishlisted_products_layout);
-        myOrdersLayout = view.findViewById(R.id.my_orders_layout);
+        my_booking_layout = view.findViewById(R.id.my_booking_layout);
         rateAppLayout = view.findViewById(R.id.ratetheapp);
 
+        profile_user_wallet_amount = view.findViewById(R.id.profile_user_wallet_amount);
         profileEmail = view.findViewById(R.id.profile_user_email_text);
         profileUserName = view.findViewById(R.id.profile_user_name_text);
 //        profilePhone = view.findViewById(R.id.profile_user_phone_text);
@@ -97,7 +108,7 @@ public class ProfileFragment extends Fragment {
 //        transactionsLayout.setOnClickListener(v -> openTransactionsFragment());
         profileSettings.setOnClickListener(v -> openSettingsActivity());
         wishlistedProductsLayout.setOnClickListener(v -> openWishlistActivity());
-//        myOrdersLayout.setOnClickListener(v -> openOrdersFragment());
+        my_booking_layout.setOnClickListener(v -> openBookingsFragment());
         profileLogout.setOnClickListener(v -> logout());
 //        terms_and_conditionsLayout.setOnClickListener(v -> startActivity(new Intent(requireActivity(), TermsConditionsActivity.class)));
         see_vehicles_layout.setOnClickListener(v -> openSeeMyVehicles());
@@ -114,7 +125,7 @@ public class ProfileFragment extends Fragment {
 //        startActivity(intent);
     }
 
-//    private void fetchUserData() {
+    //    private void fetchUserData() {
 //        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("UserData", Context.MODE_PRIVATE);
 //        userTypeValue = sharedPreferences.getString("user_type", "");
 //
@@ -129,7 +140,19 @@ public class ProfileFragment extends Fragment {
 //            redirectToLogin();
 //        }
 //    }
+    public void FetchUserData() {
+        FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
+            @Override
+            public void onCallback(UserModel userModel) {
+                if (userModel != null) {
+                    Log.d("TAG", "onCallback: " + userModel.getUserFulName());
+                    profileUserName.setText(userModel.getUserFulName());
+                    profileEmail.setText(userModel.getEmail());
 
+                }
+            }
+        });
+    }
 //    private void fetchFarmerData() {
 //        FetchUserData.getUserData(new FetchUserDataCallback() {
 //            @SuppressLint("SetTextI18n")
@@ -182,16 +205,11 @@ public class ProfileFragment extends Fragment {
 //    }
 //
     private void logout() {
-        new AlertDialog.Builder(requireContext())
-                .setMessage("Are You Sure To LogOut")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    firebaseAuth.signOut();
-                    startActivity(new Intent(requireActivity(), LoginActivity.class));
-                    requireActivity().finish();
-                })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .create()
-                .show();
+        new AlertDialog.Builder(requireContext()).setMessage("Are You Sure To LogOut").setPositiveButton("Yes", (dialog, which) -> {
+            firebaseAuth.signOut();
+            startActivity(new Intent(requireActivity(), LoginActivity.class));
+            requireActivity().finish();
+        }).setNegativeButton("No", (dialog, which) -> dialog.dismiss()).create().show();
     }
 
     private void openHelpLink() {
@@ -212,11 +230,13 @@ public class ProfileFragment extends Fragment {
         startActivity(new Intent(requireActivity(), Wishlist_Parking_Areas_Activity.class));
     }
 
-//    private void openOrdersFragment() {
+    private void openBookingsFragment() {
 //        Fragment fragment = new MyOrdersFragment();
 //        if (getActivity() instanceof FragmentChangeListener) {
 //            ((FragmentChangeListener) getActivity()).changeFragment(fragment, R.id.my_orders);
 //        }
+        startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
+    }
 //
 //        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
 //        transaction.replace(R.id.framelayout, fragment);
