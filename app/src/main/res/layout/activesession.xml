@@ -30,7 +30,6 @@
                     android:layout_width="37dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/history"
                     android:text="Username"

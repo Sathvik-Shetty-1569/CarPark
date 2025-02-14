@@ -122,15 +122,152 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/active_session_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/rounded_background"
+            android:elevation="8dp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/session_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Active Parking Session"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/end_session_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:paddingHorizontal="12dp"
+                android:text="Full Details"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView_complete"
+                    android:layout_width="37dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/history"
+                    android:text="Username"
+                    android:textSize="@dimen/_15sdp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/textview_username_active"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_2sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_19sdp"
+                    android:text="Username" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ParkingArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unique ID: "
+                android:textColor="@android:color/darker_gray"
+                android:layout_gravity="end"
+                android:textSize="@dimen/_14sdp"></TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_15sdp"
+                    android:text="Time Remaining:" />
+
+                <View
+                    android:id="@+id/total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="02:00pm"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/textview_time_remaining"
+                    android:layout_width="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:textStyle="bold"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/_15sdp"
+                    android:text="01hr : 30min" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_items_xml" />
+<!-- <com.google.android.material.navigation.NavigationView-->
+<!--     android:id="@+id/navigation_view"-->
+<!--     android:layout_width="wrap_content"-->
+<!--     android:layout_height="match_parent"-->
+<!--     android:layout_gravity="start"-->
+<!--     app:headerLayout="@layout/drawer_header"-->
+<!--     app:menu="@menu/drawer_items_xml" />-->
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
