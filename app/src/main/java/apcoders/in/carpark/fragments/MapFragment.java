@@ -50,6 +50,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -297,10 +298,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); // Blue color for parking
+                            .icon(BitmapDescriptorFactory.fromResource(R.layout.parkinglogo))); // Blue color for parking
 
                     // Store extra data in marker using a hashmap
-                    marker.setTag(new ParkingInfo(name, slots, amount));
+                    marker.setTag(new ParkingInfo(name, slots, amount, FirebaseAuth.getInstance().getCurrentUser().getUid()));
+
                 }
             }
 

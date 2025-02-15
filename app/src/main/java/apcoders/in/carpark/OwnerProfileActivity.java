@@ -112,6 +112,7 @@ add.setOnClickListener(new View.OnClickListener() {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("parking_areas"); // Root node
 
+
             String name = parkingName.getText().toString().trim();
             String slots = parkingSlots.getText().toString().trim();
             String amount = parkingAmount.getText().toString().trim();
