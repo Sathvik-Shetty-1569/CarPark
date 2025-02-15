@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-
-
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -11,12 +10,14 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" >
+        tools:context=".MapsActivity">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+
             <EditText
                 android:id="@+id/search_location"
                 android:layout_width="match_parent"
@@ -27,19 +28,20 @@
                 android:drawableStart="@android:drawable/ic_menu_search"
                 android:padding="10dp"
                 android:background="@android:color/white"
-                android:elevation="4dp"/>
+                android:elevation="4dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+
             <FrameLayout
                 android:id="@+id/map_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </LinearLayout>
-
     </fragment>
 
     <LinearLayout
@@ -61,15 +63,51 @@
             android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textview_parking"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="Parking Area"
-                android:textSize="@dimen/_22sdp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textview_parking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="Parking Area"
+                    android:textSize="@dimen/_22sdp" />
+
+                <!-- Bookmark Icon Added Here -->
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:id="@+id/bookmarkIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:src="@drawable/mdi__bookmark"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:maxHeight="@dimen/_60sdp"
+                    android:maxWidth="@dimen/_60sdp"
+                    android:focusable="true" />
+                <ImageView
+                    android:id="@+id/bookmarkIconselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:src="@drawable/mdi__bookmark__1_"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -82,10 +120,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/_5sdp"
-
             android:text="Address  oiadwidawdlpadiowadih"
             android:textSize="@dimen/_15sdp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:padding="@dimen/_5sdp"
-                android:text="Space Availabel :"
+                android:text="Space Available :"
                 android:textSize="@dimen/_15sdp" />
 
             <View
@@ -113,10 +150,7 @@
                 android:padding="@dimen/_5sdp"
                 android:text="10"
                 android:textSize="@dimen/_15sdp" />
-
-
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -144,8 +178,6 @@
                 android:padding="@dimen/_5sdp"
                 android:text="300 Rs"
                 android:textSize="@dimen/_15sdp" />
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -176,22 +208,13 @@
                 android:layout_marginLeft="@dimen/_60sdp"
                 android:padding="@dimen/_5sdp"
                 android:src="@drawable/ratings" />
-
-
-
-
         </LinearLayout>
+
         <Button
             android:id="@+id/Bookslots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Book the slots"
-            android:layout_gravity="center"
-            ></Button>
-
+            android:layout_gravity="center" />
     </LinearLayout>
-
-
-
-
 </RelativeLayout>
