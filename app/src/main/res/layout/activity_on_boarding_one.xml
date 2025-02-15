@@ -76,7 +76,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/circle"
-                android:backgroundTint="#6F6E70" /> <!-- Use tint to change color -->
+                android:backgroundTint="#6F6E70" />
 
             <ImageView
                 android:layout_width="10dp"
@@ -84,7 +84,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:background="@drawable/circle"
-                android:backgroundTint="#787779" /> <!-- Use tint to change color -->
+                android:backgroundTint="#787779" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
