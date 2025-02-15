@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.squareup.picasso.Picasso;
+
 import apcoders.in.carpark.Utils.BookingManagement;
 import apcoders.in.carpark.models.BookingDetailsModel;
 
@@ -41,7 +43,7 @@ public class BookingCompleteActivity extends AppCompatActivity {
         textview_checkout = findViewById(R.id.textview_checkout);
         textview_amount_paid = findViewById(R.id.textview_amount_paid);
 
-        textview_amount_paid.setText(getIntent().getStringExtra("AmountPaid"));
+//        textview_amount_paid.setText(getIntent().getStringExtra("AmountPaid"));
 
         back_to_home_screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +63,8 @@ public class BookingCompleteActivity extends AppCompatActivity {
                     parkingAreaNameTextView.setText(getIntent().getStringExtra("ParkingAreaName"));
                     textview_checkin.setText(booking.getStartTime());
                     textview_checkout.setText(booking.getEndTime());
-//                    bookingQRCodeImage.setImageBitmap(booking.get());
-
+                    textview_amount_paid.setText(String.valueOf(booking.getAmountPaid()));
+                    Picasso.get().load(booking.getQrCode()).into(bookingQRCodeImage);
                 } else {
                     startActivity(new Intent(BookingCompleteActivity.this, MainActivity.class));
                     finish();

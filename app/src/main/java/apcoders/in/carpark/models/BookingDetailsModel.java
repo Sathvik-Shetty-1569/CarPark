@@ -103,7 +103,7 @@ public class BookingDetailsModel {
         this.endTime = endTime;
     }
 
-    public double getAmountPaid() {
+    public Double getAmountPaid() {
         return amountPaid;
     }
 

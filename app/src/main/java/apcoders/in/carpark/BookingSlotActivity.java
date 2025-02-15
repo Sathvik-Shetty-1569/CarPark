@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import apcoders.in.carpark.Utils.QRCodeManagement;
 import apcoders.in.carpark.Utils.VehicleManagement;
+import apcoders.in.carpark.Utils.WalletManagement;
 import apcoders.in.carpark.models.BookingDetailsModel;
 import apcoders.in.carpark.models.VehicleModel;
 import es.dmoral.toasty.Toasty;
@@ -52,7 +53,7 @@ public class BookingSlotActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
-    SpinKitView spin_kit ;
+    SpinKitView spin_kit;
     StorageReference storageReference;
     String parkingName, AvailableSlots, Amount;
     BookingDetailsModel booking;
@@ -142,7 +143,7 @@ public class BookingSlotActivity extends AppCompatActivity {
                 startTime = checkInHour + ":" + checkInMinute;
                 endTime = checkOutHour + ":" + checkOutMinute;
                 paymentStatus = "Paid";
-                status = "Active";
+                status = "BOOKED";
                 qrCodeUrl = "";
 
                 booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, "Parking Area Name", status);
@@ -188,8 +189,9 @@ public class BookingSlotActivity extends AppCompatActivity {
 
 
     private void storeBookingDataToFirestore(String bookingId, String qrCodeUrl) {
+        String transactionId = UUID.randomUUID().toString();
         BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, "Parking Area Name", status);
-
+        WalletManagement.debitFromWallet(FirebaseAuth.getInstance().getCurrentUser().getUid(), transactionId, amountPaid, parkingName + " " + bookingTime.substring(0, 16));
         firestore.collection("Bookings").document(bookingId)
                 .set(booking)
                 .addOnSuccessListener(aVoid -> {
