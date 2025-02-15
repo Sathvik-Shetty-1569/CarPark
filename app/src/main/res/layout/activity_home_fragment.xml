@@ -10,91 +10,86 @@
 
     <include layout="@layout/activity_home_content"></include>
 
-    <ScrollView
-        android:layout_marginBottom="80dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/white"
             android:elevation="20dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             tools:ignore="MissingConstraints">
 
 
-                <ImageView
-                    android:id="@+id/drawerimage"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_margin="10dp"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@android:color/transparent"
-                    android:elevation="8dp"
-                    android:padding="5dp"
-                    android:src="@drawable/drawer_menu"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+            <ImageView
+                android:id="@+id/drawerimage"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/transparent"
+                android:elevation="8dp"
+                android:padding="5dp"
+                android:src="@drawable/drawer_menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/Welcomtitle"
-                    android:layout_width="300dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
+            <TextView
+                android:id="@+id/Welcomtitle"
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
 
                 android:text="Welcome"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="23dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Banner_recycleView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginVertical="1dp"
-                android:elevation="10dp"
-                tools:ignore="MissingConstraints" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/Banner_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginVertical="1dp"
+            android:elevation="10dp"
+            tools:ignore="MissingConstraints" />
+
+
+        <LinearLayout
+            android:id="@+id/active_session_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:background="@drawable/rounded_background"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="visible">
+
 
 
             <LinearLayout
-                android:id="@+id/active_session_container"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="@dimen/_25sdp"
-                android:background="@drawable/rounded_background"
-                android:elevation="8dp"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:visibility="visible">
-
-
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/session_status"
@@ -117,16 +112,16 @@
                     android:layout_height="30sp"
                     android:background="@drawable/active" />
 
-    <TextView
-        android:id="@+id/done"
-        android:text="active"
-        android:visibility="gone"
-        android:padding="@dimen/_5sdp"
-        android:textColor="@color/white"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_width="50dp"
-        android:layout_height="30sp"
-        android:background="@drawable/active" />
+                <TextView
+                    android:id="@+id/done"
+                    android:text="active"
+                    android:visibility="gone"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="30sp"
+                    android:background="@drawable/active" />
 
 
 
@@ -151,20 +146,20 @@
                     android:maxHeight="200sp"
                     android:src="@drawable/car_icon" />
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textviewWelcome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="3"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textviewWelcome"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Welcome"
-                            android:textSize="22dp" />
+                        android:text="Welcome"
+                        android:textSize="22dp" />
 
                     <TextView
                         android:id="@+id/textview_username"
@@ -180,16 +175,16 @@
                         android:textColor="#5c40e1"
                         android:textSize="@dimen/_14sdp"></TextView>
 
-                        <!--                <TextView-->
-                        <!--                    android:id="@+id/textview_address"-->
-                        <!--                    android:layout_width="wrap_content"-->
-                        <!--                    android:layout_height="wrap_content"-->
-                        <!--                    android:layout_gravity="center_vertical"-->
-                        <!--                    android:text="Address"-->
-                        <!--                    android:textSize="@dimen/_16sdp" />-->
-                    </LinearLayout>
-
+                    <!--                <TextView-->
+                    <!--                    android:id="@+id/textview_address"-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_gravity="center_vertical"-->
+                    <!--                    android:text="Address"-->
+                    <!--                    android:textSize="@dimen/_16sdp" />-->
                 </LinearLayout>
+
+            </LinearLayout>
 
 
 
@@ -212,13 +207,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
-                <TextView
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:text="Time Remaining:"
-                    android:textSize="@dimen/_15sdp" />
+                    <TextView
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:text="Time Remaining:"
+                        android:textSize="@dimen/_15sdp" />
 
                     <TextView
                         android:id="@+id/session_timer"
@@ -231,7 +226,6 @@
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
 
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -249,60 +243,17 @@
 
 
 
-                </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@android:color/darker_gray" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/imageView_complete"
-                        android:layout_width="37dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/history"
-                        android:text="Username"
-                        android:textSize="17dp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/textview_username_active"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_2sdp"
-                        android:text="Username"
-                        android:textSize="18dp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/ParkingArea"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="Unique ID: "
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/_14sdp"></TextView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@android:color/darker_gray" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <View
                     android:id="@+id/total_time"
@@ -312,305 +263,261 @@
                     android:layout_weight="1"
                     android:text="02:00pm"
                     android:textSize="@dimen/_15sdp" />
-                    <TextView
-                        style="@style/TextAppearance.Material3.BodyLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_5sdp"
-                        android:text="Time Remaining:"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="@dimen/_15sdp" />
 
-                    <View
-                        android:id="@+id/total_time"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="02:00pm"
-                        android:textSize="@dimen/_15sdp" />
-
-                    <TextView
-                        android:id="@+id/session_timer"
-                        style="@style/TextAppearance.Material3.BodyLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="@dimen/_5sdp"
-                        android:text="01hr : 30min"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="@dimen/_15sdp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/home_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Banner_recycleView"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:id="@+id/home_categories"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="Services"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Banner_recycleView"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:id="@+id/equipments_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:text="Services"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                        android:text="NearBy Parkings"
+                        android:textAlignment="center" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/fertilizers_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Wallet"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/seeds_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="My Vehicles"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/my_orders_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:elevation="20dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/white"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Profile"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/add_product_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Boookings"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/see_more_layout"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardCornerRadius="40dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:padding="15dp"
+                                android:src="@drawable/app_logo" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Wishlisted Parkings"
+                        android:textAlignment="center" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/equipments_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="NearBy Parkings"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/fertilizers_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Wallet"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/seeds_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="My Vehicles"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/my_orders_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:elevation="20dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="5dp"
-                                android:backgroundTint="@color/white"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Profile"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/add_product_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="80dp"
-                                    android:layout_height="80dp"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Boookings"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/see_more_layout"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            app:cardCornerRadius="40dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="80dp"
-                                    android:layout_height="80dp"
-                                    android:padding="15dp"
-                                    android:src="@drawable/app_logo" />
-
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Wishlisted Parkings"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-<!--    <com.google.android.material.navigation.NavigationView-->
-<!--        android:id="@+id/navigation_view"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_gravity="start"-->
-<!--        app:headerLayout="@layout/drawer_header"-->
-<!--        app:menu="@menu/drawer_items_xml" />-->
-
-
-  <com.google.android.material.navigation.NavigationView
-      android:id="@+id/navigation_view"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_gravity="start"
-      app:headerLayout="@layout/drawer_header"
-      app:menu="@menu/drawer_items_xml" />
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer_items_xml" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
