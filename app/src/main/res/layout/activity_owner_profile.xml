@@ -51,6 +51,11 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,10 +77,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.215" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_15sdp"
+
         android:layout_marginBottom="@dimen/_12sdp"
         android:text="Username"
         android:textColor="#757F8C"
@@ -93,6 +104,7 @@
         android:layout_height="wrap_content"
         android:text="Username susn"
         android:textColor="@color/black"
+        android:paddingLeft="@dimen/_15sdp"
         android:textSize="@dimen/_17sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -122,6 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_12sdp"
         android:text="Email Address"
+        android:paddingLeft="@dimen/_15sdp"
         android:textColor="#757F8C"
         android:textSize="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,6 +151,7 @@
         android:text="Email Ddda"
         android:textColor="@color/black"
         android:textSize="@dimen/_17sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -165,6 +179,7 @@
         android:text="Parking Area Name "
         android:textColor="#757F8C"
         android:textSize="@dimen/_15sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.039"
@@ -179,6 +194,8 @@
         android:hint="Parking Area"
         android:textColor="@color/black"
         android:textSize="@dimen/_17sdp"
+        android:paddingLeft="@dimen/_15sdp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.033"
@@ -195,6 +212,7 @@
         android:text="No. of Parking slots "
         android:textColor="#757F8C"
         android:textSize="@dimen/_15sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.039"
@@ -210,6 +228,7 @@
         android:textColor="@color/black"
         android:inputType="number"
         android:textSize="@dimen/_17sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.033"
@@ -226,6 +245,7 @@
         android:text="Per Hour Rent Charges"
         android:textColor="#757F8C"
         android:textSize="@dimen/_15sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
@@ -241,6 +261,7 @@
         android:inputType="number"
         android:textColor="@color/black"
         android:textSize="@dimen/_17sdp"
+        android:paddingLeft="@dimen/_15sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.029"
@@ -266,6 +287,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.028"
+        android:paddingLeft="@dimen/_15sdp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.81" />
@@ -275,6 +298,7 @@
         android:layout_height="wrap_content"
         android:hint="Locations oidhawhdaowi"
         android:textColor="@color/black"
+        android:paddingLeft="@dimen/_15sdp"
         android:textSize="@dimen/_17sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -296,6 +320,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.949" />
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

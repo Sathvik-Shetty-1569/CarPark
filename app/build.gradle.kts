@@ -43,6 +43,8 @@ dependencies {
     implementation ("androidx.compose.ui:ui-tooling-preview:1.0.0")
     implementation ("androidx.activity:activity-compose:1.10.0")
     implementation(libs.firebase.auth)
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+
     implementation ("com.google.android.libraries.places:places:3.2.0")
     implementation("com.razorpay:checkout:1.6.41")
     implementation(libs.firebase.firestore)
