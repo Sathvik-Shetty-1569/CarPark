@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/onboarding_heading_text"
         android:layout_marginVertical="30dp"
-        android:text="Lorem ipsum dolor sit amet,\n consectetur adipiscing elit,Lorem ipsum dolor sit amet,\n consectetur adipiscing elit"
+        android:text="Discover the Best Parking Spots near you with CarPark! \n Say goodbye to circling the block and \n hello to hassle-free parking. 🚗✨"
         android:textAlignment="center" />
 
     <RelativeLayout
@@ -53,7 +53,7 @@
             android:id="@+id/skipOnBoarding"
             android:layout_alignParentStart="true"
             android:textAlignment="textStart"
-            android:textColor="#6546B2"
+            android:textColor="#5c40e1"
             android:textSize="16dp"
             android:textStyle="bold" />
 
@@ -63,27 +63,28 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <View
+            <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:background="#613eea" />
+                android:background="@drawable/circle" />
 
-            <View
+            <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:background="#6F6E70" />
+                android:background="@drawable/circle"
+                android:backgroundTint="#6F6E70" />
 
-            <View
+            <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:background="#787779" />
-
+                android:background="@drawable/circle"
+                android:backgroundTint="#787779" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -92,7 +93,7 @@
             android:id="@+id/btnNextTextView"
             android:layout_alignParentEnd="true"
             android:textAlignment="textStart"
-            android:textColor="#613eea"
+            android:textColor="#5c40e1"
             android:textSize="16dp"
             android:textStyle="bold" />
     </RelativeLayout>

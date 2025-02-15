@@ -22,15 +22,15 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@color/white"
-                android:elevation="20dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            android:elevation="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints">
 
 
                 <ImageView
@@ -60,11 +60,11 @@
                     android:gravity="center_vertical"
                     android:singleLine="true"
 
-                    android:text="Welcome"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="23dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:text="Welcome"
+                android:textColor="@color/white"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/Banner_recycleView"

@@ -33,6 +33,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+
 import es.dmoral.toasty.Toasty;
 //
 //import com.github.ybq.android.spinkit.sprite.Sprite;
@@ -49,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edEmail, edPassowrd;
     TextView tv;
     Button btn;
-    String UserType="User";
+    String UserType = "User";
     FirebaseAuth firebaseAuth;
     RadioGroup radioGroup;
     FirebaseFirestore firebaseFirestore;
@@ -62,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
+        // Initialize Firebase and other components
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseFirestore.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
@@ -76,26 +81,41 @@ public class LoginActivity extends AppCompatActivity {
         btn = findViewById(R.id.buttonLogin);
         radioGroup = findViewById(R.id.radioGroup);
 
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.spin_kit);
+        ProgressBar progressBar = findViewById(R.id.spin_kit);
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
+
         SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
         UserType = sharedPreferences.getString("UserType", "User"); // Default: Normal User
         setRadioButtons();
         isLogin();
-        sharedPreferences = getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
+        // Check if user is already logged in
         try {
             if (firebaseAuth.getCurrentUser().getUid() != null) {
-                // If already logged in, skip login and go to HomeActivity
                 navigateToHome();
-
             }
         } catch (Exception exception) {
-
+            // Handle exception
         }
 
+        // Style the "then register" part of the text in blue
+        String fullText = "If not signed in, then register.";
+        SpannableString spannableString = new SpannableString(fullText);
+        int startIndex = fullText.indexOf("then register");
+        int endIndex = startIndex + "then register".length();
+        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(spannableString);
 
+        // Set click listener for the "then register" text
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), Register.class));
+            }
+        });
+
+        // Set click listener for the login button
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,22 +126,20 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     progressBar.setVisibility(View.GONE);
                     btn.setEnabled(true);
-                    Toasty.error(LoginActivity.this, "Fill All The Filed", Toasty.LENGTH_LONG).show();
+                    Toasty.error(LoginActivity.this, "Fill All The Fields", Toasty.LENGTH_LONG).show();
                 } else {
                     UserscollectionReference.whereEqualTo("email", email.toLowerCase()).whereEqualTo("userRole", UserType).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                Log.d("TAG", "onComplete: " + task.getResult().getDocuments().size());
                                 if (task.getResult().getDocuments().size() > 0) {
                                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()) {
-
                                                 progressBar.setVisibility(View.GONE);
                                                 btn.setEnabled(true);
-                                                Toasty.success(LoginActivity.this, "LoginActivity Successful", Toasty.LENGTH_LONG).show();
+                                                Toasty.success(LoginActivity.this, "Login Successful", Toasty.LENGTH_LONG).show();
 
                                                 SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
                                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -131,22 +149,18 @@ public class LoginActivity extends AppCompatActivity {
                                                     editor.putBoolean("isLoggedIn", true);
                                                     editor.putString("UserType", UserType);
                                                     editor.apply();
-                                                    editor.commit();
                                                     i.putExtra("UserType", UserType);
                                                     startActivity(i);
                                                     finish();
-                                                } else if(UserType.equals("ParkingOwner")) {
+                                                } else if (UserType.equals("ParkingOwner")) {
                                                     Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
                                                     editor.putBoolean("isLoggedIn", true);
                                                     editor.putString("UserType", UserType);
                                                     editor.apply();
-                                                    editor.commit();
                                                     i.putExtra("UserType", UserType);
                                                     startActivity(i);
                                                     finish();
                                                 }
-//                                                navigateToHome(); // Navigate based on updated UserType
-
                                             }
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
@@ -176,14 +190,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Register.class));
-            }
-        });
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -192,16 +198,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHome() {
-        SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-        editor.putString("UserType", UserType);
-        i.putExtra("UserType", UserType);
-        startActivity(i);
-        finish();
-
     }
 
+    private void isLogin() {
+    }
 
     private void setRadioButtons() {
 
@@ -233,28 +233,4 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    public void isLogin() {
-        SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        try {
-            if (firebaseAuth.getCurrentUser().getUid() != null) {
-                if (UserType.equals("User")) {
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    i.putExtra("UserType", UserType);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
-                    i.putExtra("UserType", UserType);
-                    startActivity(i);
-                    finish();
-                }
-
-            }
-        } catch (Exception exception) {
-
-        }
-    }
-
 }

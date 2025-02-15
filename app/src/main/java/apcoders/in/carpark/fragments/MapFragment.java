@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -84,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private RecyclerView recyclerView;
     private PlacesClient placesClient;
     private AutocompleteSessionToken sessionToken;
-    private apcoders.in.carpark.Adapter.SearchAdapter searchAdapter;
+    private SearchAdapter searchAdapter;
     private List<String> suggestionList = new ArrayList<>();
     private Button bookslots;
     String name;
@@ -98,6 +100,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     String parkingName, AvailableSlots, Amount;
     private LinearLayout bottomDrawer;
     private TextView parkingArea, address, spaceSlot, chargesPerHour;
+    private ImageView bookmarkIcon,getBookmarkIcon; // Added bookmark icon
+    private boolean isBookmarked = false; // Track bookmark state
 
     @Nullable
     @Override
@@ -123,8 +127,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         spaceSlot = view.findViewById(R.id.textview_space_Slot);
         chargesPerHour = view.findViewById(R.id.chargesperhour);
         ImageView ratings = view.findViewById(R.id.ratings);
+        bookmarkIcon = view.findViewById(R.id.bookmarkIcon); // Initialize bookmark icon
+        getBookmarkIcon = view.findViewById(R.id.bookmarkIconselected);
+
         initializeUI(view);
         setupSearchFunctionality();
+
+        // Bookmark icon click listener
+        bookmarkIcon.setOnClickListener(v -> toggleWishlist());
+        getBookmarkIcon.setOnClickListener(v -> toggleWishlist());
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -168,7 +179,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void afterTextChanged(Editable editable) {
             }
         });
-
 
         // Load the map
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -248,8 +258,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
             return false;
         });
-
-
     }
 
     private void initializeUI(View view) {
@@ -266,8 +274,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         searchAdapter = new SearchAdapter(suggestionList, this::searchPlace);
         recyclerView.setAdapter(searchAdapter);
-
-//        bookslots.setOnClickListener(v -> startActivity(new Intent(requireActivity(), BookingSlotActivity.class)));
     }
 
     private void setupSearchFunctionality() {
@@ -303,18 +309,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Map.animate().alpha(0f).setDuration(300).withEndAction(() -> Map.setVisibility(GONE)).start();
         }
 
-
         parkingArea.setText(locationName);
         address.setText("Address: " + locationName);
         spaceSlot.setText("Available Slots: " + slots);
         chargesPerHour.setText(amount);
 
         Log.d("BottomSheet", "Updated with: " + locationName);
-        bottomDrawer.setVisibility(VISIBLE);
-        Map.setVisibility(VISIBLE);
-
+        bottomDrawer.setVisibility(View.VISIBLE);
+        Map.setVisibility(View.VISIBLE);
     }
 
+    private void toggleWishlist() {
+        if (isBookmarked) {
+            // Show black wishlist, hide purple
+            getBookmarkIcon.setVisibility(View.GONE);
+            bookmarkIcon.setVisibility(View.VISIBLE);
+        } else {
+            // Show purple wishlist with pop effect, hide black
+            bookmarkIcon.setVisibility(View.GONE);
+            getBookmarkIcon.setVisibility(View.VISIBLE);
+            applyPopAnimation(getBookmarkIcon);
+        }
+        isBookmarked = !isBookmarked; // Toggle state
+    }
+
+    private void applyPopAnimation(View view) {
+        ScaleAnimation popAnim = new ScaleAnimation(
+                0.8f, 1.2f,  // Scale X from 0.8 to 1.2
+                0.8f, 1.2f,  // Scale Y from 0.8 to 1.2
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        popAnim.setDuration(200); // Animation duration
+        popAnim.setFillAfter(true);
+        view.startAnimation(popAnim);
+    }
 
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -379,7 +407,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    // If location is null, center the map around the first parking location
     private void moveCameraToCurrentLocation() {
         if (currentLocation != null) {
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -468,9 +495,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
     }
-
 
     private double calculateDistance(LatLng latLng1, LatLng latLng2) {
         double earthRadius = 6371; // Earth's radius in km

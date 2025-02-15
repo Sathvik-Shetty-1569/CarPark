@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/onboarding_heading_text"
         android:layout_marginVertical="30dp"
-        android:text="Lorem ipsum dolor sit amet,\n consectetur adipiscing elit,Lorem ipsum dolor sit amet,\n consectetur adipiscing elit"
+        android:layout_marginTop="16dp"
+        android:text= "Say goodbye to parking hassles with *Easy Payment*! \n Securely pay for your spot in just a few taps \n and enjoy seamless exits. 💳✨"
         android:textAlignment="center" />
 
     <com.google.android.material.button.MaterialButton
