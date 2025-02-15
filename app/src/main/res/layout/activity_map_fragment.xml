@@ -44,177 +44,177 @@
         </LinearLayout>
     </fragment>
 
-    <LinearLayout
-        android:id="@+id/showdrawerbottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/bottomdrawer"
-        android:orientation="vertical"
-        android:padding="@dimen/_10sdp">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/showdrawerbottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginStart="0dp"-->
+<!--        android:layout_marginEnd="0dp"-->
+<!--        android:background="@drawable/bottomdrawer"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="@dimen/_10sdp">-->
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/textview_parking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_5sdp"
-                    android:text="Parking Area"
-                    android:textSize="@dimen/_22sdp" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textview_parking"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:padding="@dimen/_5sdp"-->
+<!--                    android:text="Parking Area"-->
+<!--                    android:textSize="@dimen/_22sdp" />-->
 
-                <!-- Bookmark Icon Added Here -->
+<!--                &lt;!&ndash; Bookmark Icon Added Here &ndash;&gt;-->
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-                <ImageView
-                    android:id="@+id/bookmarkIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:src="@drawable/mdi__bookmark"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:clickable="true"
-                    android:maxHeight="@dimen/_60sdp"
-                    android:maxWidth="@dimen/_60sdp"
-                    android:focusable="true" />
-                <ImageView
-                    android:id="@+id/bookmarkIconselected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:src="@drawable/mdi__bookmark__1_"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:clickable="true"
-                    android:focusable="true" />
+<!--                <View-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/bookmarkIcon"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="120dp"-->
+<!--                    android:src="@drawable/mdi__bookmark"-->
+<!--                    android:layout_marginTop="@dimen/_10sdp"-->
+<!--                    android:clickable="true"-->
+<!--                    android:maxHeight="@dimen/_60sdp"-->
+<!--                    android:maxWidth="@dimen/_60sdp"-->
+<!--                    android:focusable="true" />-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/bookmarkIconselected"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="120dp"-->
+<!--                    android:src="@drawable/mdi__bookmark__1_"-->
+<!--                    android:layout_marginTop="@dimen/_10sdp"-->
+<!--                    android:clickable="true"-->
+<!--                    android:focusable="true" />-->
 
 
-            </LinearLayout>
-        </LinearLayout>
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="@android:color/darker_gray" />-->
 
-        <TextView
-            android:id="@+id/Address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_5sdp"
-            android:text="Address  oiadwidawdlpadiowadih"
-            android:textSize="@dimen/_15sdp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/Address"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="@dimen/_5sdp"-->
+<!--            android:text="Address  oiadwidawdlpadiowadih"-->
+<!--            android:textSize="@dimen/_15sdp"-->
+<!--            android:textStyle="bold" />-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="Space Available :"
-                android:textSize="@dimen/_15sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:text="Space Available :"-->
+<!--                android:textSize="@dimen/_15sdp" />-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1" />-->
 
-            <TextView
-                android:id="@+id/textview_space_Slot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="10"
-                android:textSize="@dimen/_15sdp" />
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/textview_space_Slot"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:text="10"-->
+<!--                android:textSize="@dimen/_15sdp" />-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="Charges Per Hour:"
-                android:textSize="@dimen/_15sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:text="Charges Per Hour:"-->
+<!--                android:textSize="@dimen/_15sdp" />-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1" />-->
 
-            <TextView
-                android:id="@+id/chargesperhour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="300 Rs"
-                android:textSize="@dimen/_15sdp" />
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/chargesperhour"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:text="300 Rs"-->
+<!--                android:textSize="@dimen/_15sdp" />-->
+<!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/_5sdp"
-                android:text="Ratings : "
-                android:textSize="@dimen/_15sdp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:text="Ratings : "-->
+<!--                android:textSize="@dimen/_15sdp" />-->
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1" />-->
 
-            <ImageView
-                android:id="@+id/ratings"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_28sdp"
-                android:layout_gravity="end"
-                android:maxWidth="@dimen/_10sdp"
-                android:maxHeight="@dimen/_5sdp"
-                android:layout_marginLeft="@dimen/_60sdp"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ratings" />
-        </LinearLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/ratings"-->
+<!--                android:layout_width="@dimen/_100sdp"-->
+<!--                android:layout_height="@dimen/_28sdp"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:maxWidth="@dimen/_10sdp"-->
+<!--                android:maxHeight="@dimen/_5sdp"-->
+<!--                android:layout_marginLeft="@dimen/_60sdp"-->
+<!--                android:padding="@dimen/_5sdp"-->
+<!--                android:src="@drawable/ratings" />-->
+<!--        </LinearLayout>-->
 
-        <Button
-            android:id="@+id/Bookslots"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Book the slots"
-            android:layout_gravity="center" />
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/Bookslots"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Book the slots"-->
+<!--            android:layout_gravity="center" />-->
+<!--    </LinearLayout>-->
 </RelativeLayout>

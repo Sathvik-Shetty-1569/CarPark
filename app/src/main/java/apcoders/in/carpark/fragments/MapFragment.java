@@ -7,6 +7,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,6 +36,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +52,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -104,10 +109,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     List<Uri> parkingUrlListUri = new ArrayList<>();
     List<String> parkingUrlListString = new ArrayList<>();
     String parkingName, AvailableSlots, Amount;
-    private LinearLayout bottomDrawer;
-    private TextView parkingArea, address, spaceSlot, chargesPerHour;
-    private ImageView bookmarkIcon,getBookmarkIcon; // Added bookmark icon
-    private boolean isBookmarked = false; // Track bookmark state
+//    private LinearLayout bottomDrawer;
+//    private TextView parkingArea, address, spaceSlot, chargesPerHour;
+//    private ImageView bookmarkIcon,getBookmarkIcon; // Added bookmark icon
+//    private boolean isBookmarked = false; // Track bookmark state
 
     @Nullable
     @Override
@@ -124,24 +129,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         recyclerView.setAdapter(searchAdapter);
         // Initialize fused location provider
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
-        bottomDrawer.setVisibility(GONE); // Initially hide it
+//        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
+//        bottomDrawer.setVisibility(GONE); // Initially hide it
         searchLocation = view.findViewById(R.id.search_location);
-        parkingArea = view.findViewById(R.id.textview_parking);
-        address = view.findViewById(R.id.Address);
-        bookslots = view.findViewById(R.id.Bookslots);
-        spaceSlot = view.findViewById(R.id.textview_space_Slot);
-        chargesPerHour = view.findViewById(R.id.chargesperhour);
-        ImageView ratings = view.findViewById(R.id.ratings);
-        bookmarkIcon = view.findViewById(R.id.bookmarkIcon); // Initialize bookmark icon
-        getBookmarkIcon = view.findViewById(R.id.bookmarkIconselected);
+//        parkingArea = view.findViewById(R.id.textview_parking);
+//        address = view.findViewById(R.id.Address);
+//        bookslots = view.findViewById(R.id.Bookslots);
+//        spaceSlot = view.findViewById(R.id.textview_space_Slot);
+//        chargesPerHour = view.findViewById(R.id.chargesperhour);
+//        ImageView ratings = view.findViewById(R.id.ratings);
+//        bookmarkIcon = view.findViewById(R.id.bookmarkIcon); // Initialize bookmark icon
+//        getBookmarkIcon = view.findViewById(R.id.bookmarkIconselected);
 
         initializeUI(view);
         setupSearchFunctionality();
 
         // Bookmark icon click listener
-        bookmarkIcon.setOnClickListener(v -> toggleWishlist());
-        getBookmarkIcon.setOnClickListener(v -> toggleWishlist());
+//        bookmarkIcon.setOnClickListener(v -> toggleWishlist());
+//        getBookmarkIcon.setOnClickListener(v -> toggleWishlist());
 
         searchLocation.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -160,16 +165,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return false;
         });
 
-        bookslots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(requireActivity(), BookingSlotActivity.class);
-                i.putExtra("parkingName", parkingName);
-                i.putExtra("AvailableSlots", AvailableSlots);
-                i.putExtra("Amount", Amount);
-                startActivity(i);
-            }
-        });
+//        bookslots.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(requireActivity(), BookingSlotActivity.class);
+//                i.putExtra("parkingName", parkingName);
+//                i.putExtra("AvailableSlots", AvailableSlots);
+//                i.putExtra("Amount", Amount);
+//                startActivity(i);
+//            }
+//        });
 
         searchLocation.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,7 +227,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 for (String url : info.getParkingAreaImagesUrl()) {
                     parkingUrlListUri.add(Uri.parse(url));
                 }
-                updateBottomSheet(info.getName(), Integer.parseInt(info.getSlots()), info.getAmount());
+//                updateBottomSheet(info.getName(), Integer.parseInt(info.getSlots()), info.getAmount());
                 View ParkingAreaBottomView = LayoutInflater.from(requireActivity()).inflate(R.layout.bottom_parking_details, null, false);
 
                 ImageView product_image_add_image = ParkingAreaBottomView.findViewById(R.id.product_image_add_image);
@@ -260,21 +265,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 ParkignbottomSheetDialog.setContentView(ParkingAreaBottomView);
                 ParkignbottomSheetDialog.show();
             } else {
-                bottomDrawer.setVisibility(GONE);
+//                bottomDrawer.setVisibility(GONE);
             }
             return false;
         });
     }
 
     private void initializeUI(View view) {
-        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
-        bottomDrawer.setVisibility(GONE);
+//        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
+//        bottomDrawer.setVisibility(GONE);
         searchLocation = view.findViewById(R.id.search_location);
-        parkingArea = view.findViewById(R.id.textview_parking);
-        address = view.findViewById(R.id.Address);
-        bookslots = view.findViewById(R.id.Bookslots);
-        spaceSlot = view.findViewById(R.id.textview_space_Slot);
-        chargesPerHour = view.findViewById(R.id.chargesperhour);
+//        parkingArea = view.findViewById(R.id.textview_parking);
+//        address = view.findViewById(R.id.Address);
+//        bookslots = view.findViewById(R.id.Bookslots);
+//        spaceSlot = view.findViewById(R.id.textview_space_Slot);
+//        chargesPerHour = view.findViewById(R.id.chargesperhour);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -303,41 +308,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+//
+//    private void updateBottomSheet(String locationName, int slots, String amount) {
+//        if (getView() == null) return;
+//        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+//        FloatingActionButton Map = getActivity().findViewById(R.id.Map);
+//        if (bottomNavigationView != null) {
+//            bottomNavigationView.setVisibility(GONE); // Hide BottomNavigationView
+//        }
+//        if (Map != null) {
+//            Map.animate().alpha(0f).setDuration(300).withEndAction(() -> Map.setVisibility(GONE)).start();
+//        }
+//
+//        parkingArea.setText(locationName);
+//        address.setText("Address: " + locationName);
+//        spaceSlot.setText("Available Slots: " + slots);
+//        chargesPerHour.setText(amount);
+//
+//        Log.d("BottomSheet", "Updated with: " + locationName);
+//        bottomDrawer.setVisibility(View.VISIBLE);
+//        Map.setVisibility(View.VISIBLE);
+//    }
 
-    private void updateBottomSheet(String locationName, int slots, String amount) {
-        if (getView() == null) return;
-        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
-        FloatingActionButton Map = getActivity().findViewById(R.id.Map);
-        if (bottomNavigationView != null) {
-            bottomNavigationView.setVisibility(GONE); // Hide BottomNavigationView
-        }
-        if (Map != null) {
-            Map.animate().alpha(0f).setDuration(300).withEndAction(() -> Map.setVisibility(GONE)).start();
-        }
-
-        parkingArea.setText(locationName);
-        address.setText("Address: " + locationName);
-        spaceSlot.setText("Available Slots: " + slots);
-        chargesPerHour.setText(amount);
-
-        Log.d("BottomSheet", "Updated with: " + locationName);
-        bottomDrawer.setVisibility(View.VISIBLE);
-        Map.setVisibility(View.VISIBLE);
-    }
-
-    private void toggleWishlist() {
-        if (isBookmarked) {
-            // Show black wishlist, hide purple
-            getBookmarkIcon.setVisibility(View.GONE);
-            bookmarkIcon.setVisibility(View.VISIBLE);
-        } else {
-            // Show purple wishlist with pop effect, hide black
-            bookmarkIcon.setVisibility(View.GONE);
-            getBookmarkIcon.setVisibility(View.VISIBLE);
-            applyPopAnimation(getBookmarkIcon);
-        }
-        isBookmarked = !isBookmarked; // Toggle state
-    }
+//    private void toggleWishlist() {
+//        if (isBookmarked) {
+//            // Show black wishlist, hide purple
+//            getBookmarkIcon.setVisibility(View.GONE);
+////            bookmarkIcon.setVisibility(View.VISIBLE);
+//        } else {
+//            // Show purple wishlist with pop effect, hide black
+////            bookmarkIcon.setVisibility(View.GONE);
+//            getBookmarkIcon.setVisibility(View.VISIBLE);
+//            applyPopAnimation(getBookmarkIcon);
+//        }
+//        isBookmarked = !isBookmarked; // Toggle state
+//    }
     private void requestNewLocationData() {
 
         com.google.android.gms.location.LocationRequest locationRequest = com.google.android.gms.location.LocationRequest.create();
@@ -431,7 +436,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(name)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.park_logo))); // Blue color for parking
+                            .icon(bitmapDescriptorFromVector(requireContext(), R.drawable.park_logo)));
 
 
                     // Store extra data in marker using ParkingInfo model
@@ -489,6 +494,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             recyclerView.setVisibility(VISIBLE);
         });
     }
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        int width = 100;  // Set your desired width
+        int height = 100; // Set your desired height
+
+        vectorDrawable.setBounds(0, 0, width, height);
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 
     private void searchPlace(String location) {
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
