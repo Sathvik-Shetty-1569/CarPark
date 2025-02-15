@@ -298,7 +298,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(name)
-                            .icon(BitmapDescriptorFactory.fromResource(R.layout.parkinglogo))); // Blue color for parking
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.park_logo))); // Blue color for parking
 
                     // Store extra data in marker using a hashmap
                     marker.setTag(new ParkingInfo(name, slots, amount, FirebaseAuth.getInstance().getCurrentUser().getUid()));
