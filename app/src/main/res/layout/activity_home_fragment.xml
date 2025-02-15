@@ -89,25 +89,67 @@
                 android:padding="16dp"
                 android:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
 
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="25sp"
-                        android:layout_marginRight="18dp"
-                        android:layout_weight="1"
-                        android:maxHeight="200sp"
-                        android:src="@drawable/car_icon" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/session_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:text="Active Parking Session"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/active"
+                    android:text="active"
+                    android:padding="@dimen/_5sdp"
+                    android:visibility="visible"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="50dp"
+                    android:layout_height="30sp"
+                    android:background="@drawable/active" />
+
+    <TextView
+        android:id="@+id/done"
+        android:text="active"
+        android:visibility="gone"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_width="50dp"
+        android:layout_height="30sp"
+        android:background="@drawable/active" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="18dp"
+                    android:maxHeight="200sp"
+                    android:src="@drawable/car_icon" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -124,13 +166,19 @@
                             android:text="Welcome"
                             android:textSize="22dp" />
 
-                        <TextView
-                            android:id="@+id/textview_username"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="Atul D. Dubaal"
-                            android:textSize="19dp" />
+                    <TextView
+                        android:id="@+id/textview_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Atul D. Dubaal"
+                        android:textSize="19dp" />
+                    <TextView
+                        android:id="@+id/ParkingArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unique ID: "
+                        android:textColor="#5c40e1"
+                        android:textSize="@dimen/_14sdp"></TextView>
 
                         <!--                <TextView-->
                         <!--                    android:id="@+id/textview_address"-->
@@ -143,43 +191,70 @@
 
                 </LinearLayout>
 
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:src="@drawable/alarm"
+                    android:contentDescription="Timer Icon" />
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    >
+                <TextView
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:text="Time Remaining:"
+                    android:textSize="@dimen/_15sdp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/session_timer"
+                        style="@style/TextAppearance.Material3.BodyLarge"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/session_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:text="Active Parking Session"
-                            android:textColor="@color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                        android:layout_gravity=""
+                        android:text="01hr : 30min"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold" />
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/end_session_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_button"
-                        android:text="Full Details"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/end_session_button"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Full Details"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="8sp" />
+
 
 
                 </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -229,6 +304,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                <View
+                    android:id="@+id/total_time"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="02:00pm"
+                    android:textSize="@dimen/_15sdp" />
                     <TextView
                         style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="wrap_content"
@@ -287,6 +370,10 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
+
+
+    </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -515,6 +602,15 @@
 <!--        android:layout_gravity="start"-->
 <!--        app:headerLayout="@layout/drawer_header"-->
 <!--        app:menu="@menu/drawer_items_xml" />-->
+
+
+  <com.google.android.material.navigation.NavigationView
+      android:id="@+id/navigation_view"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      app:headerLayout="@layout/drawer_header"
+      app:menu="@menu/drawer_items_xml" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -7,13 +7,15 @@
 
     <item
         android:id="@+id/wallet"
-        android:icon="@drawable/wallet"
-        android:title="Wallet" />
+        android:icon="@drawable/line_md__email"
+        android:title="Incoming Rides" />
+
+
 
     <item
         android:id="@+id/addlocation"
-        android:icon="@drawable/location_pin_svgrepo_com"
-        android:title="Marker" />
+        android:icon="@drawable/ic__baseline_history"
+        android:title="History" />
 
     <item
         android:id="@+id/Settings"

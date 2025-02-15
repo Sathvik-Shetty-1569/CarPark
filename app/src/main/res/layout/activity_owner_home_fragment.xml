@@ -21,8 +21,6 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:foregroundGravity="top"
-            android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +58,22 @@
                 android:text="Welcome"
                 android:textSize="25dp"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+
+
+            <ImageView
+                android:id="@+id/notification"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:src="@drawable/notifications_circle_sharp_svgrepo_com" />
+
         </LinearLayout>
 
 
@@ -68,9 +82,11 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_owner_username_ticket_create"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="158dp"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+
             android:visibility="visible"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp"
@@ -323,14 +339,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-   <com.google.android.material.navigation.NavigationView
-          android:id="@+id/navigation_view"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:layout_gravity="start"
-          app:headerLayout="@layout/drawer_header"
-          app:menu="@menu/drawer_items_xml"
-       />
+<!--   <com.google.android.material.navigation.NavigationView-->
+<!--          android:id="@+id/navigation_view"-->
+<!--          android:layout_width="wrap_content"-->
+<!--          android:layout_height="match_parent"-->
+<!--          android:layout_gravity="start"-->
+<!--          app:headerLayout="@layout/drawer_header"-->
+<!--          app:menu="@menu/drawer_items_xml"-->
+<!--       />-->
 
 
 

@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -37,7 +38,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -332,6 +338,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
         isBookmarked = !isBookmarked; // Toggle state
     }
+    private void requestNewLocationData() {
+
+        com.google.android.gms.location.LocationRequest locationRequest = com.google.android.gms.location.LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000); // 5 seconds interval
+        locationRequest.setFastestInterval(2000);
+
+
+        LocationCallback locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult != null && !locationResult.getLocations().isEmpty()) {
+                    Location newLocation = locationResult.getLocations().get(0);
+                    currentLocation = newLocation;
+                    moveCameraToCurrentLocation();
+
+                    // Stop location updates once we get a location
+                    fusedLocationProviderClient.removeLocationUpdates(this);
+                }
+            }
+
+            @Override
+            public void onLocationAvailability(LocationAvailability locationAvailability) {
+                if (!locationAvailability.isLocationAvailable()) {
+                    Toast.makeText(requireContext(), "Unable to get location. Check GPS settings.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        }
+    }
+
 
     private void applyPopAnimation(View view) {
         ScaleAnimation popAnim = new ScaleAnimation(
@@ -349,19 +389,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
+            Task<Location> task = fusedLocationProviderClient.getLastLocation();
+            task.addOnSuccessListener(location -> {
                 if (location != null) {
                     currentLocation = location;
                     moveCameraToCurrentLocation();
                 } else {
-                    Toast.makeText(requireContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();
+                    // Request new location data if last known location is null
+                    requestNewLocationData();
                 }
-            }
-        });
-    }
+            });
+        }
 
     private void addParkingMarkers() {
 
@@ -393,7 +431,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(location)
                             .title(name)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))); // Blue color for parking
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.park_logo))); // Blue color for parking
+
 
                     // Store extra data in marker using ParkingInfo model
                     marker.setTag(new ParkingInfo(name, slots, amount, FirebaseAuth.getInstance().getCurrentUser().getUid(), latitude, longitude, locaddress, parkingUrlListString));

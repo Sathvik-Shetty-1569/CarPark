@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class OwnerHomeFragment extends Fragment {
     FirebaseUser user;
     FirebaseAuth auth;
     TextView welcom;
+    ImageView notification;
     CardView cardOwnerUsernameTicketcreate;
     private SharedPreferences sharedPreferences;
     private DatabaseReference databaseReference;
@@ -58,10 +60,7 @@ public class OwnerHomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
-        CardView cardNotification = view.findViewById(R.id.cardNotification);
-        CardView cardRides = view.findViewById(R.id.CardViewRides);
-        CardView cardHistory = view.findViewById(R.id.cardhistory);
-        CardView cardPolice = view.findViewById(R.id.cardpolice);
+        notification = view.findViewById(R.id.notification);
         parking = view.findViewById(R.id.textview_parking);
         address = view.findViewById(R.id.textview_address);
         databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
@@ -84,19 +83,6 @@ public class OwnerHomeFragment extends Fragment {
         });
 
 
-        cardRides.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), IncomingRides.class));
-            }
-        });
-
-        cardRides.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(requireActivity(), HistoryActivity.class));
-            }
-        });
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
@@ -148,6 +134,7 @@ public class OwnerHomeFragment extends Fragment {
                 }
             }
         });
+
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
