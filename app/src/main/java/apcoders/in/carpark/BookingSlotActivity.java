@@ -1,21 +1,27 @@
 package apcoders.in.carpark;
+import android.view.animation.AlphaAnimation;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+
+import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,9 +56,11 @@ public class BookingSlotActivity extends AppCompatActivity {
     String bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, paymentStatus, qrCodeUrl, status;
     double amountPaid;
     FirebaseAuth firebaseAuth;
+    private View blurView;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
     SpinKitView spin_kit ;
+    private RelativeLayout mainContent;
     StorageReference storageReference;
     String parkingName, AvailableSlots, Amount;
     BookingDetailsModel booking;
@@ -67,15 +75,9 @@ public class BookingSlotActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_booking_slot);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         setVehicleNumberSelectBox();
-
         spin_kit = findViewById(R.id.spin_kit);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -96,6 +98,9 @@ public class BookingSlotActivity extends AppCompatActivity {
         parkingAreaNameTextView.setText(parkingName);
         amountPaidTextView.setText(Amount);
         confirmBookingBtn = findViewById(R.id.confirmBookingBtn);
+
+
+
 
         checkinTimeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,6 +276,17 @@ public class BookingSlotActivity extends AppCompatActivity {
                         checkoutTimeTextView.setText(formattedTime);
                     }
 
+                    if (!checkinTimeTextView.getText().toString().isEmpty() &&
+                            !checkoutTimeTextView.getText().toString().isEmpty()) {
+
+                        amountPaid = calculateParkingAmount(
+                                Double.parseDouble(Amount),
+                                checkinTimeTextView.getText().toString(),
+                                checkoutTimeTextView.getText().toString()
+                        );
+
+                        amountPaidTextView.setText(String.valueOf(Math.abs(amountPaid))); // Ensures the value is always positive
+                    }
                     // ✅ Calculate only after both times are set
 
                 }, hour, minute, false); // false for 12-hour format
@@ -278,27 +294,51 @@ public class BookingSlotActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    public static double calculateParkingAmount(double amountPerHour, String startTime, String endTime) {
+    public double calculateParkingAmount(double amountPerHour, String checkIn, String checkOut) {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a"); // Time format (12-hour with AM/PM)
 
         try {
-            Date startDate = sdf.parse(startTime);
-            Date endDate = sdf.parse(endTime);
+            Date checkInTime = sdf.parse(checkIn);
+            Date checkOutTime = sdf.parse(checkOut);
 
-            // Calculate the difference in minutes
-            long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(endDate.getTime() - startDate.getTime());
+            if (checkInTime == null || checkOutTime == null) {
+                return 0;
+            }
 
-            // Calculate amount per minute
-            double amountPerMinute = amountPerHour / 60.0;
+            if (checkOutTime.before(checkInTime)) {
+                // If checkout time is earlier than check-in, assume it's the next day
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(checkOutTime);
+                calendar.add(Calendar.DATE, 1); // Add one day to checkout time
+                checkOutTime = calendar.getTime();
+            }
 
-            // Calculate total amount
-            return amountPerMinute * durationInMinutes;
+            if (checkOutTime.before(checkInTime)) {
+                Toast.makeText(BookingSlotActivity.this, "Invalid Checkout Time! Must be after Check-In.", Toast.LENGTH_SHORT).show();
+                return 0;
+            }
+
+            // Ensure checkout time is always after check-in
+            long differenceMillis = Math.abs(checkOutTime.getTime() - checkInTime.getTime()); // Ensure positive difference
+
+            // Convert milliseconds to hours (round up to the next hour if any minutes exist)
+            double hours = Math.ceil((double) differenceMillis / (1000 * 60 * 60));
+
+            return hours * amountPerHour;
 
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0; // Return 0 in case of an error
+            return 0;
         }
     }
+
+    private void fadeOutLoadingScreen() {
+        AlphaAnimation fadeOut = new AlphaAnimation(1f, 0f);
+        fadeOut.setDuration(1000); // 1 second fade-out animation
+        fadeOut.setFillAfter(true);
+        mainContent.startAnimation(fadeOut);
+    }
+
 
     @Override
     public void onBackPressed() {
