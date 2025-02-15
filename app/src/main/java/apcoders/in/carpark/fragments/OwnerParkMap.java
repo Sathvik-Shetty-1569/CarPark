@@ -255,5 +255,7 @@ confirmButton.setOnClickListener(new View.OnClickListener() {
                 Toast.makeText(requireContext(), "Location Permission is required.", Toast.LENGTH_SHORT).show();
             }
         }
+
+
     }
 }

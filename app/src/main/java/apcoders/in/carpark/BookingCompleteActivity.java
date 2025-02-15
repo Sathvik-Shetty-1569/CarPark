@@ -33,7 +33,6 @@ public class BookingCompleteActivity extends AppCompatActivity {
             return insets;
         });
         bookingQRCodeImage = findViewById(R.id.bookingQRCodeImage);
-        bookingQRCodeImage.setImageBitmap(getIntent().getParcelableExtra("Bitmap"));
 
         back_to_home_screen = findViewById(R.id.back_to_home_screen);
         bookingidtextview = findViewById(R.id.bookingidtextview);
@@ -62,6 +61,8 @@ public class BookingCompleteActivity extends AppCompatActivity {
                     parkingAreaNameTextView.setText(getIntent().getStringExtra("ParkingAreaName"));
                     textview_checkin.setText(booking.getStartTime());
                     textview_checkout.setText(booking.getEndTime());
+//                    bookingQRCodeImage.setImageBitmap(booking.get());
+
                 } else {
                     startActivity(new Intent(BookingCompleteActivity.this, MainActivity.class));
                     finish();

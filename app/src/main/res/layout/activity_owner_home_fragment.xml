@@ -99,7 +99,7 @@
         <LinearLayout
             android:id="@+id/Ownerusernameticket"
             android:layout_width="410dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/frame_layout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -114,11 +114,12 @@
                 android:maxHeight="200sp"
                 android:layout_marginLeft="25sp"
                 android:layout_marginRight="@dimen/_25sdp"
-                android:src="@drawable/user_profile_circle_solid_svgrepo_com"/>
+                android:src="@drawable/car_icon"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginRight="2dp"
                 android:layout_gravity="center_vertical"
                 >
             <TextView
@@ -126,14 +127,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="@dimen/_20sdp"
+                android:textSize="18dp"
                 android:text="Username" />
             <TextView
                 android:id="@+id/textview_parking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="@dimen/_16sdp"
+                android:textSize="16dp"
                 android:text="Parking Area name" />
             <TextView
                 android:id="@+id/textview_address"

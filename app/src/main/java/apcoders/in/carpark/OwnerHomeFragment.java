@@ -1,5 +1,8 @@
 package apcoders.in.carpark;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,12 +10,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,15 +29,15 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import apcoders.in.carpark.Utils.FetchUserData;
+import apcoders.in.carpark.Utils.ParkingAreaManagement;
+import apcoders.in.carpark.models.ParkingInfo;
 import apcoders.in.carpark.models.UserModel;
-
 
 
 public class OwnerHomeFragment extends Fragment {
@@ -45,8 +48,10 @@ public class OwnerHomeFragment extends Fragment {
     CardView cardOwnerUsernameTicketcreate;
     private SharedPreferences sharedPreferences;
     private DatabaseReference databaseReference;
-    TextView parking ;
-    TextView address ;
+    TextView parking;
+    LinearLayout Ownerusernameticket;
+    TextView address;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_owner_home_fragment, container, false);
@@ -60,6 +65,8 @@ public class OwnerHomeFragment extends Fragment {
         parking = view.findViewById(R.id.textview_parking);
         address = view.findViewById(R.id.textview_address);
         databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
+        TextView username = view.findViewById(R.id.textview_username);
+        Ownerusernameticket = view.findViewById(R.id.Ownerusernameticket);
         fetchParkingDetails();
 
         if (user == null) {
@@ -67,20 +74,9 @@ public class OwnerHomeFragment extends Fragment {
             requireActivity().finish();
         }
         cardOwnerUsernameTicketcreate = view.findViewById(R.id.card_owner_username_ticket_create);
-        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
-        Log.d("OwnerHomeFragment", "onCreateView: Profile completed status = " + isProfileSaved);
 
 
         // Check if the profile is already completed
-        if (isProfileSaved) {
-            Log.d("OwnerHomeFragment", "Hiding CardView in onCreateView");
-            cardOwnerUsernameTicketcreate.setVisibility(View.GONE);  // Hide the CardView
-        } else {
-            Log.d("OwnerHomeFragment", "Showing CardView in onCreateView");
-            cardOwnerUsernameTicketcreate.setVisibility(View.VISIBLE); // Show if profile is not completed
-        }
-
         // Open Profile Activity on click
         cardOwnerUsernameTicketcreate.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), OwnerProfileActivity.class);
@@ -110,21 +106,16 @@ public class OwnerHomeFragment extends Fragment {
         View headerView = navigationView.getHeaderView(0);
 
 
-        sharedPreferences = requireActivity().getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
-        String userType = sharedPreferences.getString("UserType", "Normal User");
-        Log.d("TAG", "onCreate: UserType" + userType);
-        TextView username = view.findViewById(R.id.textview_username);
-
         FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
             @Override
             public void onCallback(UserModel userModel) {
                 if (userModel != null) {
                     Log.d("TAG", "onCallback: " + userModel.getUserFulName() + userModel.getEmail());
                     TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("UserFullName", userModel.getUserFulName());
-                    editor.apply();
-                    editor.commit();
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putString("UserFullName", userModel.getUserFulName());
+//                    editor.apply();
+//                    editor.commit();
                     String Name = "";
                     if (userModel.getUserFulName().length() < 17) {
                         Name = userModel.getUserFulName();
@@ -146,7 +137,8 @@ public class OwnerHomeFragment extends Fragment {
                 }
             }
         });
-   buttondrawer.setOnClickListener(new View.OnClickListener() {
+
+        buttondrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -212,14 +204,13 @@ public class OwnerHomeFragment extends Fragment {
                 if (getView() != null) {
                     CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
                     if (cardView != null) {
-                        cardView.setVisibility(View.GONE);
+                        cardView.setVisibility(GONE);
                     }
                 }
             }
         }
 
     };
-
 
 
     @Override
@@ -236,28 +227,55 @@ public class OwnerHomeFragment extends Fragment {
     }
 
     private void fetchParkingDetails() {
-        databaseReference.orderByKey().limitToLast(1) // Fetch the latest parking area
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String name = snapshot.child("name").getValue(String.class);
-                            double latitude = snapshot.child("latitude").getValue(Double.class);
-                            double longitude = snapshot.child("longitude").getValue(Double.class);
+//        databaseReference.orderByKey().limitToLast(1) // Fetch the latest parking area
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                            String name = snapshot.child("name").getValue(String.class);
+//                            double latitude = snapshot.child("latitude").getValue(Double.class);
+//                            double longitude = snapshot.child("longitude").getValue(Double.class);
+//
+//                            if (name != null) {
+//                                cardOwnerUsernameTicketcreate.setVisibility(GONE);
+//                                Ownerusernameticket.setVisibility(VISIBLE);
+//                                parking.setText("Parking Name: " + name);
+//                                address.setText("Location: " + latitude + ", " + longitude);
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Log.e("Firebase", "Error fetching data", databaseError.toException());
+//                        Toast.makeText(requireActivity(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
-                            if (name != null) {
-                                parking.setText("Parking Name: " + name);
-                                address.setText("Location: " + latitude + ", " + longitude);
-                            }
-                        }
+        ParkingAreaManagement.fetchParkingInfo(new ParkingAreaManagement.FirestoreDataCallback() {
+            @Override
+            public void onDataFetched(List<ParkingInfo> parkingList) {
+                ParkingInfo CurrentAreaInfo = new ParkingInfo();
+                for (ParkingInfo area : parkingList) {
+                    if (area.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        CurrentAreaInfo = area;
+                        break;
                     }
+                }
+                if (CurrentAreaInfo != null) {
+                    cardOwnerUsernameTicketcreate.setVisibility(GONE);
+                    Ownerusernameticket.setVisibility(VISIBLE);
+                    parking.setText("Parking Name: " + CurrentAreaInfo.getName());
+                    address.setText("Location: " + CurrentAreaInfo.getLocaddress().substring(0, 25) + "...");
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("Firebase", "Error fetching data", databaseError.toException());
-                        Toast.makeText(requireActivity(), "Failed to fetch data", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+            }
+        });
     }
 
 

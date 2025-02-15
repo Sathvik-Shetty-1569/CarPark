@@ -2,10 +2,11 @@
 
 <androidx.cardview.widget.CardView android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/_10sdp"
+    android:layout_margin="5dp"
     android:layout_width="match_parent"
     app:cardCornerRadius="@dimen/_18sdp"
-    app:cardElevation="20dp"
+    app:cardElevation="10dp"
+    android:id="@+id/bookingCardView"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:padding="@dimen/_2sdp"
                 android:text="Parking Area Name"
-                android:textSize="@dimen/_19sdp" />
+                android:textSize="18dp" />
 
             <TextView
                 android:background="#D8B60C"
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:padding="5dp"
                 android:text="Booked"
-                android:textSize="@dimen/_19sdp" />
+                android:textSize="15dp" />
 
         </LinearLayout>
 

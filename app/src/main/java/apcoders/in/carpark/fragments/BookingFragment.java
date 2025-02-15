@@ -25,14 +25,15 @@ public class BookingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_booking_fragment, container, false);
         bookings_recycler_view = view.findViewById(R.id.bookings_recycler_view);
-        bookings_recycler_view.setHasFixedSize(true);
-        bookings_recycler_view.setNestedScrollingEnabled(false);
 
-        bookings_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         BookingManagement.fetchUserBookings(new BookingManagement.UserBookingsCallback() {
             @Override
             public void onSuccess(List<BookingDetailsModel> bookings) {
                 if (bookings != null) {
+                    bookings_recycler_view.setHasFixedSize(true);
+                    bookings_recycler_view.setNestedScrollingEnabled(false);
+
+                    bookings_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
                     BookingsRecyclerViewAdapter adapter = new BookingsRecyclerViewAdapter(requireContext(), bookings);
                     bookings_recycler_view.setAdapter(adapter);
                     adapter.notifyDataSetChanged();

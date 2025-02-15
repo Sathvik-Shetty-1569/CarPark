@@ -65,4 +65,8 @@ dependencies {
     implementation (libs.sdp.android)
     implementation (libs.material.v1110)
     implementation (libs.picasso)
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
+    implementation (libs.glide)
+    annotationProcessor (libs.compiler)
 }

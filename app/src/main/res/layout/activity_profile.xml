@@ -7,11 +7,12 @@
     android:background="@color/white"
     android:paddingHorizontal="10dp"
     tools:context=".fragments.ProfileFragment">
+
     <LinearLayout
-        android:background="@color/white"
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/white"
         android:elevation="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -22,11 +23,11 @@
             android:id="@+id/Welcomtitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_marginStart="10dp"
-            android:textColor="@color/colorPrimary"
+            android:gravity="center"
             android:singleLine="true"
             android:text="Profile &amp; Settings"
+            android:textColor="@color/colorPrimary"
             android:textSize="23dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -34,8 +35,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="75dp"
         android:layout_marginTop="60dp"
+        android:layout_marginBottom="75dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -43,20 +44,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--                android:id="@+id/shimmerLayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:visibility="gone">-->
+            <!--            <com.facebook.shimmer.ShimmerFrameLayout-->
+            <!--                android:id="@+id/shimmerLayout"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:visibility="gone">-->
 
-<!--                <include layout="@layout/fragment_profile_shimmer_effect" />-->
-<!--            </com.facebook.shimmer.ShimmerFrameLayout>-->
+            <!--                <include layout="@layout/fragment_profile_shimmer_effect" />-->
+            <!--            </com.facebook.shimmer.ShimmerFrameLayout>-->
 
             <LinearLayout
                 android:id="@+id/RealView"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -110,6 +111,7 @@
                                 android:backgroundTint="@android:color/transparent"
                                 android:text="abc@xyz.com"
                                 android:textSize="14sp" />
+
                             <TextView
                                 android:id="@+id/profile_user_wallet_amount"
                                 android:layout_width="match_parent"
@@ -212,6 +214,7 @@
                                 android:text="My Shop"
                                 android:textColor="@color/black"
                                 android:textSize="8sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

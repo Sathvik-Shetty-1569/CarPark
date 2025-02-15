@@ -1,5 +1,8 @@
 package apcoders.in.carpark;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,11 +23,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +52,7 @@ public class BookingSlotActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
+    SpinKitView spin_kit ;
     StorageReference storageReference;
     String parkingName, AvailableSlots, Amount;
     BookingDetailsModel booking;
@@ -68,6 +75,7 @@ public class BookingSlotActivity extends AppCompatActivity {
 
         setVehicleNumberSelectBox();
 
+        spin_kit = findViewById(R.id.spin_kit);
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -123,6 +131,8 @@ public class BookingSlotActivity extends AppCompatActivity {
         confirmBookingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                spin_kit.setVisibility(VISIBLE);
+                confirmBookingBtn.setActivated(false);
                 bookingId = "PKG" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
                 userId = firebaseAuth.getCurrentUser().getUid();
                 vehicleNumber = selected_Vehicle_number_spinner;
@@ -141,6 +151,8 @@ public class BookingSlotActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(vehicleNumber) || startTime.isEmpty() || endTime.isEmpty() || amountPaid < 0) {
                     Toasty.error(BookingSlotActivity.this, "Please fill all the fields", Toasty.LENGTH_SHORT).show();
+                    spin_kit.setVisibility(GONE);
+                    confirmBookingBtn.setActivated(true);
                 } else {
                     // Generate QR Code Bitmap
                     Bitmap qrBitmap = QRCodeManagement.generateQRCodeBitmap(QRCodeData);
@@ -148,6 +160,8 @@ public class BookingSlotActivity extends AppCompatActivity {
                     if (qrBitmap != null) {
                         uploadQRCodeToFirebase(qrBitmap, bookingId);
                     } else {
+                        spin_kit.setVisibility(GONE);
+                        confirmBookingBtn.setActivated(true);
                         Toasty.error(BookingSlotActivity.this, "QR Code generation failed", Toasty.LENGTH_SHORT).show();
                     }
                 }
@@ -156,25 +170,24 @@ public class BookingSlotActivity extends AppCompatActivity {
     }
 
     private void uploadQRCodeToFirebase(Bitmap qrBitmap, String bookingId) {
-        qrCodeUrl = "test";
-        storeBookingDataToFirestore(bookingId, qrCodeUrl, qrBitmap);
-//        StorageReference qrRef = storageReference.child("qrcodes/" + bookingId + ".png");
-//
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        qrBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] qrBytes = baos.toByteArray();
-//
-//        UploadTask uploadTask = qrRef.putBytes(qrBytes);
-//        uploadTask.addOnSuccessListener(taskSnapshot -> qrRef.getDownloadUrl().addOnSuccessListener(uri -> {
-//            String qrCodeUrl = uri.toString();
-//            storeBookingDataToFirestore(bookingId, qrCodeUrl);
-//        })).addOnFailureListener(e ->
-//                Toasty.error(BookingSlotActivity.this, "Failed to upload QR Code", Toasty.LENGTH_SHORT).show()
-//        );
+
+        StorageReference qrRef = storageReference.child("qrcodes/" + bookingId + ".png");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        qrBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] qrBytes = baos.toByteArray();
+
+        UploadTask uploadTask = qrRef.putBytes(qrBytes);
+        uploadTask.addOnSuccessListener(taskSnapshot -> qrRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            String qrCodeUrl = uri.toString();
+            storeBookingDataToFirestore(bookingId, qrCodeUrl);
+        })).addOnFailureListener(e ->
+                Toasty.error(BookingSlotActivity.this, "Failed to upload QR Code", Toasty.LENGTH_SHORT).show()
+        );
     }
 
 
-    private void storeBookingDataToFirestore(String bookingId, String qrCodeUrl, Bitmap qrBitmap) {
+    private void storeBookingDataToFirestore(String bookingId, String qrCodeUrl) {
         BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, "Parking Area Name", status);
 
         firestore.collection("Bookings").document(bookingId)
@@ -184,7 +197,6 @@ public class BookingSlotActivity extends AppCompatActivity {
 
                     Intent i = new Intent(BookingSlotActivity.this, BookingCompleteActivity.class);
                     i.putExtra("BookingId", bookingId);
-                    i.putExtra("Bitmap", qrBitmap);
                     i.putExtra("ParkAreaName", parkingName);
                     startActivity(i);
 

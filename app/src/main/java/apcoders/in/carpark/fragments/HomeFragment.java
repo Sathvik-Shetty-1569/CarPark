@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import apcoders.in.carpark.AboutActivity;
 import apcoders.in.carpark.Adapter.ViewpagerImageSliderAdapter;
+import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.Utils.FetchUserData;
@@ -222,9 +223,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void endSession() {
-        activeSessionContainer.setVisibility(View.GONE);
+//        activeSessionContainer.setVisibility(View.GONE);
         isRunning = false;
         seconds = 0;
+        Intent i = new Intent(requireActivity(), BookingCompleteActivity.class);
+        i.putExtra("BookingId", "PKG463F1847");
+        i.putExtra("ParkAreaName", "Swami Vivekananda Engineering Buiding\"");
+        startActivity(i);
     }
 
     private void runTimer() {

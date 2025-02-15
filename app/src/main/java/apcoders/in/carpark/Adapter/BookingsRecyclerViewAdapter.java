@@ -1,16 +1,19 @@
 package apcoders.in.carpark.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.R;
 import apcoders.in.carpark.models.BookingDetailsModel;
 
@@ -27,7 +30,7 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.bookings_recyclerview_layout, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, context);
     }
 
     @Override
@@ -50,9 +53,11 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView parkingAreaName, parkingStatus, parkingId, bookingTime, checkInTime, checkOutTime, timeRemaining;
+        CardView bookingCardView;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
+            bookingCardView = itemView.findViewById(R.id.bookingCardView);
             parkingAreaName = itemView.findViewById(R.id.ParkingAreaName);
             parkingStatus = itemView.findViewById(R.id.ParkingStatus);
             parkingId = itemView.findViewById(R.id.ParkingArea);
@@ -60,6 +65,19 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
             checkInTime = itemView.findViewById(R.id.textview_time_checkIn);
             checkOutTime = itemView.findViewById(R.id.textview_time_checkOut);
             timeRemaining = itemView.findViewById(R.id.textview_time_remaining);
+
+            bookingCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int id = view.getId();
+                    if (id == R.id.bookingCardView) {
+                        Intent i = new Intent(context, BookingCompleteActivity.class);
+                        i.putExtra("BookingId", "PKG463F1847");
+                        i.putExtra("ParkAreaName", "Swami Vivekananda Engineering Buiding\"");
+                        context.startActivity(i);
+                    }
+                }
+            });
         }
     }
 }

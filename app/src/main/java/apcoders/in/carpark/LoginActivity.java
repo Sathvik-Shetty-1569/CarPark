@@ -220,13 +220,13 @@ public class LoginActivity extends AppCompatActivity {
                     // Handle "Normal User" selection
 //                    EdAuthorityLevel.setVisibility(View.GONE);
                     UserType = "User";
-                    Toast.makeText(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
                 } else if (checkedId == R.id.radioBtnAuthorityBtn) {
                     // Handle "Authorities" selection
 //                    EdAuthorityLevel.setVisibility(View.VISIBLE);
                     UserType = "ParkingOwner";
-                    Toast.makeText(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
                 }
 
             }

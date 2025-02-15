@@ -7,6 +7,7 @@
         <item name="fontFamily">@font/rcb</item>
         <item name="background">@color/white</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
     </style>
 
     <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
