@@ -23,12 +23,15 @@ public class BookingCompleteActivity extends AppCompatActivity {
     Button back_to_home_screen;
     TextView bookingidtextview, parkingAreaNameTextView, textview_checkin, textview_checkout, textview_amount_paid;
     ImageView bookingQRCodeImage;
+    ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_booking_complete);
+        backButton = findViewById(R.id.drawerimage);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -44,6 +47,14 @@ public class BookingCompleteActivity extends AppCompatActivity {
         textview_amount_paid = findViewById(R.id.textview_amount_paid);
 
 //        textview_amount_paid.setText(getIntent().getStringExtra("AmountPaid"));
+
+       backButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               onBackPressed(); // Calls the default back function
+
+           }
+       });
 
         back_to_home_screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,5 +87,10 @@ public class BookingCompleteActivity extends AppCompatActivity {
                 Log.d("TAG", "onFailure: " + errorMessage);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed(); // Goes back to the previous activity
     }
 }
