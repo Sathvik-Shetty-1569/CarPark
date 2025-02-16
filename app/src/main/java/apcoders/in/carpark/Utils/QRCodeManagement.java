@@ -12,6 +12,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.squareup.picasso.Picasso;
 
 import apcoders.in.carpark.models.BookingDetailsModel;
+import apcoders.in.carpark.models.SubscriptionModel;
 
 public class QRCodeManagement {
 
@@ -35,6 +36,12 @@ public class QRCodeManagement {
     }
 
     public static String convertBookingToJson(BookingDetailsModel booking) {
+        Gson gson = new Gson();
+        return gson.toJson(booking);
+
+    }
+
+    public static String convertBookingToJson(SubscriptionModel booking) {
         Gson gson = new Gson();
         return gson.toJson(booking);
 
