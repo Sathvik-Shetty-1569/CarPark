@@ -32,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +40,7 @@ import apcoders.in.carpark.Adapter.ViewpagerImageSliderAdapter;
 import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.SubscriptionActivity;
 import apcoders.in.carpark.Utils.BookingManagement;
 import apcoders.in.carpark.Utils.FetchUserData;
 import apcoders.in.carpark.models.BookingDetailsModel;
@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     FirebaseAuth auth;
     TextView welcom, parking_name, session_status, done, ParkingUID, textview_time_remaining;
     Button endSessionButton;
-    LinearLayout activeSessionContainer;
+    LinearLayout activeSessionContainer, subscription_layout;
     TextView sessionTimer;
     Handler handler = new Handler();
     int seconds = 0;
@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
+        subscription_layout = view.findViewById(R.id.subscription_layout);
         textview_time_remaining = view.findViewById(R.id.textview_time_remaining);
         TextView username = view.findViewById(R.id.textview_username);
         ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.drawerlayout), (v, insets) -> {
@@ -90,6 +91,12 @@ public class HomeFragment extends Fragment {
 
         endSessionButton.setOnClickListener(v -> endSession());
 
+        subscription_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(requireActivity(), SubscriptionActivity.class));
+            }
+        });
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
@@ -256,7 +263,7 @@ public class HomeFragment extends Fragment {
     private void startSession() {
         activeSessionContainer.setVisibility(View.VISIBLE);
         isRunning = true;
-        runTimer();
+//        runTimer();
     }
 
     private void endSession() {
@@ -269,43 +276,43 @@ public class HomeFragment extends Fragment {
         startActivity(i);
     }
 
-    private void runTimer() {
-        final int[] hours = new int[] {new Date().getHours()};
-        final int[] minutes = new int[] {new Date().getMinutes()};
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("TAG", "run: " + time_remaining);
-//                int hours = seconds / 3600;
-//                int minutes = (seconds % 3600) / 60;
-
-                try {
-                    hours[0] = new Date().getHours() - Integer.parseInt(time_remaining.substring(0, 1));
-                    minutes[0] = new Date().getMinutes() - Integer.parseInt(time_remaining.substring(2));
-                } catch (Exception e) {
-
-                }
-                Log.d("TAG", "run: " + hours[0] + "     " + minutes[0]);
-                int secs = seconds % 60;
-
-                sessionTimer.setText(String.format("%02d:%02d:%02d", hours[0], minutes[0], secs));
-
-                if (isRunning) {
-                    seconds--;
-                    if(seconds<=0){
-                        seconds = 60;
-                        minutes[0]--;
-                    }
-                    if(minutes[0]<=0){
-                        minutes[0] = 60;
-                        hours[0]--;
-                    }
-                    if(hours[0]<=0){
-                        hours[0] = 24;
-                    }
-                    handler.postDelayed(this, 1000);
-                }
-            }
-        });
-    }
+//    private void runTimer() {
+//        final int[] hours = new int[] {new Date().getHours()};
+//        final int[] minutes = new int[] {new Date().getMinutes()};
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.d("TAG", "run: " + time_remaining);
+////                int hours = seconds / 3600;
+////                int minutes = (seconds % 3600) / 60;
+//
+//                try {
+//                    hours[0] = new Date().getHours() - Integer.parseInt(time_remaining.substring(0, 1));
+//                    minutes[0] = new Date().getMinutes() - Integer.parseInt(time_remaining.substring(2));
+//                } catch (Exception e) {
+//
+//                }
+//                Log.d("TAG", "run: " + hours[0] + "     " + minutes[0]);
+//                int secs = seconds % 60;
+//
+//                sessionTimer.setText(String.format("%02d:%02d:%02d", hours[0], minutes[0], secs));
+//
+//                if (isRunning) {
+//                    seconds--;
+//                    if(seconds<=0){
+//                        seconds = 60;
+//                        minutes[0]--;
+//                    }
+//                    if(minutes[0]<=0){
+//                        minutes[0] = 60;
+//                        hours[0]--;
+//                    }
+//                    if(hours[0]<=0){
+//                        hours[0] = 24;
+//                    }
+//                    handler.postDelayed(this, 1000);
+//                }
+//            }
+//        });
+//    }
 }

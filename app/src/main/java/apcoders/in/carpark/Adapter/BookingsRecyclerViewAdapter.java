@@ -30,7 +30,7 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.bookings_recyclerview_layout, parent, false);
-        return new ViewHolder(view, context);
+        return new ViewHolder(view, context, parkingList);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
         TextView parkingAreaName, parkingStatus, parkingId, bookingTime, checkInTime, checkOutTime, timeRemaining;
         CardView bookingCardView;
 
-        public ViewHolder(@NonNull View itemView, Context context) {
+        public ViewHolder(@NonNull View itemView, Context context, List<BookingDetailsModel> parkingList) {
             super(itemView);
             bookingCardView = itemView.findViewById(R.id.bookingCardView);
             parkingAreaName = itemView.findViewById(R.id.ParkingAreaName);
@@ -72,7 +72,7 @@ public class BookingsRecyclerViewAdapter extends RecyclerView.Adapter<BookingsRe
                     int id = view.getId();
                     if (id == R.id.bookingCardView) {
                         Intent i = new Intent(context, BookingCompleteActivity.class);
-                        i.putExtra("BookingId", "PKG463F1847");
+                        i.putExtra("BookingId", parkingList.get(getAdapterPosition()).getBookingId());
                         i.putExtra("ParkAreaName", "Swami Vivekananda Engineering Buiding\"");
                         context.startActivity(i);
                     }
