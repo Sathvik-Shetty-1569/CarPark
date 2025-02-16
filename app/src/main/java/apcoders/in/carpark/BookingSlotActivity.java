@@ -1,20 +1,17 @@
 package apcoders.in.carpark;
-import android.view.animation.AlphaAnimation;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
-import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,9 +22,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import apcoders.in.carpark.Utils.QRCodeManagement;
 import apcoders.in.carpark.Utils.VehicleManagement;
@@ -60,7 +53,7 @@ public class BookingSlotActivity extends AppCompatActivity {
     private View blurView;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
-    SpinKitView spin_kit ;
+    SpinKitView spin_kit;
     private RelativeLayout mainContent;
     StorageReference storageReference;
     String parkingName, AvailableSlots, Amount;
@@ -97,10 +90,8 @@ public class BookingSlotActivity extends AppCompatActivity {
 
         AvailableSlotsTextView.setText(AvailableSlots);
         parkingAreaNameTextView.setText(parkingName);
-        amountPaidTextView.setText(Amount);
+//        amountPaidTextView.setText(Amount);
         confirmBookingBtn = findViewById(R.id.confirmBookingBtn);
-
-
 
 
         checkinTimeTextView.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +146,7 @@ public class BookingSlotActivity extends AppCompatActivity {
 
                 String QRCodeData = QRCodeManagement.convertBookingToJson(booking);
 
-                if (TextUtils.isEmpty(vehicleNumber) || startTime.isEmpty() || endTime.isEmpty() || amountPaid < 0) {
+                if (TextUtils.isEmpty(vehicleNumber) || startTime.isEmpty() || endTime.isEmpty() || amountPaid <= 0) {
                     Toasty.error(BookingSlotActivity.this, "Please fill all the fields", Toasty.LENGTH_SHORT).show();
                     spin_kit.setVisibility(GONE);
                     confirmBookingBtn.setActivated(true);
@@ -195,20 +186,36 @@ public class BookingSlotActivity extends AppCompatActivity {
 
     private void storeBookingDataToFirestore(String bookingId, String qrCodeUrl) {
         String transactionId = UUID.randomUUID().toString();
-        BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, "Parking Area Name", status);
-        WalletManagement.debitFromWallet(FirebaseAuth.getInstance().getCurrentUser().getUid(), transactionId, amountPaid, parkingName + " " + bookingTime.substring(0, 16));
-        firestore.collection("Bookings").document(bookingId)
-                .set(booking)
-                .addOnSuccessListener(aVoid -> {
-                    Toasty.success(BookingSlotActivity.this, "Booking Confirmed!", Toasty.LENGTH_SHORT).show();
+        BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, parkingName, status);
+        WalletManagement.debitFromWallet(FirebaseAuth.getInstance().getCurrentUser().getUid(), transactionId, amountPaid, parkingName + " " + bookingTime.substring(0, 16), new WalletManagement.OnCreditOrDebitListener() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                if (isSuccess) {
+                    Log.d("TAG", "onSuccess: ");
+                    firestore.collection("Bookings").document(bookingId)
+                            .set(booking)
+                            .addOnSuccessListener(aVoid -> {
+                                Toasty.success(BookingSlotActivity.this, "Booking Confirmed!", Toasty.LENGTH_SHORT).show();
 
-                    Intent i = new Intent(BookingSlotActivity.this, BookingCompleteActivity.class);
-                    i.putExtra("BookingId", bookingId);
-                    i.putExtra("ParkAreaName", parkingName);
-                    startActivity(i);
+                                Intent i = new Intent(BookingSlotActivity.this, BookingCompleteActivity.class);
+                                i.putExtra("BookingId", bookingId);
+                                i.putExtra("ParkAreaName", parkingName);
+                                startActivity(i);
+                                finish();
 
-                })
-                .addOnFailureListener(e -> Toasty.error(BookingSlotActivity.this, "Firestore upload failed", Toasty.LENGTH_SHORT).show());
+                            })
+                            .addOnFailureListener(e -> {
+                                Toasty.error(BookingSlotActivity.this, "Firestore upload failed", Toasty.LENGTH_SHORT).show();
+                                spin_kit.setVisibility(GONE);
+                                confirmBookingBtn.setActivated(true);
+                            });
+                } else {
+                    spin_kit.setVisibility(GONE);
+                    confirmBookingBtn.setActivated(true);
+                    Toasty.error(BookingSlotActivity.this, "Please Check Your Balance Before Processing!", Toasty.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void setVehicleNumberSelectBox() {

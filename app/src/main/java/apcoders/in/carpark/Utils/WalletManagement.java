@@ -2,15 +2,19 @@ package apcoders.in.carpark.Utils;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import apcoders.in.carpark.models.WalletModel;
 import apcoders.in.carpark.models.WalletTransaction;
+import es.dmoral.toasty.Toasty;
 
 public class WalletManagement {
 
@@ -50,7 +54,7 @@ public class WalletManagement {
     }
 
     // Method to debit an amount from the user's wallet
-    public static void debitFromWallet(String userId, String transactionId, double amount, String description) {
+    public static void debitFromWallet(String userId, String transactionId, double amount, String description, OnCreditOrDebitListener listener) {
         DocumentReference walletRef = db.collection(COLLECTION_NAME).document(userId);
 
         walletRef.get().addOnSuccessListener(documentSnapshot -> {
@@ -61,9 +65,23 @@ public class WalletManagement {
                     if (wallet.getCurrentBalance() >= amount) {
                         wallet.addTransaction(transactionId, amount, "debit", description);
                         walletRef.set(wallet)
-                                .addOnSuccessListener(aVoid -> Log.d(TAG, "Amount debited successfully."))
-                                .addOnFailureListener(e -> Log.e(TAG, "Failed to debit amount", e));
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        // Deduct the amount from the current balance
+                                        Log.d(TAG, "Amount debited successfully.");
+                                        listener.onSuccess(true);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "Failed to debit amount", e);
+                                        listener.onSuccess(false);
+                                    }
+                                });
                     } else {
+                        listener.onSuccess(false);
                         Log.e(TAG, "Insufficient balance for debit transaction.");
                     }
                 }
@@ -114,6 +132,10 @@ public class WalletManagement {
     // Interfaces for callback listeners
     public interface OnBalanceRetrievedListener {
         void onBalanceRetrieved(Double balance);
+    }
+
+    public interface OnCreditOrDebitListener {
+        void onSuccess(boolean isSuccess);
     }
 
     public interface OnTransactionsRetrievedListener {

@@ -183,12 +183,45 @@ public class Register extends AppCompatActivity {
     }
 
     private boolean isValidPassword(String password) {
-        return false;
+        return
+                password.length() >= 8 && password.matches(".*[A-Z].*") && password.matches(".*[0-9].*") && password.matches(".*[!@#$%^&*].*");
     }
 
     private void setRadioButtons() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioBtnNormalBtn) {
+                    // Handle "Normal User" selection
+                    UserType = "User";
+//                    Toasty.success(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
+
+                } else if (checkedId == R.id.radioBtnAuthorityBtn) {
+                    // Handle "Authorities" selection
+                    UserType = "ParkingOwner";
+                }
+            }
+        });
     }
 
     private void isLogin() {
+        try {
+            if (firebaseAuth.getCurrentUser().getUid() != null) {
+                if (UserType.equals("User")) {
+                    Intent i = new Intent(Register.this, MainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Intent i = new Intent(Register.this, HostMainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                }
+
+            }
+        } catch (Exception exception) {
+
+        }
     }
 }

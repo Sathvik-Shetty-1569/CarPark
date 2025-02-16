@@ -15,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +53,7 @@ public class OwnerHomeFragment extends Fragment {
     TextView parking;
     LinearLayout Ownerusernameticket;
     TextView address;
-
+    CardView cardView ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_owner_home_fragment, container, false);
@@ -66,6 +66,7 @@ public class OwnerHomeFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
         TextView username = view.findViewById(R.id.textview_username);
         Ownerusernameticket = view.findViewById(R.id.Ownerusernameticket);
+        cardView = view.findViewById(R.id.card_owner_username_ticket_create);
         fetchParkingDetails();
 
         if (user == null) {
@@ -81,7 +82,6 @@ public class OwnerHomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), OwnerProfileActivity.class);
             startActivity(intent);
         });
-
 
 
         DrawerLayout drawerLayout;
@@ -136,7 +136,6 @@ public class OwnerHomeFragment extends Fragment {
         });
 
 
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -175,43 +174,43 @@ public class OwnerHomeFragment extends Fragment {
         return view;
 
     }
+//
+//    private BroadcastReceiver profileSavedReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if ("com.example.PROFILE_SAVED".equals(intent.getAction())) {
+//                Log.d("OwnerHomeFragment", "Broadcast received: PROFILE_SAVED");
+//                SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
+//
+//                editor.putBoolean("profile_completed", true);
+//                editor.apply();
+//
+//                if (getView() != null) {
+//                    CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
+//                    if (cardView != null) {
+//                        cardView.setVisibility(GONE);
+//                    }
+//                }
+//            }
+//        }
+//
+//    };
 
-    private BroadcastReceiver profileSavedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if ("com.example.PROFILE_SAVED".equals(intent.getAction())) {
-                Log.d("OwnerHomeFragment", "Broadcast received: PROFILE_SAVED");
-                SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                boolean isProfileSaved = sharedPreferences.getBoolean("profile_completed", false);
-
-                editor.putBoolean("profile_completed", true);
-                editor.apply();
-
-                if (getView() != null) {
-                    CardView cardView = getView().findViewById(R.id.card_owner_username_ticket_create);
-                    if (cardView != null) {
-                        cardView.setVisibility(GONE);
-                    }
-                }
-            }
-        }
-
-    };
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        IntentFilter filter = new IntentFilter("com.example.PROFILE_SAVED");
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(profileSavedReceiver, filter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(profileSavedReceiver);
-    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        IntentFilter filter = new IntentFilter("com.example.PROFILE_SAVED");
+//        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(profileSavedReceiver, filter);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(profileSavedReceiver);
+//    }
 
     private void fetchParkingDetails() {
 //        databaseReference.orderByKey().limitToLast(1) // Fetch the latest parking area
@@ -239,23 +238,28 @@ public class OwnerHomeFragment extends Fragment {
 //                    }
 //                });
 
-        ParkingAreaManagement.fetchParkingInfo(new ParkingAreaManagement.FirestoreDataCallback() {
+        ParkingAreaManagement.fetchParkingInfoByUserId(new ParkingAreaManagement.FirestoreDataCallback() {
+
             @Override
             public void onDataFetched(List<ParkingInfo> parkingList) {
-                ParkingInfo CurrentAreaInfo = new ParkingInfo();
-                for (ParkingInfo area : parkingList) {
-                    if (area.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        CurrentAreaInfo = area;
-                        break;
+                if (!parkingList.isEmpty()) {
+
+                    ParkingInfo CurrentAreaInfo = new ParkingInfo();
+                    for (ParkingInfo area : parkingList) {
+                        if (area.getUserId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            CurrentAreaInfo = area;
+                            break;
+                        }
                     }
-                }
-                if (CurrentAreaInfo != null) {
+                    cardView.setVisibility(GONE);
                     cardOwnerUsernameTicketcreate.setVisibility(GONE);
                     Ownerusernameticket.setVisibility(VISIBLE);
                     parking.setText("Parking Name: " + CurrentAreaInfo.getName());
-                    address.setText("Location: " + CurrentAreaInfo.getLocaddress().substring(0, 25) + "...");
-                }
+                    address.setText("Location: " + CurrentAreaInfo.getLocaddress() + "...");
 
+                } else {
+                    cardView.setVisibility(VISIBLE);
+                }
             }
 
             @Override

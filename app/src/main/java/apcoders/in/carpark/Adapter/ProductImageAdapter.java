@@ -1,7 +1,5 @@
-
 package apcoders.in.carpark.Adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -21,32 +18,32 @@ import java.util.List;
 
 import apcoders.in.carpark.R;
 
-
 public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapter.SliderViewHolder> {
 
-    private final List<Uri> imageIds;
-    private Context context;
+    private final List<Uri> imageUris;
+    private final Context context;
 
-    public ProductImageAdapter(Context context, List<Uri> imageIds) {
+    public ProductImageAdapter(Context context, List<Uri> imageUris) {
         this.context = context;
-        this.imageIds = imageIds;
+        this.imageUris = imageUris;
     }
 
     @NonNull
     @Override
     public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bottom_parking_details, parent, false);
-        return new SliderViewHolder(context, view, imageIds);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_image, parent, false);
+        return new SliderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
-//        holder.imageView.setImageURI(imageIds.get(position));
-        Log.d("TAG", "onBindViewHolder: "+imageIds.get(position));
-//        Glide.with(context).load(imageIds.get(position)).into(holder.imageView);
+        Uri imageUri = imageUris.get(position);
+        Log.d("TAG", "Loading Image: " + imageUri);
 
         Picasso.get()
-                .load(imageIds.get(position))
+                .load(imageUri)
+                .placeholder(R.drawable.app_logo) // Add a placeholder image
+                .error(R.drawable.car_icon) // Add an error fallback image
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -62,41 +59,15 @@ public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapte
 
     @Override
     public int getItemCount() {
-        return imageIds.size();
+        return imageUris.size();
     }
 
     public static class SliderViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public SliderViewHolder(Context context, @NonNull View itemView, List<Uri> imageIds) {
+        public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-            Log.d("TAG", "SliderViewHolder: "+imageIds.size());
-            View view = View.inflate(context, R.layout.fullscreen_product_preview_layout, null);
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(imageView.getContext()).setView(view);
-//            ImageView product_image = view.findViewById(R.id.product_image);
-//            ImageView CloseDialog = view.findViewById(R.id.CloseDialog);
-//            AlertDialog dialog = builder.create();
-//
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    if (position != RecyclerView.NO_POSITION) {
-////                        product_image.setImageURI(imageIds.get(position));
-//                        Glide.with(context).load(imageIds.get(position)).into(product_image);
-//                        dialog.show();
-//                    }
-//                }
-//            });
-//            CloseDialog.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    dialog.dismiss();
-//                }
-//            });
-
+            imageView = itemView.findViewById(R.id.imageViewProduct);
         }
     }
 }

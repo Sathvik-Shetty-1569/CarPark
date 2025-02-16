@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
+        Log.d("TAG", "onCreate: ");
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         floatingActionButton = findViewById(R.id.Map);
         frameLayout = findViewById(R.id.frame_layout);
@@ -51,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
                 if (itemId == R.id.home) {
                     loadFragment(new HomeFragment(), false);
-                } else if (itemId == R.id.Search) {
+                } else if (itemId == R.id.wallet) {
                     loadFragment(new SearchFragment(), false);
                 } else if (itemId == R.id.Settings) {
                     loadFragment(new BookingFragment(), false);
-                } else {
+                } else if(itemId == R.id.Profile) {
                     loadFragment(new ProfileFragment(), false);
+                }else {
+
                 }
                 return true;
             }

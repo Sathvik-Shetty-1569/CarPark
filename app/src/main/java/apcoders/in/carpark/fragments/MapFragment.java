@@ -29,12 +29,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -47,7 +47,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -57,17 +56,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,6 +76,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import apcoders.in.carpark.Adapter.ProductImageAdapter;
 import apcoders.in.carpark.Adapter.SearchAdapter;
 import apcoders.in.carpark.BookingSlotActivity;
 import apcoders.in.carpark.R;
@@ -109,10 +106,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     List<Uri> parkingUrlListUri = new ArrayList<>();
     List<String> parkingUrlListString = new ArrayList<>();
     String parkingName, AvailableSlots, Amount;
-//    private LinearLayout bottomDrawer;
-//    private TextView parkingArea, address, spaceSlot, chargesPerHour;
-//    private ImageView bookmarkIcon,getBookmarkIcon; // Added bookmark icon
-//    private boolean isBookmarked = false; // Track bookmark state
+    LatLng destination = null;
+
 
     @Nullable
     @Override
@@ -122,6 +117,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), "AIzaSyAUDX2GMv7MX6Mi1D8tBbsDvlu1OyuaDOY");
         }
+
         placesClient = Places.createClient(requireContext());
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -200,6 +196,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -208,6 +205,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             getLastLocation();
+            moveCameraToCurrentLocation();
+
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
@@ -222,6 +221,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 parkingName = info.getName();
                 AvailableSlots = String.valueOf(info.getSlots());
                 Amount = info.getAmount();
+                destination = new LatLng(info.getLat(), info.getLog());
                 locaddress = info.getLocaddress();
                 parkingUrlListUri.clear();
                 for (String url : info.getParkingAreaImagesUrl()) {
@@ -229,8 +229,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
 //                updateBottomSheet(info.getName(), Integer.parseInt(info.getSlots()), info.getAmount());
                 View ParkingAreaBottomView = LayoutInflater.from(requireActivity()).inflate(R.layout.bottom_parking_details, null, false);
-
-                ImageView product_image_add_image = ParkingAreaBottomView.findViewById(R.id.product_image_add_image);
+                CardView textViewNavigate = ParkingAreaBottomView.findViewById(R.id.textViewNavigate); // Replace with your TextView ID
+//                ImageView product_image_add_image = ParkingAreaBottomView.findViewById(R.id.product_image_add_image);
                 RecyclerView parkingRecycler_layout = ParkingAreaBottomView.findViewById(R.id.product_images_recyclerView);
                 TextView textview_parking = ParkingAreaBottomView.findViewById(R.id.textview_parking);
                 TextView Address = ParkingAreaBottomView.findViewById(R.id.Address);
@@ -253,12 +253,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         startActivity(i);
                     }
                 });
-                product_image_add_image.setVisibility(VISIBLE);
+
+                textViewNavigate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openGoogleMapsNavigation(destination);
+
+                    }
+                });
+//                product_image_add_image.setVisibility(VISIBLE);
                 parkingRecycler_layout.setVisibility(VISIBLE);
                 Log.d("TAG", "onMapReady: " + parkingUrlListUri.size());
-//                ProductImageAdapter adapter = new ProductImageAdapter(requireActivity(), parkingUrlListUri);
-//                parkingRecycler_layout.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-//                parkingRecycler_layout.setAdapter(adapter);
+                ProductImageAdapter adapter = new ProductImageAdapter(requireActivity(), parkingUrlListUri);
+                parkingRecycler_layout.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+                parkingRecycler_layout.setAdapter(adapter);
 
 
                 BottomSheetDialog ParkignbottomSheetDialog = new BottomSheetDialog(requireContext());
@@ -270,6 +278,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return false;
         });
     }
+
 
     private void initializeUI(View view) {
 //        bottomDrawer = view.findViewById(R.id.showdrawerbottom);
@@ -330,7 +339,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 //        Map.setVisibility(View.VISIBLE);
 //    }
 
-//    private void toggleWishlist() {
+    //    private void toggleWishlist() {
 //        if (isBookmarked) {
 //            // Show black wishlist, hide purple
 //            getBookmarkIcon.setVisibility(View.GONE);
@@ -394,17 +403,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-            Task<Location> task = fusedLocationProviderClient.getLastLocation();
-            task.addOnSuccessListener(location -> {
-                if (location != null) {
-                    currentLocation = location;
-                    moveCameraToCurrentLocation();
-                } else {
-                    // Request new location data if last known location is null
-                    requestNewLocationData();
-                }
-            });
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(location -> {
+            if (location != null) {
+                currentLocation = location;
+                moveCameraToCurrentLocation();
+            } else {
+                // Request new location data if last known location is null
+                requestNewLocationData();
+            }
+        });
+    }
+
+    private void openGoogleMapsNavigation(LatLng destination) {
+        Uri navigationIntentUri = Uri.parse("google.navigation:q=" + destination.latitude + "," + destination.longitude + "&mode=d"); // 'd' for driving
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, navigationIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+
+        if (mapIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+            startActivity(mapIntent);
+        } else {
+            Toast.makeText(requireContext(), "Google Maps not installed", Toast.LENGTH_SHORT).show();
         }
+    }
 
     private void addParkingMarkers() {
 
@@ -494,6 +515,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             recyclerView.setVisibility(VISIBLE);
         });
     }
+
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
         int width = 100;  // Set your desired width
@@ -522,27 +544,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(new MarkerOptions().position(latLng).title(location));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 recyclerView.setVisibility(GONE);
-
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("parking_areas");
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                ParkingAreaManagement.fetchParkingInfo(new ParkingAreaManagement.FirestoreDataCallback() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            double lat = snapshot.child("latitude").getValue(Double.class);
-                            double lng = snapshot.child("longitude").getValue(Double.class);
-                            String name = snapshot.child("name").getValue(String.class);
-
-                            LatLng parkingLocation = new LatLng(lat, lng);
-                            double distance = calculateDistance(latLng, parkingLocation);
-                            if (distance <= 5.0) {
-                                mMap.addMarker(new MarkerOptions().position(parkingLocation).title(name));
+                    public void onDataFetched(List<ParkingInfo> parkingList) {
+                        if (!parkingList.isEmpty()) {
+                            for (ParkingInfo area : parkingList) {
+                                double lat = area.getLat();
+                                double lng = area.getLog();
+                                String name = area.getName();
+                                LatLng parkingLocation = new LatLng(lat, lng);
+                                double distance = calculateDistance(latLng, parkingLocation);
+                                if (distance <= 5.0) {
+                                    addParkingMarkers();
+                                }
                             }
+
+
                         }
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e("Firebase", "Error fetching locations", databaseError.toException());
+                    public void onFailure(String error) {
+
                     }
                 });
 
@@ -573,6 +596,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
                     getLastLocation();
                 }
             } else {
