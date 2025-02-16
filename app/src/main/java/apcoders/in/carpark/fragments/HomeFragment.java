@@ -18,7 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -37,20 +41,26 @@ import apcoders.in.carpark.Adapter.ViewpagerImageSliderAdapter;
 import apcoders.in.carpark.BookingCompleteActivity;
 import apcoders.in.carpark.LoginActivity;
 import apcoders.in.carpark.R;
+import apcoders.in.carpark.Utils.BookingManagement;
 import apcoders.in.carpark.Utils.FetchUserData;
+import apcoders.in.carpark.models.BookingDetailsModel;
 import apcoders.in.carpark.models.UserModel;
 
 public class HomeFragment extends Fragment {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     FirebaseUser user;
     FirebaseAuth auth;
-    TextView welcom;
+    TextView welcom, parking_name, session_status, done, ParkingUID, textview_time_remaining;
     Button endSessionButton;
     LinearLayout activeSessionContainer;
     TextView sessionTimer;
     Handler handler = new Handler();
     int seconds = 0;
     boolean isRunning = true;
+    BookingDetailsModel activeSessionData;
+    String BookingID = "";
+    String ParkingName = "";
+    String time_remaining;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,13 +68,20 @@ public class HomeFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         welcom = view.findViewById(R.id.Welcomtitle);
+        textview_time_remaining = view.findViewById(R.id.textview_time_remaining);
         TextView username = view.findViewById(R.id.textview_username);
-
+        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.drawerlayout), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        ParkingUID = view.findViewById(R.id.ParkingUID);
         if (user == null) {
             startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         }
-
+        session_status = view.findViewById(R.id.session_status);
+        parking_name = view.findViewById(R.id.parking_name);
         activeSessionContainer = view.findViewById(R.id.active_session_container);
         endSessionButton = view.findViewById(R.id.end_session_button);
         sessionTimer = view.findViewById(R.id.session_timer);
@@ -161,7 +178,27 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
+        BookingManagement.fetchActiveSession(new BookingManagement.BookingCallback() {
+            @Override
+            public void onSuccess(BookingDetailsModel booking) {
+                Log.d("TAG", "onSuccess: ");
+                activeSessionData = booking;
+                time_remaining = booking.getStartTime();
+                parking_name.setText(booking.getParkingAreaName());
+                Log.d("TAG", "onSuccess: " + booking.getParkingAreaName());
+                session_status.setText(booking.getStatus());
+                ParkingUID.setText(booking.getBookingId());
+                BookingID = booking.getBookingId();
+                ParkingName = booking.getParkingAreaName();
+//                done.setVisibility(View.GONE);
+                activeSessionContainer.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void onFailure(String errorMessage) {
+                activeSessionContainer.setVisibility(View.GONE);
+            }
+        });
 
         return view;
     }
@@ -227,23 +264,45 @@ public class HomeFragment extends Fragment {
         isRunning = false;
         seconds = 0;
         Intent i = new Intent(requireActivity(), BookingCompleteActivity.class);
-        i.putExtra("BookingId", "PKG463F1847");
-        i.putExtra("ParkAreaName", "Swami Vivekananda Engineering Buiding\"");
+        i.putExtra("BookingId", BookingID);
+        i.putExtra("ParkAreaName", ParkingName);
         startActivity(i);
     }
 
     private void runTimer() {
+        final int[] hours = new int[] {new Date().getHours()};
+        final int[] minutes = new int[] {new Date().getMinutes()};
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
+                Log.d("TAG", "run: " + time_remaining);
+//                int hours = seconds / 3600;
+//                int minutes = (seconds % 3600) / 60;
+
+                try {
+                    hours[0] = new Date().getHours() - Integer.parseInt(time_remaining.substring(0, 1));
+                    minutes[0] = new Date().getMinutes() - Integer.parseInt(time_remaining.substring(2));
+                } catch (Exception e) {
+
+                }
+                Log.d("TAG", "run: " + hours[0] + "     " + minutes[0]);
                 int secs = seconds % 60;
 
-                sessionTimer.setText(String.format("%02d:%02d:%02d", hours, minutes, secs));
+                sessionTimer.setText(String.format("%02d:%02d:%02d", hours[0], minutes[0], secs));
 
                 if (isRunning) {
-                    seconds++;
+                    seconds--;
+                    if(seconds<=0){
+                        seconds = 60;
+                        minutes[0]--;
+                    }
+                    if(minutes[0]<=0){
+                        minutes[0] = 60;
+                        hours[0]--;
+                    }
+                    if(hours[0]<=0){
+                        hours[0] = 24;
+                    }
                     handler.postDelayed(this, 1000);
                 }
             }

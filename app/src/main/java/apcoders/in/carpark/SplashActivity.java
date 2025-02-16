@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                 String Usertype = sharedPreference.getString("UserType", "User");
                 boolean IsLogging = sharedPreference.getBoolean("isLoggedIn", false);
                 boolean IsOnboardingHide = onboardingsharedPreferences.getBoolean("IsOnboardingHide", false);
-
+                Log.d("TAG", "onCreate: ");
                 if (IsLogging && Usertype.equals("User")) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();

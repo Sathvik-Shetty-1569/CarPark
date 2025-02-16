@@ -11,17 +11,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import apcoders.in.carpark.Utils.QRCodeManagement;
 import apcoders.in.carpark.Utils.VehicleManagement;
@@ -51,9 +50,11 @@ public class BookingSlotActivity extends AppCompatActivity {
     String bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, paymentStatus, qrCodeUrl, status;
     double amountPaid;
     FirebaseAuth firebaseAuth;
+    private View blurView;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
     SpinKitView spin_kit;
+    private RelativeLayout mainContent;
     StorageReference storageReference;
     String parkingName, AvailableSlots, Amount;
     BookingDetailsModel booking;
@@ -68,15 +69,9 @@ public class BookingSlotActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_booking_slot);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         setVehicleNumberSelectBox();
-
         spin_kit = findViewById(R.id.spin_kit);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -95,8 +90,9 @@ public class BookingSlotActivity extends AppCompatActivity {
 
         AvailableSlotsTextView.setText(AvailableSlots);
         parkingAreaNameTextView.setText(parkingName);
-        amountPaidTextView.setText(Amount);
+//        amountPaidTextView.setText(Amount);
         confirmBookingBtn = findViewById(R.id.confirmBookingBtn);
+
 
         checkinTimeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +146,7 @@ public class BookingSlotActivity extends AppCompatActivity {
 
                 String QRCodeData = QRCodeManagement.convertBookingToJson(booking);
 
-                if (TextUtils.isEmpty(vehicleNumber) || startTime.isEmpty() || endTime.isEmpty() || amountPaid < 0) {
+                if (TextUtils.isEmpty(vehicleNumber) || startTime.isEmpty() || endTime.isEmpty() || amountPaid <= 0) {
                     Toasty.error(BookingSlotActivity.this, "Please fill all the fields", Toasty.LENGTH_SHORT).show();
                     spin_kit.setVisibility(GONE);
                     confirmBookingBtn.setActivated(true);
@@ -190,20 +186,36 @@ public class BookingSlotActivity extends AppCompatActivity {
 
     private void storeBookingDataToFirestore(String bookingId, String qrCodeUrl) {
         String transactionId = UUID.randomUUID().toString();
-        BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, "Parking Area Name", status);
-        WalletManagement.debitFromWallet(FirebaseAuth.getInstance().getCurrentUser().getUid(), transactionId, amountPaid, parkingName + " " + bookingTime.substring(0, 16));
-        firestore.collection("Bookings").document(bookingId)
-                .set(booking)
-                .addOnSuccessListener(aVoid -> {
-                    Toasty.success(BookingSlotActivity.this, "Booking Confirmed!", Toasty.LENGTH_SHORT).show();
+        BookingDetailsModel booking = new BookingDetailsModel(bookingId, userId, vehicleNumber, parkingLotId, slotNumber, bookingTime, startTime, endTime, amountPaid, paymentStatus, qrCodeUrl, parkingName, status);
+        WalletManagement.debitFromWallet(FirebaseAuth.getInstance().getCurrentUser().getUid(), transactionId, amountPaid, parkingName + " " + bookingTime.substring(0, 16), new WalletManagement.OnCreditOrDebitListener() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                if (isSuccess) {
+                    Log.d("TAG", "onSuccess: ");
+                    firestore.collection("Bookings").document(bookingId)
+                            .set(booking)
+                            .addOnSuccessListener(aVoid -> {
+                                Toasty.success(BookingSlotActivity.this, "Booking Confirmed!", Toasty.LENGTH_SHORT).show();
 
-                    Intent i = new Intent(BookingSlotActivity.this, BookingCompleteActivity.class);
-                    i.putExtra("BookingId", bookingId);
-                    i.putExtra("ParkAreaName", parkingName);
-                    startActivity(i);
+                                Intent i = new Intent(BookingSlotActivity.this, BookingCompleteActivity.class);
+                                i.putExtra("BookingId", bookingId);
+                                i.putExtra("ParkAreaName", parkingName);
+                                startActivity(i);
+                                finish();
 
-                })
-                .addOnFailureListener(e -> Toasty.error(BookingSlotActivity.this, "Firestore upload failed", Toasty.LENGTH_SHORT).show());
+                            })
+                            .addOnFailureListener(e -> {
+                                Toasty.error(BookingSlotActivity.this, "Firestore upload failed", Toasty.LENGTH_SHORT).show();
+                                spin_kit.setVisibility(GONE);
+                                confirmBookingBtn.setActivated(true);
+                            });
+                } else {
+                    spin_kit.setVisibility(GONE);
+                    confirmBookingBtn.setActivated(true);
+                    Toasty.error(BookingSlotActivity.this, "Please Check Your Balance Before Processing!", Toasty.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void setVehicleNumberSelectBox() {
@@ -273,6 +285,17 @@ public class BookingSlotActivity extends AppCompatActivity {
                         checkoutTimeTextView.setText(formattedTime);
                     }
 
+                    if (!checkinTimeTextView.getText().toString().isEmpty() &&
+                            !checkoutTimeTextView.getText().toString().isEmpty()) {
+
+                        amountPaid = calculateParkingAmount(
+                                Double.parseDouble(Amount),
+                                checkinTimeTextView.getText().toString(),
+                                checkoutTimeTextView.getText().toString()
+                        );
+
+                        amountPaidTextView.setText(String.valueOf(Math.abs(amountPaid))); // Ensures the value is always positive
+                    }
                     // ✅ Calculate only after both times are set
 
                 }, hour, minute, false); // false for 12-hour format
@@ -280,27 +303,51 @@ public class BookingSlotActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    public static double calculateParkingAmount(double amountPerHour, String startTime, String endTime) {
+    public double calculateParkingAmount(double amountPerHour, String checkIn, String checkOut) {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a"); // Time format (12-hour with AM/PM)
 
         try {
-            Date startDate = sdf.parse(startTime);
-            Date endDate = sdf.parse(endTime);
+            Date checkInTime = sdf.parse(checkIn);
+            Date checkOutTime = sdf.parse(checkOut);
 
-            // Calculate the difference in minutes
-            long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(endDate.getTime() - startDate.getTime());
+            if (checkInTime == null || checkOutTime == null) {
+                return 0;
+            }
 
-            // Calculate amount per minute
-            double amountPerMinute = amountPerHour / 60.0;
+            if (checkOutTime.before(checkInTime)) {
+                // If checkout time is earlier than check-in, assume it's the next day
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(checkOutTime);
+                calendar.add(Calendar.DATE, 1); // Add one day to checkout time
+                checkOutTime = calendar.getTime();
+            }
 
-            // Calculate total amount
-            return amountPerMinute * durationInMinutes;
+            if (checkOutTime.before(checkInTime)) {
+                Toast.makeText(BookingSlotActivity.this, "Invalid Checkout Time! Must be after Check-In.", Toast.LENGTH_SHORT).show();
+                return 0;
+            }
+
+            // Ensure checkout time is always after check-in
+            long differenceMillis = Math.abs(checkOutTime.getTime() - checkInTime.getTime()); // Ensure positive difference
+
+            // Convert milliseconds to hours (round up to the next hour if any minutes exist)
+            double hours = Math.ceil((double) differenceMillis / (1000 * 60 * 60));
+
+            return hours * amountPerHour;
 
         } catch (ParseException e) {
             e.printStackTrace();
-            return 0; // Return 0 in case of an error
+            return 0;
         }
     }
+
+    private void fadeOutLoadingScreen() {
+        AlphaAnimation fadeOut = new AlphaAnimation(1f, 0f);
+        fadeOut.setDuration(1000); // 1 second fade-out animation
+        fadeOut.setFillAfter(true);
+        mainContent.startAnimation(fadeOut);
+    }
+
 
     @Override
     public void onBackPressed() {

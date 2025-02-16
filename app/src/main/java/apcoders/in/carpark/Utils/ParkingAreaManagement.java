@@ -4,6 +4,7 @@ package apcoders.in.carpark.Utils;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,8 +53,7 @@ public class ParkingAreaManagement {
     // Fetch ParkingInfo from Firestore
     public static void fetchParkingInfo(FirestoreDataCallback callback) {
         Log.d("TAG", "fetchParkingInfo: ");
-        db.collection(COLLECTION_NAME)
-                .get()
+        db.collection(COLLECTION_NAME).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         List<ParkingInfo> parkingList = new ArrayList<>();
@@ -64,7 +64,9 @@ public class ParkingAreaManagement {
                                 parkingList.add(parkingInfo);
                             }
                         }
-                        Log.d("TAG", "fetchParkingInfo: " + parkingList.size());
+                        if (parkingList != null) {
+                            Log.d("TAG", "fetchParkingInfo: " + parkingList.size());
+                        }
                         // Ensure parkingList is not null before calling callback
                         callback.onDataFetched(parkingList);
                     } else {
@@ -73,6 +75,30 @@ public class ParkingAreaManagement {
                 });
     }
 
+    // Fetch ParkingInfo from Firestore
+    public static void fetchParkingInfoByUserId(FirestoreDataCallback callback) {
+        Log.d("TAG", "fetchParkingInfo: ");
+        db.collection(COLLECTION_NAME).whereEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<ParkingInfo> parkingList = new ArrayList<>();
+                        Log.d("TAG", "fetchParkingInfo: " + task.getResult().size());
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            ParkingInfo parkingInfo = document.toObject(ParkingInfo.class);
+                            if (parkingInfo != null) {
+                                parkingList.add(parkingInfo);
+                            }
+                        }
+                        if (parkingList != null) {
+                            Log.d("TAG", "fetchParkingInfo: " + parkingList.size());
+                        }
+                        // Ensure parkingList is not null before calling callback
+                        callback.onDataFetched(parkingList);
+                    } else {
+                        callback.onFailure(task.getException() != null ? task.getException().getMessage() : "Failed to fetch data");
+                    }
+                });
+    }
 
     public static void uploadImagesToStorage(List<Uri> imageUriList, String userId, ImageUploadCallback callback) {
         List<String> imageUrls = new ArrayList<>();

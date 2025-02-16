@@ -1,6 +1,8 @@
 package apcoders.in.carpark;
 
 import static android.content.ContentValues.TAG;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -27,6 +29,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class OwnerProfileActivity extends AppCompatActivity {
     EditText location;
     double lat;
     double log;
+    SpinKitView spin_kit;
     List<Uri> selectedImages = new ArrayList<>();
     String selectedLocation;
     private EditText parkingName, parkingSlots, parkingAmount, ownerLocation;
@@ -61,6 +65,7 @@ public class OwnerProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_owner_profile);
         Log.d(TAG, "onCreate: OwnerProfileActivity");
 
+        spin_kit = findViewById(R.id.spin_kit);
         ownerusernam = findViewById(R.id.ownerusernam);
         owneremail = findViewById(R.id.owneremail);
 
@@ -78,9 +83,9 @@ public class OwnerProfileActivity extends AppCompatActivity {
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                findViewById(R.id.frame_layout).setVisibility(View.VISIBLE);
-                findViewById(R.id.mainLayout).setVisibility(View.GONE); // Hide main layout
-                findViewById(R.id.linearLayout).setVisibility(View.GONE);
+                findViewById(R.id.frame_layout).setVisibility(VISIBLE);
+                findViewById(R.id.mainLayout).setVisibility(GONE); // Hide main layout
+                findViewById(R.id.linearLayout).setVisibility(GONE);
                 OwnerParkMap ownerParkMap = new OwnerParkMap();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, ownerParkMap)
@@ -109,8 +114,8 @@ public class OwnerProfileActivity extends AppCompatActivity {
                     return;
                 }
                 location.setText(selectedLocation);
-                findViewById(R.id.mainLayout).setVisibility(View.VISIBLE); // Hide main layout
-                findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
+                findViewById(R.id.mainLayout).setVisibility(VISIBLE); // Hide main layout
+                findViewById(R.id.linearLayout).setVisibility(VISIBLE);
 
 
             }
@@ -120,9 +125,9 @@ public class OwnerProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validateInputs()) {
-
+                    spin_kit.setVisibility(VISIBLE);
                     UploadProduct();
-                    Toast.makeText(OwnerProfileActivity.this, "Saved the Owner Profile Details", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(OwnerProfileActivity.this, "Saved the Parking Area Details", Toast.LENGTH_SHORT).show();
 
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame_layout, new OwnerHomeFragment()) // Ensure this is the correct container
@@ -140,55 +145,58 @@ public class OwnerProfileActivity extends AppCompatActivity {
     }
 
     private void UploadProduct() {
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add.setActivated(false);
+        spin_kit.setVisibility(VISIBLE);
+        add.setActivated(false);
 
-                String parkingname = parkingName.getText().toString().trim();
-                String slots = parkingSlots.getText().toString().trim();
-                String amount = parkingAmount.getText().toString().trim();
-                String loc = location.getText().toString().trim();
+        String parkingname = parkingName.getText().toString().trim();
+        String slots = parkingSlots.getText().toString().trim();
+        String amount = parkingAmount.getText().toString().trim();
+        String loc = location.getText().toString().trim();
 
-                if (TextUtils.isEmpty(parkingname) || TextUtils.isEmpty(slots) || Double.parseDouble(amount) <= 0 || TextUtils.isEmpty(loc)) {
-                    Toasty.error(OwnerProfileActivity.this, "Please Fill All The Fields", Toast.LENGTH_SHORT).show();
-                    add.setActivated(true);
-                } else {
-                    if (!selectedImages.isEmpty()) {
-                        ParkingAreaManagement.uploadImagesToStorage(selectedImages, FirebaseAuth.getInstance().getCurrentUser().getUid(), new ParkingAreaManagement.ImageUploadCallback() {
+        if (TextUtils.isEmpty(parkingname) || TextUtils.isEmpty(slots) || Double.parseDouble(amount) <= 0 || TextUtils.isEmpty(loc)) {
+            Toasty.error(OwnerProfileActivity.this, "Please Fill All The Fields", Toast.LENGTH_SHORT).show();
+            add.setActivated(true);
+            spin_kit.setVisibility(GONE);
+        } else {
+            if (!selectedImages.isEmpty()) {
+                ParkingAreaManagement.uploadImagesToStorage(selectedImages, FirebaseAuth.getInstance().getCurrentUser().getUid(), new ParkingAreaManagement.ImageUploadCallback() {
+                    @Override
+                    public void onSuccess(List<String> imageUrls) {
+                        Log.d("TAG", "onSuccess: " + imageUrls.get(0));
+                        ParkingInfo parkingInfo = new ParkingInfo(parkingname, slots, amount, FirebaseAuth.getInstance().getCurrentUser().getUid(), lat, log, selectedLocation, imageUrls);
+                        ParkingAreaManagement.uploadParkingInfo(parkingInfo, new ParkingAreaManagement.FirestoreCallback() {
                             @Override
-                            public void onSuccess(List<String> imageUrls) {
-                                Log.d("TAG", "onSuccess: " + imageUrls.get(0));
-                                ParkingInfo parkingInfo = new ParkingInfo(parkingname, slots, amount, FirebaseAuth.getInstance().getCurrentUser().getUid(), lat, log, selectedLocation, imageUrls);
-                                ParkingAreaManagement.uploadParkingInfo(parkingInfo, new ParkingAreaManagement.FirestoreCallback() {
-                                    @Override
-                                    public void onSuccess(String message) {
-                                        Toasty.success(OwnerProfileActivity.this, "Parking Area Added Successfully", Toasty.LENGTH_LONG).show();
-                                    }
-
-                                    @Override
-                                    public void onFailure(String error) {
-                                        Toasty.error(OwnerProfileActivity.this, "Network Error Occur", Toasty.LENGTH_LONG).show();
-
-                                    }
-                                });
+                            public void onSuccess(String message) {
+                                Toasty.success(OwnerProfileActivity.this, "Parking Area Added Successfully", Toasty.LENGTH_LONG).show();
+                                OwnerProfileActivity.super.onBackPressed();
                             }
 
                             @Override
                             public void onFailure(String error) {
                                 Toasty.error(OwnerProfileActivity.this, "Network Error Occur", Toasty.LENGTH_LONG).show();
+                                add.setActivated(true);
+                                spin_kit.setVisibility(GONE);
                             }
                         });
-
-
-                    } else {
-                        add.setActivated(true);
-                        Toasty.error(OwnerProfileActivity.this, "Please Select Product Images", Toast.LENGTH_SHORT).show();
                     }
-                }
 
+                    @Override
+                    public void onFailure(String error) {
+                        spin_kit.setVisibility(GONE);
+                        add.setActivated(true);
+                        Toasty.error(OwnerProfileActivity.this, "Network Error Occur", Toasty.LENGTH_LONG).show();
+                    }
+                });
+
+
+            } else {
+                add.setActivated(true);
+                spin_kit.setVisibility(GONE);
+                Toasty.error(OwnerProfileActivity.this, "Please Select Product Images", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
+
+
     }
 
 
@@ -266,14 +274,14 @@ public class OwnerProfileActivity extends AppCompatActivity {
                             }
                             Log.d("Selected Images :", selectedImages.size() + "");
                             if (!selectedImages.isEmpty()) {
-                                product_image_add_image.setVisibility(View.GONE);
-                                product_images_recyclerView.setVisibility(View.VISIBLE);
+                                product_image_add_image.setVisibility(GONE);
+                                product_images_recyclerView.setVisibility(VISIBLE);
                                 ProductImageAdapter adapter = new ProductImageAdapter(OwnerProfileActivity.this, selectedImages);
                                 product_images_recyclerView.setLayoutManager(new LinearLayoutManager(OwnerProfileActivity.this, LinearLayoutManager.HORIZONTAL, false));
                                 product_images_recyclerView.setAdapter(adapter);
                             } else {
-                                product_image_add_image.setVisibility(View.VISIBLE);
-                                product_images_recyclerView.setVisibility(View.GONE);
+                                product_image_add_image.setVisibility(VISIBLE);
+                                product_images_recyclerView.setVisibility(GONE);
                             }
                         }
                     }

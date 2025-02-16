@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -231,11 +232,12 @@ public class ProfileFragment extends Fragment {
     }
 
     private void openBookingsFragment() {
-//        Fragment fragment = new MyOrdersFragment();
+        loadFragment(new BookingFragment(),false);
+//        Fragment fragment = new BookingFragment();
 //        if (getActivity() instanceof FragmentChangeListener) {
 //            ((FragmentChangeListener) getActivity()).changeFragment(fragment, R.id.my_orders);
 //        }
-        startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
+//        startActivity(new Intent(requireActivity(), BookingCompleteActivity.class));
     }
 //
 //        FragmentTransaction transaction = requireFragmentManager().beginTransaction();
@@ -263,5 +265,13 @@ public class ProfileFragment extends Fragment {
         transaction.replace(R.id.frame_layout, new ProfileEditFragment());
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+    private void loadFragment(Fragment fragment, boolean isAppInitialized) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

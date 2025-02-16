@@ -283,6 +283,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:elevation="@dimen/_20sdp"
         android:layout_marginVertical="20dp"
         android:visibility="gone"
         app:SpinKit_Color="@color/colorPrimary"

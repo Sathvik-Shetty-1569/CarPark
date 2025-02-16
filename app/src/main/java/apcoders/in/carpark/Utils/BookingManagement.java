@@ -20,7 +20,7 @@ public class BookingManagement {
     private static final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static void fetchBookingDetails(String bookingId, BookingCallback callback) {
-        db.collection("Bookings").whereEqualTo("bookingId", bookingId).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Bookings").whereEqualTo("bookingId", bookingId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -36,16 +36,40 @@ public class BookingManagement {
                 Log.d("TAG", "onFailure: " + e.getMessage());
             }
         });
-
     }
 
-    public static void fetchUserBookings( UserBookingsCallback callback) {
+    public static void fetchUserBookings(UserBookingsCallback callback) {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         db.collection("Bookings").whereEqualTo("userId", userId).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<BookingDetailsModel> bookings = task.getResult().toObjects(BookingDetailsModel.class);
                         callback.onSuccess(bookings);
+                    } else {
+                        callback.onFailure("Failed to retrieve bookings.");
+                    }
+                }).addOnFailureListener(e -> Log.d("TAG", "onFailure: " + e.getMessage()));
+    }
+
+    public static void fetchActiveSession(BookingCallback callback) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        db.collection("Bookings").whereEqualTo("userId", userId).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (BookingDetailsModel area : task.getResult().toObjects(BookingDetailsModel.class)) {
+                            if (area.getStatus().equals("CHECK_IN")) {
+                                callback.onSuccess(area);
+                                break;
+                            }
+                        }
+                        for (BookingDetailsModel area : task.getResult().toObjects(BookingDetailsModel.class)) {
+                            if (area.getStatus().equals("BOOKED")) {
+                                callback.onSuccess(area);
+                                break;
+                            }
+                        }
+//                        List<BookingDetailsModel> bookings = task.getResult().toObjects(BookingDetailsModel.class);
+//                        callback.onSuccess(bookings);
                     } else {
                         callback.onFailure("Failed to retrieve bookings.");
                     }

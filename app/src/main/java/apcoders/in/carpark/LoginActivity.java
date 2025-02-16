@@ -201,6 +201,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void isLogin() {
+        try {
+            if (firebaseAuth.getCurrentUser().getUid() != null) {
+                if (UserType.equals("User")) {
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Intent i = new Intent(LoginActivity.this, HostMainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                }
+
+            }
+        } catch (Exception exception) {
+
+        }
     }
 
     private void setRadioButtons() {

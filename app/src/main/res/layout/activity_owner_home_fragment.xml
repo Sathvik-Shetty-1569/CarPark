@@ -141,6 +141,7 @@
             <TextView
                 android:id="@+id/textview_username"
                 android:layout_width="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textSize="18dp"
@@ -150,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="16dp"
+                android:textSize="13dp"
                 android:text="Parking Area name" />
             <TextView
                 android:id="@+id/textview_address"
@@ -339,14 +340,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--   <com.google.android.material.navigation.NavigationView-->
-<!--          android:id="@+id/navigation_view"-->
-<!--          android:layout_width="wrap_content"-->
-<!--          android:layout_height="match_parent"-->
-<!--          android:layout_gravity="start"-->
-<!--          app:headerLayout="@layout/drawer_header"-->
-<!--          app:menu="@menu/drawer_items_xml"-->
-<!--       />-->
+   <com.google.android.material.navigation.NavigationView
+          android:id="@+id/navigation_view"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_gravity="start"
+          app:headerLayout="@layout/drawer_header"
+          app:menu="@menu/drawer_items_xml"
+       />
 
 
 
