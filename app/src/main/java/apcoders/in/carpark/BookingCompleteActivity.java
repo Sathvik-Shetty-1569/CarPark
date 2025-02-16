@@ -16,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+
 import apcoders.in.carpark.Utils.BookingManagement;
 import apcoders.in.carpark.models.BookingDetailsModel;
 
@@ -48,45 +50,55 @@ public class BookingCompleteActivity extends AppCompatActivity {
 
 //        textview_amount_paid.setText(getIntent().getStringExtra("AmountPaid"));
 
-       backButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               onBackPressed(); // Calls the default back function
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Calls the default back function
 
-           }
-       });
+            }
+        });
 
         back_to_home_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(BookingCompleteActivity.this, MainActivity.class));
-                finish();
+//                finish();
             }
         });
-
+        String from = getIntent().getStringExtra("From");
+        if (from != null) {
+            bookingQRCodeImage.setImageDrawable(getDrawable(R.drawable.sub_qr));
+            bookingidtextview.setText("Unique ID: fCcsgCOgBTa5uhT84bvcpkGxuKD3");
+            parkingAreaNameTextView.setText(getIntent().getStringExtra("Subscription Plan"));
+            textview_checkin.setText(new Date().toString());
+            textview_checkout.setText(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toString());
+        }
         String bookingId = getIntent().getStringExtra("BookingId");
-        BookingManagement.fetchBookingDetails(bookingId, new BookingManagement.BookingCallback() {
-            @Override
-            public void onSuccess(BookingDetailsModel booking) {
-                if (booking != null) {
-                    Log.d("TAG", "onSuccess: " + booking.getBookingId());
-                    bookingidtextview.setText("Unique ID: " + getIntent().getStringExtra("BookingId"));
-                    parkingAreaNameTextView.setText(getIntent().getStringExtra("ParkingAreaName"));
-                    textview_checkin.setText(booking.getStartTime());
-                    textview_checkout.setText(booking.getEndTime());
-                    textview_amount_paid.setText(String.valueOf(booking.getAmountPaid()));
-                    Picasso.get().load(booking.getQrCode()).into(bookingQRCodeImage);
-                } else {
-                    startActivity(new Intent(BookingCompleteActivity.this, MainActivity.class));
-                    finish();
+        if (bookingId != null) {
+            BookingManagement.fetchBookingDetails(bookingId, new BookingManagement.BookingCallback() {
+                @Override
+                public void onSuccess(BookingDetailsModel booking) {
+                    if (booking != null) {
+                        Log.d("TAG", "onSuccess: " + booking.getBookingId());
+                        bookingidtextview.setText("Unique ID: " + getIntent().getStringExtra("BookingId"));
+                        parkingAreaNameTextView.setText(getIntent().getStringExtra("ParkingAreaName"));
+                        textview_checkin.setText(booking.getStartTime());
+                        textview_checkout.setText(booking.getEndTime());
+                        textview_amount_paid.setText(String.valueOf(booking.getAmountPaid()));
+                        Picasso.get().load(booking.getQrCode()).into(bookingQRCodeImage);
+                    } else {
+                        startActivity(new Intent(BookingCompleteActivity.this, MainActivity.class));
+                        finish();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(String errorMessage) {
-                Log.d("TAG", "onFailure: " + errorMessage);
-            }
-        });
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    Log.d("TAG", "onFailure: " + errorMessage);
+                }
+            });
+        }
     }
 
     @Override

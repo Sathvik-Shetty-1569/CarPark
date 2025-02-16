@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         subscription_layout = view.findViewById(R.id.subscription_layout);
         textview_time_remaining = view.findViewById(R.id.textview_time_remaining);
         TextView username = view.findViewById(R.id.textview_username);
-        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.drawerlayout), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(view.findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
