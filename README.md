@@ -124,7 +124,7 @@ SOFTWARE.
 
 For any queries or feedback, feel free to reach out:
 
-- **Email**: prajwallolekar1@gmail.com
-- **LinkedIn**: [Prajwal Lolekar](www.linkedin.com/in/prajwal-lolekar-7a885a291)
+- **Email**: sathvikshetty189@gmail.com
+- **LinkedIn**: [Sathvik Shetty](https://www.linkedin.com/in/sathvik-shetty-8a235824a/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 
 CarPark is the future of smart parking, ensuring efficiency, security, and convenience for both vehicle owners and parking operators. 🚘✨
